@@ -1,8 +1,12 @@
 <?php
 header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+header("Access-Control-Allow-Methods: GET, POST, PUT, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
-// backend/api/productos.php
+
+// Si es una solicitud OPTIONS (preflight), terminar la ejecución
+if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+    exit(0);
+}
 
 header("Content-Type: application/json");
 include '../includes/db.php';
@@ -42,5 +46,58 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     ]);
 
     echo json_encode(["message" => "Producto agregado correctamente"]);
+}
+
+// Actualizar un producto (venta, primer ingreso o segundo ingreso)
+if ($_SERVER['REQUEST_METHOD'] == 'PUT') {
+    $data = json_decode(file_get_contents("php://input"), true);
+
+    $id = $data['id'];
+    $tipo = $data['tipo']; // Puede ser 'venta', 'primer_ingreso' o 'segundo_ingreso'
+    $cantidad = $data['cantidad'];
+
+    // Obtener el producto actual
+    $stmt = $conn->prepare("SELECT * FROM productos WHERE id = :id");
+    $stmt->execute(['id' => $id]);
+    $producto = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($tipo == 'venta') {
+        // Actualizar restantes, vendidos y total
+        $restantes = $producto['restantes'] - $cantidad;
+        $vendidos = $producto['vendidos'] + $cantidad;
+        $total = $producto['total'] + ($cantidad * $producto['precio_venta']);
+
+        $stmt = $conn->prepare("UPDATE productos SET restantes = :restantes, vendidos = :vendidos, total = :total WHERE id = :id");
+        $stmt->execute([
+            'restantes' => $restantes,
+            'vendidos' => $vendidos,
+            'total' => $total,
+            'id' => $id
+        ]);
+    } elseif ($tipo == 'primer_ingreso') {
+        // Actualizar primer ingreso y restantes
+        $primer_ingreso = $producto['primer_ingreso'] + $cantidad;
+        $restantes = $producto['restantes'] + $cantidad;
+
+        $stmt = $conn->prepare("UPDATE productos SET primer_ingreso = :primer_ingreso, restantes = :restantes WHERE id = :id");
+        $stmt->execute([
+            'primer_ingreso' => $primer_ingreso,
+            'restantes' => $restantes,
+            'id' => $id
+        ]);
+    } elseif ($tipo == 'segundo_ingreso') {
+        // Actualizar segundo ingreso y restantes
+        $segundo_ingreso = $producto['segundo_ingreso'] + $cantidad;
+        $restantes = $producto['restantes'] + $cantidad;
+
+        $stmt = $conn->prepare("UPDATE productos SET segundo_ingreso = :segundo_ingreso, restantes = :restantes WHERE id = :id");
+        $stmt->execute([
+            'segundo_ingreso' => $segundo_ingreso,
+            'restantes' => $restantes,
+            'id' => $id
+        ]);
+    }
+
+    echo json_encode(["message" => "Producto actualizado correctamente"]);
 }
 ?>
