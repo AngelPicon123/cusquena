@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Lubricentro</title>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+    <h1>Lubricentro</h1>
+    <form id="productoForm">
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" name="nombre" required>
+        <label for="categoria">Categoría:</label>
+        <input type="text" id="categoria" name="categoria" required>
+        <label for="precio_compra">Precio de Compra:</label>
+        <input type="number" step="0.01" id="precio_compra" name="precio_compra" required>
+        <label for="precio_venta">Precio de Venta:</label>
+        <input type="number" step="0.01" id="precio_venta" name="precio_venta" required>
+        <label for="primer_ingreso">Primer Ingreso:</label>
+        <input type="number" id="primer_ingreso" name="primer_ingreso" required>
+        <label for="segundo_ingreso">Segundo Ingreso:</label>
+        <input type="number" id="segundo_ingreso" name="segundo_ingreso" required>
+        <label for="restantes">Restantes:</label>
+        <input type="number" id="restantes" name="restantes" required>
+        <label for="vendidos">Vendidos:</label>
+        <input type="number" id="vendidos" name="vendidos" required>
+        <button type="submit">Agregar Producto</button>
+    </form>
+
+    <table id="productosTable">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Categoría</th>
+                <th>Precio Compra</th>
+                <th>Precio Venta</th>
+                <th>Primer Ingreso</th>
+                <th>Segundo Ingreso</th>
+                <th>Restantes</th>
+                <th>Vendidos</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Los datos se llenarán dinámicamente -->
+        </tbody>
+    </table>
+    <script>
+        // Cargar productos al iniciar la página
+        fetch('http://localhost/la-cusqueña/backend/api/productos.php')
+            .then(response => response.json())
+            .then(data => {
+                const tbody = document.querySelector('#productosTable tbody');
+                data.forEach(producto => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${producto.nombre}</td>
+                        <td>${producto.categoria}</td>
+                        <td>${producto.precio_compra}</td>
+                        <td>${producto.precio_venta}</td>
+                        <td>${producto.primer_ingreso}</td>
+                        <td>${producto.segundo_ingreso}</td>
+                        <td>${producto.restantes}</td>
+                        <td>${producto.vendidos}</td>
+                        <td>${producto.total}</td>
+                    `;
+                    tbody.appendChild(row);
+                });
+            });
+
+        // Agregar un nuevo producto
+        document.getElementById('productoForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const nombre = document.getElementById('nombre').value;
+            const categoria = document.getElementById('categoria').value;
+            const precio_compra = parseFloat(document.getElementById('precio_compra').value);
+            const precio_venta = parseFloat(document.getElementById('precio_venta').value);
+            const primer_ingreso = parseInt(document.getElementById('primer_ingreso').value);
+            const segundo_ingreso = parseInt(document.getElementById('segundo_ingreso').value);
+            const restantes = parseInt(document.getElementById('restantes').value);
+            const vendidos = parseInt(document.getElementById('vendidos').value);
+            const total = vendidos * precio_venta;
+
+            fetch('http://localhost/la-cusqueña/backend/api/productos.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ nombre, categoria, precio_compra, precio_venta, primer_ingreso, segundo_ingreso, restantes, vendidos, total })
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message);
+                location.reload(); // Recargar la página para ver los cambios
+            });
+        });
+    </script>
+</body>
+</html>
