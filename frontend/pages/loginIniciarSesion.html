@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="stylesheet" href="../css/style-login.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    <div class="main-container">  <!-- Contenedor principal-->
+        <div class="logo-container">
+            <div class="logo">
+                <img style="width: 40px;" src="">
+            </div>
+            <div class="login-introduction">
+                <h1>Inicia sesión y gestiona el mantenimiento vehicular con facilidad.</h1>
+            </div>
+        </div>
+        
+        <div class="login-container">
+            <div class="login-box">
+                <h2>Iniciar Sesión</h2>
+                <label class="label-divider">o</label>
+                <form id="loginForm">
+                    <div class="input-container">
+                        <label for="username">Usuario:</label>
+                        <i class="fa-solid fa-circle-user"></i>
+                        <input type="text" id="username" name="username" required placeholder="Usuario*">
+                    </div>
+                    <div class="input-container">
+                        <label for="password">Contraseña:</label>
+                        <i class="fa-solid fa-lock"></i>
+                        <input type="password" id="password" name="password" required placeholder="Contraseña*">
+                    </div>
+                    <a class="contraseña_olvidada" role = "button" tittle = "¿Olvidaste tu contraseña?"" href=""> ¿Olvidaste tu contraseña?</a>
+                    <button type="submit">Inicia sesión</button> 
+    
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            fetch('http://localhost/la-cusqueña/backend/api/usuarios.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ username, password })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.message === "Login exitoso") {
+                    window.location.href = '../index.html';
+                } else {
+                    alert("Usuario o contraseña incorrectos");
+                }
+            });
+        });
+    </script>
+</body>
+</html>
