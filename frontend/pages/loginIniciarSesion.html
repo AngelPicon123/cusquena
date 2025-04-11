@@ -13,7 +13,7 @@
                 <img style="width: 40px;" src="">
             </div>
             <div class="login-introduction">
-                <h1>Inicia sesión y gestiona el mantenimiento vehicular con facilidad.</h1>
+                <h1>Inicia sesión y gestiona <br>el mantenimiento vehicular  <br>con facilidad. </h1>
             </div>
         </div>
         
@@ -32,22 +32,21 @@
                         <i class="fa-solid fa-lock"></i>
                         <input type="password" id="password" name="password" required placeholder="Contraseña*">
                     </div>
-                    <a class="contraseña_olvidada" role = "button" tittle = "¿Olvidaste tu contraseña?"" href=""> ¿Olvidaste tu contraseña?</a>
+                    <a class="contraseña_olvidada" role = "button" tittle = "¿Olvidaste tu contraseña?" href="recuperar_contrasena.php"> ¿Olvidaste tu contraseña?</a>
                     <button type="submit">Inicia sesión</button> 
-    
+                    
                 </form>
             </div>
         </div>
     </div>
-
     <script>
         document.getElementById('loginForm').addEventListener('submit', function (e) {
             e.preventDefault();
-
+    
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
-
-            fetch('http://localhost/la-cusqueña/backend/api/usuarios.php', {
+    
+            fetch('http://localhost/cusquena/cusquena/backend/api/controllers/procesar_login.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -56,13 +55,26 @@
             })
             .then(response => response.json())
             .then(data => {
-                if (data.message === "Login exitoso") {
-                    window.location.href = '../index.html';
+                if (data.success) {
+                    if (data.cargo === "Administrador") {
+                        // Redirigir a cuentaAdmin.php
+                        window.location.href = 'http://localhost/cusquena/cusquena/backend/api/controllers/cuentaAdmin.php';
+                    } else if (data.cargo === "secretaria") {
+                        // Redirigir a cuentaSecretaria.php
+                        window.location.href = 'http://localhost/cusquena/cusquena/backend/api/controllers/cuentaSecretaria.php';
+                    } else {
+                        alert("Cargo no reconocido: " + data.cargo);
+                    }
                 } else {
-                    alert("Usuario o contraseña incorrectos");
+                    alert(data.message || "Usuario o contraseña incorrectos");
                 }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert("Hubo un problema con la conexión");
             });
         });
     </script>
+    
 </body>
 </html>
