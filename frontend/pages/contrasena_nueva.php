@@ -70,6 +70,6 @@ session_start();
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     
     <!-- Script de validación -->
-    <script src="../../js/contrasena_nueva.js"></script>
+    <script src="../js/contrasena_nueva.js"></script>
 </body>
 </html>
