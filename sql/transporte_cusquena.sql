@@ -5,7 +5,7 @@ USE la_cusquena;
 CREATE TABLE Categoria (
     idCategoria INT AUTO_INCREMENT PRIMARY KEY,
     descripcion VARCHAR(100),
-    estado BOOLEAN
+    estado ENUM('activo', 'inactivo') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Tabla: Usuarios
@@ -41,7 +41,7 @@ CREATE TABLE Producto (
     descripcion VARCHAR(100),
     stock INT,
     precio DECIMAL(10,2), -- Ampliado a 10 dígitos
-    estado BOOLEAN,
+    estado ENUM('activo', 'inactivo') NOT NULL,
     detalle TEXT,
     idCategoria INT,
     FOREIGN KEY (idCategoria) REFERENCES Categoria(idCategoria)
@@ -81,7 +81,7 @@ CREATE TABLE Servicio (
     idServicio INT AUTO_INCREMENT PRIMARY KEY,
     descripcion VARCHAR(45),
     precioUnitario DECIMAL(10,2), -- Ampliado a 10 dígitos
-    estado BOOLEAN
+    estado ENUM('activo', 'inactivo') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Tabla: VentaServicio
@@ -115,7 +115,7 @@ CREATE TABLE Conductor (
     correo VARCHAR(50),
     usuario VARCHAR(25),
     clave VARCHAR(255), -- Ampliado para almacenar hashes seguros
-    estado BOOLEAN,
+    estado ENUM('activo', 'inactivo') NOT NULL,
     detalle TEXT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -126,7 +126,7 @@ CREATE TABLE SeguroPlanilla (
     fechaVencimiento DATE,
     sueldo DECIMAL(10,2), -- Ampliado a 10 dígitos
     observacion TEXT,
-    estado BOOLEAN,
+    estado ENUM('activo', 'inactivo') NOT NULL,
     idConductor INT,
     FOREIGN KEY (idConductor) REFERENCES Conductor(idConductor)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -137,7 +137,7 @@ CREATE TABLE Soat (
     nombre VARCHAR(30),
     fechaMantenimiento DATE,
     fechaProxMantenimiento DATE,
-    estado BOOLEAN,
+    estado ENUM('activo', 'inactivo') NOT NULL,
     idConductor INT,
     FOREIGN KEY (idConductor) REFERENCES Conductor(idConductor)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
