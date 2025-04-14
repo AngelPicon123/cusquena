@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 
     if (isset($_GET['buscar']) && !empty($_GET['buscar'])) {
         $buscar = "%" . $_GET['buscar'] . "%";
-        $stmt = $conn->prepare("SELECT * FROM usuarios WHERE usuario LIKE :buscar OR correo LIKE :buscar");
+        $stmt = $conn->prepare("SELECT * FROM usuarios WHERE id LIKE :buscar OR usuario LIKE :buscar OR correo LIKE :buscar OR rol LIKE :buscar OR estado LIKE :buscar");
         $stmt->execute(['buscar' => $buscar]);
     } else {
         $stmt = $conn->query($query);
@@ -34,26 +34,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 // AGREGAR USUARIO
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $data = json_decode(file_get_contents("php://input"), true);
-    var_dump($data);
-
-    if (!isset($data['usuario']) || !isset($data['contraseña']) || !isset($data['correo']) || !isset($data['rol']) || !isset($data['estado'])) {
-        echo json_encode(["error" => "Faltan datos necesarios"]);
-        exit();
-    }
 
     $usuario = $data['usuario'];
-    $contraseña = $data['contraseña']; // Opcional: aplicar password_hash
+    $contrasena = password_hash($data['contrasena'], PASSWORD_DEFAULT);
     $correo = $data['correo'];
     $rol = $data['rol'];
     $estado = $data['estado'];
 
-    $stmt = $conn->prepare("INSERT INTO usuarios (usuario, contraseña, correo, rol, estado) VALUES (:usuario, :contraseña, :correo, :rol, :estado)");
+    $stmt = $conn->prepare("INSERT INTO usuarios (usuario, contrasena, correo, rol, estado) VALUES (:usuario, :contrasena, :correo, :rol, :estado)");
     $stmt->execute([
-        ':usuario' => $usuario,
-        ':contraseña' => $contraseña,
-        ':correo' => $correo,
-        ':rol' => $rol,
-        ':estado' => $estado
+        'usuario' => $usuario,
+        'contrasena' => $contrasena,
+        'correo' => $correo,
+        'rol' => $rol,
+        'estado' => $estado
     ]);
 
     echo json_encode(["message" => "Usuario agregado correctamente"]);
@@ -65,16 +59,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'PUT') {
 
     $id = $data['id'];
     $usuario = $data['usuario'];
-    $contraseña = $data['contraseña'];
+    $contrasena = $data['contrasena'];
     $correo = $data['correo'];
     $rol = $data['rol'];
     $estado = $data['estado'];
 
-    $stmt = $conn->prepare("UPDATE usuarios SET usuario = :usuario, contraseña = :contraseña, correo = :correo, rol = :rol, estado = :estado WHERE id = :id");
+    $stmt = $conn->prepare("UPDATE usuarios SET usuario = :usuario, contrasena = :contrasena, correo = :correo, rol = :rol, estado = :estado WHERE id = :id");
     $stmt->execute([
         'id' => $id,
         'usuario' => $usuario,
-        'contraseña' => $contraseña,
+        'contrasena' => $contrasena,
         'correo' => $correo,
         'rol' => $rol,
         'estado' => $estado

@@ -11,12 +11,12 @@ CREATE TABLE Categoria (
 -- Tabla: Usuarios
 CREATE TABLE Usuarios (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    usuario VARCHAR(50) NOT NULL,
-    contraseña VARCHAR(255) NOT NULL,
+    usuario VARCHAR(50) NOT NULL UNIQUE,
+    contrasena VARCHAR(255) NOT NULL, 
     correo VARCHAR(100) NOT NULL UNIQUE,
     rol ENUM('admin', 'user') NOT NULL,
     estado ENUM('activo', 'inactivo') NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+);
 
 -- Tabla para recuperación de contraseñas
 CREATE TABLE pwdreset (

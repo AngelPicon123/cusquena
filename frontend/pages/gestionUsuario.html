@@ -65,8 +65,8 @@
                       <input type="text" class="form-control" id="usuario" name="usuario" required>
                     </div>
                     <div class="mb-3">
-                      <label for="contraseña" class="form-label fw-bold">Contraseña:</label>
-                      <input type="password" class="form-control" id="contraseña" name="contraseña" required>
+                      <label for="contrasena" class="form-label fw-bold">Contraseña:</label>
+                      <input type="password" class="form-control" id="contrasena" name="contrasena" required>
                     </div>
                     <div class="mb-3">
                       <label for="correo" class="form-label fw-bold">Correo Electrónico:</label>
@@ -111,13 +111,14 @@
                 </div>
                 <div class="modal-body">
                   <form action="" method="">
+                    <input type="hidden" id="editarId">
                     <div class="mb-3">
                       <label for="usuario" class="form-label fw-bold">Usuario:</label>
                       <input type="text" class="form-control" id="editarUsuario" name="usuario" required>
                     </div>
                     <div class="mb-3">
-                      <label for="contraseña" class="form-label fw-bold">Contraseña:</label>
-                      <input type="password" class="form-control" id="editarContraseña" name="contraseña" required>
+                      <label for="contrasena" class="form-label fw-bold">Contraseña:</label>
+                      <input type="password" class="form-control" id="editarContrasena" name="contrasena" required>
                     </div>
                     <div class="mb-3">
                       <label for="correo" class="form-label fw-bold">Correo Electrónico:</label>
@@ -231,7 +232,7 @@
   
         const data = {
           usuario: document.getElementById('usuario').value,
-          contraseña: document.getElementById('contraseña').value,
+          contrasena: document.getElementById('contrasena').value,
           correo: document.getElementById('correo').value,
           rol: document.getElementById('rol').value,
           estado: document.querySelector('input[name="estado"]:checked').value
@@ -258,7 +259,7 @@
         const data = {
           id,
           usuario: document.getElementById('editarUsuario').value,
-          contraseña: document.getElementById('editarContraseña').value,
+          contrasena: document.getElementById('editarContrasena').value,
           correo: document.getElementById('editarCorreo').value,
           rol: document.getElementById('editarRol').value,
           estado: document.querySelector('input[name="editarEstado"]:checked').value
@@ -293,7 +294,7 @@
             fila.innerHTML = `
               <td>${usuario.id}</td>
               <td>${usuario.usuario}</td>
-              <td>${usuario.contraseña}</td>
+              <td>${usuario.contrasena}</td>
               <td>${usuario.correo}</td>
               <td>${usuario.rol}</td>
               <td><span class="badge ${usuario.estado === 'activo' ? 'bg-success' : 'bg-danger'}">${usuario.estado}</span></td>
@@ -311,7 +312,7 @@
     function llenarModalEditar(usuario) {
       document.getElementById('editarId').value = usuario.id;
       document.getElementById('editarUsuario').value = usuario.usuario;
-      document.getElementById('editarContraseña').value = usuario.contraseña;
+      document.getElementById('editarContrasena').value = usuario.contrasena;
       document.getElementById('editarCorreo').value = usuario.correo;
       document.getElementById('editarRol').value = usuario.rol;
       document.getElementById('editarEstadoActivo').checked = usuario.estado === 'activo';
