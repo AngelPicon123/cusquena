@@ -38,70 +38,60 @@
       <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
         <div class="sb-sidenav-menu">
           <div class="nav">
-
+            <!-- ad -->
             <div class="sb-sidenav-menu-heading">Gestión</div>
-            <a class="nav-link" href="tables.html">
+            <a class="nav-link" href="gestionUsuario.html">
               <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-              Gestión de Usuarios
+              Gestionar Usuarios
             </a>
-
-
-            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts"
-              aria-expanded="false" aria-controls="collapseLayouts">
+            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayoutsProductos">
               <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
-              Layouts
+              Gestionar Productos
               <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
             </a>
-            <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+            <div class="collapse" id="collapseLayoutsProductos">
               <nav class="sb-sidenav-menu-nested nav">
-                <a class="nav-link" href="layout-static.html">Static Navigation</a>
-                <a class="nav-link" href="layout-sidenav-light.html">Light Sidenav</a>
+                <a class="nav-link" href="gestionCategoria.html">Gestión de Categorias</a>
+                <a class="nav-link" href="gestionProducto.html">Gestión de Productos</a>
+                <a class="nav-link" href="gestionHistorialIngreso.html">Ingresos de Productos</a>
               </nav>
             </div>
-            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages"
-              aria-expanded="false" aria-controls="collapsePages">
-              <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
-              Pages
+            <a class="nav-link" href="gestionServicio.html">
+              <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+              Gestionar Servicios
+            </a>
+            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayoutsConductores">
+              <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+              Gestionar Conductores
               <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
             </a>
-            <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
-              <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
-                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseAuth"
-                  aria-expanded="false" aria-controls="pagesCollapseAuth">
-                  Authentication
-                  <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                </a>
-                <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne"
-                  data-bs-parent="#sidenavAccordionPages">
-                  <nav class="sb-sidenav-menu-nested nav">
-                    <a class="nav-link" href="login.html">Login</a>
-                    <a class="nav-link" href="register.html">Register</a>
-                    <a class="nav-link" href="password.html">Forgot Password</a>
-                  </nav>
-                </div>
-                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseError"
-                  aria-expanded="false" aria-controls="pagesCollapseError">
-                  Error
-                  <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                </a>
-                <div class="collapse" id="pagesCollapseError" aria-labelledby="headingOne"
-                  data-bs-parent="#sidenavAccordionPages">
-                  <nav class="sb-sidenav-menu-nested nav">
-                    <a class="nav-link" href="401.html">401 Page</a>
-                    <a class="nav-link" href="404.html">404 Page</a>
-                    <a class="nav-link" href="500.html">500 Page</a>
-                  </nav>
-                </div>
+            <div class="collapse" id="collapseLayoutsConductores" data-bs-parent="#sidenavAccordion">
+              <nav class="sb-sidenav-menu-nested nav">
+                <a class="nav-link" href="gestionConductor.html">Gestión de Conductores</a>
+                <a class="nav-link" href="gestionSoat.html">Lista de SOAT</a>
+                <a class="nav-link" href="gestionCobroPlanilla.html">Cobro de Planilla</a>
               </nav>
             </div>
-            <div class="sb-sidenav-menu-heading">Balances</div>
-            <a class="nav-link" href="charts.html">
-              <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
-              Charts
-            </a>
-            <a class="nav-link" href="tables.html">
+            <a class="nav-link" href="gestionAlquiler.html">
               <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-              Tables
+              Gestionar Alquileres
+            </a>
+            <a class="nav-link" href="gestionGasto.html">
+              <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+              Gestionar Gastos
+            </a>
+            <div class="sb-sidenav-menu-heading">Balances</div>
+            <a class="nav-link" href="balanceServicio.html">
+              <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+              Balance de Servicios
+            </a>
+            <a class="nav-link" href="balanceProducto.html">
+              <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+              Balance de Productos
+            </a>
+            <a class="nav-link" href="balanceCotizacion.html">
+              <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+              Balance de Cotizaciones
             </a>
           </div>
         </div>
@@ -115,20 +105,24 @@
       <main>
         <div class="container-fluid px-4 ">
           <h1 class="mt-4 text-center mb-4 ">Balances de productos</h1>
+          
           <div class="row">
-            <div class="col-12 d-flex justify-content-between align-items-center flex-wrap">
-              <div class="d-flex align-items-center flex-wrap">
-                <button class="btn btn-primary mb-2 me-2">Buscar</button>
-                <label for="fecha" class="form-label fw-bold me-2">Fecha Inicio:</label>
-                <input type="date" class="form-control me-2 mb-2" style="width: 130px">
-                <label for="fecha" class="form-label fw-bold me-2">Fecha Fin:</label>
-                <input type="date" class="form-control me-2 mb-2" style="width: 130px">
+            <div class="col-12 d-flex justify-content-between align-items-center">
+              <div class="d-flex align-items-center">
+                <label for="inicio" class="me-2">Inicio:</label>
+                <input type="date" id="inicio" class="form-control me-2">
+                <label for="fin" class="me-2">Fin:</label>
+                <input type="date" id="fin" class="form-control me-2">
+                <input type="text" class="form-control me-2" placeholder="Buscar">
+                <a href="#" class="btn btn-primary">Buscar</a>
               </div>
-              <div class="d-flex align-items-center flex-wrap">
-                <button onclick="window.print()" class="btn btn-primary me-2 mb-2">Imprimir</button>
-                <button class="btn btn-primary mb-2">Exportar PDF</button>
+              <div class="d-flex align-items-center">
+                <button class="btn btn-primary me-2">Imprimir</button>
+                <button class="btn btn-primary">Exportar PDF</button>
               </div>
+          
             </div>
+          </div>
   
           <div class="table-responsive my-3">
             <table class="table  table-bordered table-hover text-center">
@@ -159,12 +153,15 @@
             </table>
           </div>
   
-          <div class="total-container d-flex align-items-center mt-3">
-            <label for="total" class="form-label fw-bold me-2 ">TOTAL:</label>
-            <input type="text" class="form-control form-control-sm me-2 mb-2" style="width: 120px; font-size: 0.8rem;">
+          
+          <div class=" d-flex align-items-center row">
+            <div class="col-2 d-flex align-items-center">
+              <label for="total" class="form-label me-2">Total:</label>
+              <input type="text" id="total" name="total" class="form-control form-control-sm" disabled>
+            </div>
           </div>
           
-          </div>
+          
           <nav aria-label="Page navigation example" class="d-flex justify-content-end ">
             <ul class="pagination">
               <li class="page-item">

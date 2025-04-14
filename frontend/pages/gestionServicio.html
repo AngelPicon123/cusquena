@@ -38,66 +38,58 @@
       <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
         <div class="sb-sidenav-menu">
           <div class="nav">
-
+            <!-- ad -->
             <div class="sb-sidenav-menu-heading">Gestión</div>
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="gestionUsuario.html">
               <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
               Gestionar Usuarios
             </a>
-            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayoutsProductos"
-              aria-expanded="false" aria-controls="collapseLayouts">
+            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayoutsProductos">
               <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
               Gestionar Productos
               <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
             </a>
-            <div class="collapse" id="collapseLayoutsProductos" aria-labelledby="headingOne"
-              data-bs-parent="#sidenavAccordion">
+            <div class="collapse" id="collapseLayoutsProductos">
               <nav class="sb-sidenav-menu-nested nav">
-                <a class="nav-link" href="#">Gestión de Categorias</a>
-                <a class="nav-link" href="#">Gestión de Productos</a>
-                <a class="nav-link" href="#">Ingresos de Productos</a>
+                <a class="nav-link" href="gestionCategoria.html">Gestión de Categorias</a>
+                <a class="nav-link" href="gestionProducto.html">Gestión de Productos</a>
+                <a class="nav-link" href="gestionHistorialIngreso.html">Ingresos de Productos</a>
               </nav>
             </div>
-            <a class="nav-link" href="tables.html">
+            <a class="nav-link" href="gestionServicio.html">
               <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
               Gestionar Servicios
             </a>
-            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
-              data-bs-target="#collapseLayoutsConductores" aria-expanded="false" aria-controls="collapseLayouts">
+            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayoutsConductores">
               <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
               Gestionar Conductores
               <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
             </a>
-            <div class="collapse" id="collapseLayoutsConductores" aria-labelledby="headingOne"
-              data-bs-parent="#sidenavAccordion">
+            <div class="collapse" id="collapseLayoutsConductores" data-bs-parent="#sidenavAccordion">
               <nav class="sb-sidenav-menu-nested nav">
-                <a class="nav-link" href="#">Gestión de Conductores</a>
-                <a class="nav-link" href="#">Lista de SOAT</a>
-                <a class="nav-link" href="#">Cobro de Planilla</a>
+                <a class="nav-link" href="gestionConductor.html">Gestión de Conductores</a>
+                <a class="nav-link" href="gestionSoat.html">Lista de SOAT</a>
+                <a class="nav-link" href="gestionCobroPlanilla.html">Cobro de Planilla</a>
               </nav>
             </div>
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="gestionAlquiler.html">
               <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
               Gestionar Alquileres
             </a>
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="gestionGasto.html">
               <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
               Gestionar Gastos
             </a>
             <div class="sb-sidenav-menu-heading">Balances</div>
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="balanceServicio.html">
               <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
               Balance de Servicios
             </a>
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="balanceProducto.html">
               <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
               Balance de Productos
             </a>
-            <a class="nav-link" href="#">
-              <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-              Balance de Servicios
-            </a>
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="balanceCotizacion.html">
               <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
               Balance de Cotizaciones
             </a>
@@ -127,18 +119,18 @@
             <div class="modal-dialog modal-dialog-centered">
               <div class="modal-content">
                 <div class="modal-header ">
-                  <h3 class="modal-title" id="miModalLabel">Registro de Servicio</h3>
+                  <h3 class="modal-title w-100 text-center" id="miModalLabel">Registro de Servicio</h3>
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                 </div>
                 <div class="modal-body">
                   <form action="" method="">
                     <div class="mb-3">
-                      <label for="usuario" class="form-label fw-bold">Descripción:</label>
-                      <input type="text" class="form-control" id="usuario" name="usuario" required>
+                      <label for="descripcion" class="form-label fw-bold">Descripción:</label>
+                      <input type="text" class="form-control" id="descripcion" name="descripcion" required>
                     </div>
                     <div class="mb-3">
-                      <label for="usuario" class="form-label fw-bold">Precio:</label>
-                      <input type="number" class="form-control" id="usuario" name="usuario" required>
+                      <label for="precio" class="form-label fw-bold">Precio:</label>
+                      <input type="number" class="form-control" id="precio" name="precio" required>
                     </div>
                     <div class="mb-3 d-flex align-items-center">
                       <label class="form-label me-3 fw-bold">Estado:</label>
@@ -166,18 +158,18 @@
             <div class="modal-dialog modal-dialog-centered">
               <div class="modal-content">
                 <div class="modal-header ">
-                  <h3 class="modal-title" id="miModalLabel">Actualización de Servicio</h3>
+                  <h3 class="modal-title w-100 text-center" id="miModalLabel">Actualización de Servicio</h3>
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                 </div>
                 <div class="modal-body">
                   <form action="" method="">
                     <div class="mb-3">
-                      <label for="usuario" class="form-label fw-bold">Descripción:</label>
-                      <input type="text" class="form-control" id="usuario" name="usuario" required>
+                      <label for="descripcion" class="form-label fw-bold">Descripción:</label>
+                      <input type="text" class="form-control" id="descripcion" name="descripcion" required>
                     </div>
                     <div class="mb-3">
-                      <label for="usuario" class="form-label fw-bold">Precio:</label>
-                      <input type="number" class="form-control" id="usuario" name="usuario" required>
+                      <label for="precio" class="form-label fw-bold">Precio:</label>
+                      <input type="number" class="form-control" id="precio" name="precio" required>
                     </div>
                     <div class="mb-3 d-flex align-items-center">
                       <label class="form-label me-3 fw-bold">Estado:</label>
@@ -206,22 +198,22 @@
             <div class="modal-dialog modal-dialog-centered">
               <div class="modal-content">
                 <div class="modal-header ">
-                  <h3 class="modal-title" id="miModalLabel">Registro de Venta</h3>
+                  <h3 class="modal-title w-100 text-center" id="miModalLabel">Registro de Venta</h3>
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                 </div>
                 <div class="modal-body">
                   <form action="" method="">
                     <div class="mb-3">
-                      <label for="usuario" class="form-label fw-bold">Descripción:</label>
-                      <input type="text" class="form-control" id="usuario" name="usuario" required>
+                      <label for="descripcion" class="form-label fw-bold">Descripción:</label>
+                      <input type="text" class="form-control" id="descripcion" name="descripcion" required>
                     </div>
                     <div class="mb-3">
-                      <label for="usuario" class="form-label fw-bold">Precio:</label>
-                      <input type="number" class="form-control" id="usuario" name="usuario" required>
+                      <label for="precio" class="form-label fw-bold">Precio:</label>
+                      <input type="number" class="form-control" id="precio" name="precio" required>
                     </div>
                     <div class="mb-3">
-                      <label for="usuario" class="form-label fw-bold">Fecha:</label>
-                      <input type="date" class="form-control" id="usuario" name="usuario" required>
+                      <label for="fecha" class="form-label fw-bold">Fecha:</label>
+                      <input type="date" class="form-control" id="fecha" name="fecha" required>
                     </div>
 
                     <div class="modal-footer d-flex justify-content-start">
