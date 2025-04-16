@@ -11,7 +11,7 @@
         <div class="reset-box">
             <img src="imagenes/logohumano.png" class="img">
             <h2>Recupera tu contraseña</h2>
-            <form action="../../../cusquena/backend/api/controllers/procesar_recuperacion.php" method="POST">
+            <form action="../../backend/api/controllers/procesar_recuperacion.php" method="POST">
                 <input type="email" name="email" placeholder="Tu correo electrónico" required>
                 <button type="submit">Enviar enlace de recuperación</button>
                  <a href="login.html" class="button">Volver</a>
@@ -33,7 +33,7 @@
             e.preventDefault();
             const email = document.getElementById('email').value;
         
-            fetch('http://localhost/cusquena/cusquena/backend/api/controllers/enviar_recuperacion.php', {
+            fetch('http://localhost/cusquena/backend/api/controllers/enviar_recuperacion.php', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email })

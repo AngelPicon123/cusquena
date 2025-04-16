@@ -46,7 +46,7 @@
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
     
-            fetch('http://localhost/cusquena/cusquena/backend/api/controllers/procesar_login.php', {
+            fetch('http://localhost/cusquena/backend/api/controllers/procesar_login.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -56,12 +56,12 @@
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    if (data.cargo === "Administrador") {
+                    if (data.cargo === "admin") {
                         // Redirigir a cuentaAdmin.php
-                        window.location.href = 'http://localhost/cusquena/backend/api/controllers/cuentaAdminvst.php';
-                    } else if (data.cargo === "Secretaria") {
+                        window.location.href = 'http://localhost/cusquena/frontend/pages/base.html';
+                    } else if (data.cargo === "user") {
                         // Redirigir a cuentaSecretaria.php
-                        window.location.href = 'http://localhost/cusquena/backend/api/controllers/cuentaSecretariavst.php';
+                        window.location.href = 'http://localhost/cusquena/frontend/pages/base.html';
                     } else {
                         alert("Cargo no reconocido: " + data.cargo);
                     }

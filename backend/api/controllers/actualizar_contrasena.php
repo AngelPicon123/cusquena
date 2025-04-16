@@ -2,7 +2,7 @@
 session_start();
 
 // Configuración base de rutas
-$base_url = '/cusquena/cusquena';
+$base_url = '/cusquena';
 
 // 1. Verificar sesión y método de solicitud
 if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !isset($_SESSION['recovery_data'])) {
@@ -91,7 +91,7 @@ try {
     unset($_SESSION['recovery_data']);
     
     $_SESSION['mensaje'] = "¡Contraseña actualizada con éxito para $usuario!";
-    header("Location: $base_url/frontend/pages/login.html");
+    header("Location: $base_url/frontend/pages/loginIniciarSesion.html");
     exit();
 
 } catch (Exception $e) {
