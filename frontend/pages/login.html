@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
-    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/login.css">
 </head>
 <body>
     <div class="login-container">
@@ -16,8 +16,14 @@
                 <input type="password" id="password" name="password" required>
                 <button type="submit">Ingresar</button>
             </form>
+
+            <!-- Enlace para recuperación de contraseña -->
+            <div class="recover-link">
+                <a href="recuperar_contraseña.html">¿Olvidaste tu contraseña?</a>
+            </div>
         </div>
     </div>
+
     <script>
         document.getElementById('loginForm').addEventListener('submit', function (e) {
             e.preventDefault();

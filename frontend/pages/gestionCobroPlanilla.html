@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+  <title>Lubricentro Cusqueña</title>
+  <link href="../css/bootstrap.css" rel="stylesheet" />
+  <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+  <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+    <div class="d-flex align-items-center">
+      <a class="navbar-brand ps-3" href="#">La Cusqueña</a>
+      <button class="btn btn-link btn-sm ms-2" id="sidebarToggle">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+
+    <!-- Navbar -->
+    <ul class="navbar-nav ms-auto me-3 me-lg-4">
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
+          aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+          <li><a class="dropdown-item" href="#!">Cerrar Sesión</a></li>
+        </ul>
+      </li>
+    </ul>
+  </nav>
+  <div id="layoutSidenav">
+    <div id="layoutSidenav_nav">
+      <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+        <div class="sb-sidenav-menu">
+          <div class="nav">
+            <!-- ad -->
+            <div class="sb-sidenav-menu-heading">Gestión</div>
+            <a class="nav-link" href="gestionUsuario.html">
+              <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+              Gestionar Usuarios
+            </a>
+            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayoutsProductos">
+              <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+              Gestionar Productos
+              <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+            </a>
+            <div class="collapse" id="collapseLayoutsProductos">
+              <nav class="sb-sidenav-menu-nested nav">
+                <a class="nav-link" href="gestionCategoria.html">Gestión de Categorias</a>
+                <a class="nav-link" href="gestionProducto.html">Gestión de Productos</a>
+                <a class="nav-link" href="gestionHistorialIngreso.html">Ingresos de Productos</a>
+              </nav>
+            </div>
+            <a class="nav-link" href="gestionServicio.html">
+              <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+              Gestionar Servicios
+            </a>
+            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayoutsConductores">
+              <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+              Gestionar Conductores
+              <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+            </a>
+            <div class="collapse" id="collapseLayoutsConductores" data-bs-parent="#sidenavAccordion">
+              <nav class="sb-sidenav-menu-nested nav">
+                <a class="nav-link" href="gestionConductor.html">Gestión de Conductores</a>
+                <a class="nav-link" href="gestionSoat.html">Lista de SOAT</a>
+                <a class="nav-link" href="gestionCobroPlanilla.html">Cobro de Planilla</a>
+              </nav>
+            </div>
+            <a class="nav-link" href="gestionAlquiler.html">
+              <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+              Gestionar Alquileres
+            </a>
+            <a class="nav-link" href="gestionGasto.html">
+              <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+              Gestionar Gastos
+            </a>
+            <div class="sb-sidenav-menu-heading">Balances</div>
+            <a class="nav-link" href="balanceServicio.html">
+              <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+              Balance de Servicios
+            </a>
+            <a class="nav-link" href="balanceProducto.html">
+              <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+              Balance de Productos
+            </a>
+            <a class="nav-link" href="balanceCotizacion.html">
+              <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+              Balance de Cotizaciones
+            </a>
+          </div>
+        </div>
+        <div class="sb-sidenav-footer">
+          <div class="small">Sesion Inciada como:</div>
+          Administrador
+        </div>
+      </nav>
+    </div>
+    <div id="layoutSidenav_content">
+      <main class="container-xl my-2 col-10 mx-auto">
+        <div class="container-fluid px-4 ">
+          <h1 class="mb-4 text-center">Gestión de Cobro de Planilla</h1>
+
+          <div class="row">
+            <div class="col-12 d-flex justify-content-between align-items-center">
+              <div class="d-flex align-items-center">
+              <label for="inicio" class="me-2">Inicio:</label>
+              <input type="date" id="inicio" class="form-control me-2" placeholder="Inicio">
+              <label for="fin" class="me-2">Fin:</label>
+              <input type="date" id="fin" class="form-control me-2" placeholder="Fin">
+              <input type="text" class="form-control me-2" placeholder="Buscar Socio">
+              <a href="#" class="btn btn-primary">Buscar</a>
+              </div>
+              <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#miModal">Agregar</a>
+            </div>
+          </div>
+          <!-- Modal Agregar -->
+          <div class="modal fade " id="miModal" tabindex="-1" aria-labelledby="miModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header ">
+                  <h3 class="modal-title w-100 text-center" id="miModalLabel">Registro de Cobro de Planilla</h3>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                  <form action="" method="">
+                    <div class="mb-3">
+                      <label for="socio" class="form-label fw-bold">Socio:</label>
+                      <input type="text" class="form-control" id="socio" name="socio" required>
+                    </div>
+                    <div class="mb-3">
+                      <label for="montototal" class="form-label fw-bold">Monto total:</label>
+                      <input type="text" class="form-control" id="montototal" name="montototal" required>
+                    </div>
+                    <div class="mb-3">
+                      <label for="totalpagado" class="form-label fw-bold">Total Pagado:</label>
+                      <input type="number" class="form-control" id="totalpagado" name="totalpagado" required>
+                    </div>
+                    <div class="mb-3">
+                      <label for="pagopendiente" class="form-label fw-bold">Pago Pendiente:</label>
+                      <input type="number" class="form-control" id="pagopendiente" name="pagipendiente" required>
+                    </div>
+                    <div class="mb-3">
+                      <label for="fechainicio" class="form-label fw-bold">Fecha Inicio:</label>
+                      <input type="date" class="form-control" id="fechainicio" name="fechainicio" required>
+                    </div>
+                    <div class="mb-3">
+                      <label for="fechafin" class="form-label fw-bold">Fecha Fin:</label>
+                      <input type="date" class="form-control" id="fechafin" name="fechafin" required>
+                    </div>
+                    <div class="mb-3 d-flex align-items-center">
+                      <label for="estado" class="form-label fw-bold me-3">Estado:</label>
+                      <select id="estado" name="estado" class="form-select w-auto" required>
+                        <option value="" disabled selected>Seleccione una opción</option>
+                        <option value="activo">Pendiente</option>
+                        <option value="inactivo">Completo</option>
+                      </select>
+                    </div> <br>
+
+                    <div class="modal-footer d-flex justify-content-center">
+                      <button type="submit" class="btn btn-primary">Agregar</button>
+                    </div>
+                  </form>
+                </div>
+
+              </div>
+            </div>
+          </div>
+          <!-- Modal Editar -->
+          <div class="modal fade" id="modalEditar">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h3 class="modal-title" id="miModalLabel">Actualización de Cobro de Planilla</h3>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                  <form action="" method="">
+                    <div class="mb-3">
+                      <label for="socio" class="form-label fw-bold">Socio:</label>
+                      <input type="text" class="form-control" id="socio" name="socio" required>
+                    </div>
+                    <div class="mb-3">
+                      <label for="montototal" class="form-label fw-bold">Monto total:</label>
+                      <input type="text" class="form-control" id="montototal" name="montototal" required>
+                    </div>
+                    <div class="mb-3">
+                      <label for="totalpagado" class="form-label fw-bold">Total Pagado:</label>
+                      <input type="number" class="form-control" id="totalpagado" name="totalpagado" required>
+                    </div>
+                    <div class="mb-3">
+                      <label for="pagopendiente" class="form-label fw-bold">Pago Pendiente:</label>
+                      <input type="number" class="form-control" id="pagopendiente" name="pagipendiente" required>
+                    </div>
+                    <div class="mb-3">
+                      <label for="fechainicio" class="form-label fw-bold">Fecha Inicio:</label>
+                      <input type="date" class="form-control" id="fechainicio" name="fechainicio" required>
+                    </div>
+                    <div class="mb-3">
+                      <label for="fechafin" class="form-label fw-bold">Fecha Fin:</label>
+                      <input type="date" class="form-control" id="fechafin" name="fechafin" required>
+                    </div>
+                    <div class="mb-3 d-flex align-items-center">
+                      <label for="estado" class="form-label fw-bold me-3">Estado:</label>
+                      <select id="estado" name="estado" class="form-select w-auto" required>
+                        <option value="" disabled selected>Seleccione una opción</option>
+                        <option value="activo">Pendiente</option>
+                        <option value="inactivo">Completo</option>
+                      </select>
+                    </div> <br>
+
+                    <div class="modal-footer d-flex justify-content-center">
+                      <button type="submit" class="btn btn-success">Modificar</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="table-responsive my-5">
+            <table class="table  table-bordered table-hover text-center">
+              <thead>
+                <tr class="table-dark align-middle">
+                  <th>ID</th>
+                  <th>Socio</th>
+                  <th>Monto Total</th>
+                  <th>Total Pagado</th>
+                  <th>Pago Pendiente</th>
+                  <th>Fecha Inicio</th>
+                  <th>Fecha Fin</th>
+                  <th>Estado</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody class="align-middle">
+                <tr>
+                  <td>01</td>
+                  <td>Jesus</td>
+                  <td>S/.330</td>
+                  <td>S/.150</td>
+                  <td>S/.180</td>
+                  <td>05/04/2025</td>
+                  <td>20/05/2025</td>
+                  <td>Pendiente</td>
+                  <td>
+                    <a href="#" class="btn btn-success p-1 my-1" data-bs-toggle="modal"
+                      data-bs-target="#modalEditar">Editar</a>
+                    <a href="#" class="btn btn-danger p-1">Eliminar</a>
+                  </td>
+                </tr>
+
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Paginación -->
+          <nav aria-label="Page navigation example" class="d-flex justify-content-end ">
+            <ul class="pagination">
+              <li class="page-item">
+                <a class="page-link" href="#" aria-label="Previous">
+                  <span aria-hidden="true">&laquo;</span>
+                </a>
+              </li>
+              <li class="page-item"><a class="page-link" href="#">1</a></li>
+              <li class="page-item"><a class="page-link" href="#">2</a></li>
+              <li class="page-item"><a class="page-link" href="#">3</a></li>
+              <li class="page-item">
+                <a class="page-link" href="#" aria-label="Next">
+                  <span aria-hidden="true">&raquo;</span>
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+    </div>
+  </div>
+
+
+  <script src="../js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
+
+
+<!-- <div class="container-fluid px-4 ">
+  <h1 class="mb-4 text-center">Gestión de Cobro de Planillas</h1>
+
+  <div class="row">
+    <div class="col-12 d-flex justify-content-between align-items-center">
+      <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#miModal">Agregar</a>
+      <div class="d-flex">
+        <a href="#" class="btn btn-secondary me-2" style="height: 37px; width: 110px;">Fecha Inicio</a>
+        <input type="date" class="form-control me-3" style="width: 200px;">
+
+        <a href="#" class="btn btn-secondary me-2" style="height: 37px; width: 110px;">Fecha Fin</a>
+        <input type="date" class="form-control me-3" style="width: 200px;">
+
+        <a href="#" class="btn btn-primary" style="height: 37px;">Buscar</a>
+      </div>
+
+    </div>
+  </div>
+  <div class="modal fade " id="miModal" tabindex="-1" aria-labelledby="miModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header ">
+          <h3 class="modal-title" id="miModalLabel">Agregar Seguro</h3>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+          <form action="" method="">
+            <div class="mb-3">
+              <label for="socio" class="form-label fw-bold">Socio:</label>
+              <input type="text" class="form-control" id="socio" name="socio" required>
+            </div>
+            <div class="mb-3">
+              <label for="montototal" class="form-label fw-bold">Monto total:</label>
+              <input type="text" class="form-control" id="montototal" name="montototal" required>
+            </div>
+            <div class="mb-3">
+              <label for="totalpagado" class="form-label fw-bold">Total Pagado:</label>
+              <input type="number" class="form-control" id="totalpagado" name="totalpagado" required>
+            </div>
+            <div class="mb-3">
+              <label for="pagopendiente" class="form-label fw-bold">Pago Pendiente:</label>
+              <input type="number" class="form-control" id="pagopendiente" name="pagipendiente" required>
+            </div>
+            <div class="mb-3">
+              <label for="fechainicio" class="form-label fw-bold">Fecha Inicio:</label>
+              <input type="date" class="form-control" id="fechainicio" name="fechainicio" required>
+            </div>
+            <div class="mb-3">
+              <label for="fechafin" class="form-label fw-bold">Fecha Fin:</label>
+              <input type="date" class="form-control" id="fechafin" name="fechafin" required>
+            </div>
+            <div class="mb-3 d-flex align-items-center">
+              <label for="estado" class="form-label fw-bold me-3">Estado:</label>
+              <select id="estado" name="estado" class="form-select w-auto" required>
+                <option value="" disabled selected>Seleccione una opción</option>
+                <option value="activo">Pendiente</option>
+                <option value="inactivo">Completo</option>
+              </select>
+            </div> <br>
+
+            <div class="modal-footer d-flex justify-content-center">
+              <button type="submit" class="btn btn-primary">Agregar</button>
+            </div>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="modalEditar">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title" id="miModalLabel">Actualización de Seguro</h3>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+          <form action="" method="">
+            <div class="mb-3">
+              <label for="socio" class="form-label fw-bold">Socio:</label>
+              <input type="text" class="form-control" id="socio" name="socio" required>
+            </div>
+            <div class="mb-3">
+              <label for="montototal" class="form-label fw-bold">Monto total:</label>
+              <input type="text" class="form-control" id="montototal" name="montototal" required>
+            </div>
+            <div class="mb-3">
+              <label for="totalpagado" class="form-label fw-bold">Total Pagado:</label>
+              <input type="number" class="form-control" id="totalpagado" name="totalpagado" required>
+            </div>
+            <div class="mb-3">
+              <label for="pagopendiente" class="form-label fw-bold">Pago Pendiente:</label>
+              <input type="number" class="form-control" id="pagopendiente" name="pagipendiente" required>
+            </div>
+            <div class="mb-3">
+              <label for="fechainicio" class="form-label fw-bold">Fecha Inicio:</label>
+              <input type="date" class="form-control" id="fechainicio" name="fechainicio" required>
+            </div>
+            <div class="mb-3">
+              <label for="fechafin" class="form-label fw-bold">Fecha Fin:</label>
+              <input type="date" class="form-control" id="fechafin" name="fechafin" required>
+            </div>
+            <div class="mb-3 d-flex align-items-center">
+              <label for="estado" class="form-label fw-bold me-3">Estado:</label>
+              <select id="estado" name="estado" class="form-select w-auto" required>
+                <option value="" disabled selected>Seleccione una opción</option>
+                <option value="activo">Pendiente</option>
+                <option value="inactivo">Completo</option>
+              </select>
+            </div> <br>
+
+            <div class="modal-footer d-flex justify-content-center">
+              <button type="submit" class="btn btn-success">Modificar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="table-responsive my-5">
+    <table class="table  table-bordered table-hover text-center">
+      <thead>
+        <tr class="table-dark">
+          <th>ID</th>
+          <th>Socio</th>
+          <th>Monto Total</th>
+          <th>Total Pagado</th>
+          <th>Pago Pendiente</th>
+          <th>Fecha Inicio</th>
+          <th>Fecha Fin</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody class="align-middle">
+        <tr>
+          <td>01</td>
+          <td>Jesus</td>
+          <td>S/.330</td>
+          <td>S/.150</td>
+          <td>S/.180</td>
+          <td>05/04/2025</td>
+          <td>20/05/2025</td>
+          <td>Pendiente</td>
+          <td>
+            <a href="#" class="btn btn-success p-1" data-bs-toggle="modal" data-bs-target="#modalEditar">Editar</a>
+            <a href="#" class="btn btn-danger p-1">Eliminar</a>
+          </td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+
+  <nav aria-label="Page navigation example" class="d-flex justify-content-end ">
+    <ul class="pagination">
+      <li class="page-item">
+        <a class="page-link" href="#" aria-label="Previous">
+          <span aria-hidden="true">&laquo;</span>
+        </a>
+      </li>
+      <li class="page-item"><a class="page-link" href="#">1</a></li>
+      <li class="page-item"><a class="page-link" href="#">2</a></li>
+      <li class="page-item"><a class="page-link" href="#">3</a></li>
+      <li class="page-item">
+        <a class="page-link" href="#" aria-label="Next">
+          <span aria-hidden="true">&raquo;</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+  <footer class="py-4 bg-light mt-auto">
+    <div class="container-fluid px-4">
+      <div class="d-flex align-items-center justify-content-between small">
+
+      </div>
+    </div>
+  </footer>
+
+</div> -->
