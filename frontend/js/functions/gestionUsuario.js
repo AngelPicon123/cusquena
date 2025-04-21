@@ -18,13 +18,31 @@ document.addEventListener("DOMContentLoaded", function () {
     .addEventListener("submit", function (e) {
       e.preventDefault();
 
-      const data = {
-        usuario: document.getElementById("usuario").value,
-        contrasena: document.getElementById("contrasena").value,
-        correo: document.getElementById("correo").value,
-        rol: document.getElementById("rol").value,
-        estado: document.querySelector('input[name="estado"]:checked').value,
-      };
+      const usuario = document.getElementById("usuario").value.trim();
+      const contrasena = document.getElementById("contrasena").value.trim();
+      const correo = document.getElementById("correo").value.trim();
+      const rol = document.getElementById("rol").value;
+      const estado = document.querySelector(
+        'input[name="estado"]:checked'
+      )?.value;
+
+      // Validación de correo
+      if (!validarCorreo(correo)) {
+        showToastEditar(
+          "El correo electrónico no tiene un formato válido",
+          "warning"
+        );
+        document.getElementById("correo").focus();
+        return;
+      }
+
+      // Validación de campos obligatorios
+      if (!usuario || !contrasena || !correo || !rol || !estado) {
+        showToastEditar("Todos los campos son obligatorios", "warning");
+        return;
+      }
+
+      const data = { usuario, contrasena, correo, rol, estado };
 
       fetch(API_URL, {
         method: "POST",
@@ -33,10 +51,15 @@ document.addEventListener("DOMContentLoaded", function () {
       })
         .then((res) => res.json())
         .then((res) => {
-          showToastAgregar(res.message);
-          listarUsuarios();
-          document.querySelector("#modalAgregar .btn-close").click();
-          document.querySelector("#modalAgregar form").reset();
+          showToastAgregar(res.message, res.type);
+
+          if (res.type == "success") {
+            listarUsuarios();
+            document.querySelector("#modalAgregar .btn-close").click();
+            document.querySelector("#modalAgregar form").reset();
+          } else if (res.type == "warning") {
+            document.getElementById("correo").focus();
+          }
         });
     });
 
@@ -45,17 +68,34 @@ document.addEventListener("DOMContentLoaded", function () {
     .querySelector("#modalEditar form")
     .addEventListener("submit", function (e) {
       e.preventDefault();
-
       const id = document.getElementById("editarId").value;
-      const data = {
-        id,
-        usuario: document.getElementById("editarUsuario").value,
-        contrasena: document.getElementById("editarContrasena").value,
-        correo: document.getElementById("editarCorreo").value,
-        rol: document.getElementById("editarRol").value,
-        estado: document.querySelector('input[name="editarEstado"]:checked')
-          .value,
-      };
+      const usuario = document.getElementById("editarUsuario").value.trim();
+      const contrasena = document
+        .getElementById("editarContrasena")
+        .value.trim();
+      const correo = document.getElementById("editarCorreo").value.trim();
+      const rol = document.getElementById("editarRol").value;
+      const estado = document.querySelector(
+        'input[name="editarEstado"]:checked'
+      )?.value;
+
+      // Validación de correo
+      if (!validarCorreo(correo)) {
+        showToastEditar(
+          "El correo electrónico no tiene un formato válido",
+          "warning"
+        );
+        document.getElementById("correo").focus();
+        return;
+      }
+
+      // Validación de campos obligatorios
+      if (!usuario || !contrasena || !correo || !rol || !estado) {
+        showToastEditar("Todos los campos son obligatorios", "warning");
+        return;
+      }
+
+      const data = { id, usuario, contrasena, correo, rol, estado };
 
       fetch(API_URL, {
         method: "PUT",
@@ -64,9 +104,15 @@ document.addEventListener("DOMContentLoaded", function () {
       })
         .then((res) => res.json())
         .then((res) => {
-          showToastEditar(res.message);
-          listarUsuarios();
-          document.querySelector("#modalEditar .btn-close").click();
+          showToastAgregar(res.message, res.type);
+
+          if (res.type == "success") {
+            listarUsuarios();
+            document.querySelector("#modalEditar .btn-close").click();
+            document.querySelector("#modalEditar form").reset();
+          } else if (res.type == "warning") {
+            document.getElementById("correo").focus();
+          }
         });
     });
 });
@@ -85,17 +131,22 @@ function listarUsuarios(buscar = "") {
     .then((data) => {
       data.forEach((usuario) => {
         const fila = document.createElement("tr");
+
+        const contrasenaOculta = usuario.contrasena
+          ? "*".repeat(usuario.contrasena.length)
+          : "";
+
         fila.innerHTML = `
               <td>${usuario.id}</td>
               <td>${usuario.usuario}</td>
-              <td>${usuario.contrasena}</td>
+              <td>${contrasenaOculta}</td>
               <td>${usuario.correo}</td>
               <td>${usuario.rol}</td>
               <td><span class="badge ${
                 usuario.estado === "activo" ? "bg-success" : "bg-danger"
               }">${usuario.estado}</span></td>
               <td>
-                <button class="btn btn-success btn-sm mb-1" onclick='llenarModalEditar(${JSON.stringify(
+                <button class="btn btn-success btn-sm" onclick='llenarModalEditar(${JSON.stringify(
                   usuario
                 )})' data-bs-toggle="modal" data-bs-target="#modalEditar">Editar</button>
                 <button class="btn btn-danger btn-sm" onclick="confirmarEliminacion(${
@@ -137,30 +188,64 @@ function eliminarUsuario(id) {
       console.error("Error al eliminar:", error);
     });
 }
-
 // toast message Agregar
-function showToastAgregar(message) {
-  const toastElement = document.getElementById("toastAgregar");
+function showToastAgregar(message, type = "success") {
+  const toast = document.getElementById("toastAgregar");
   const toastMessage = document.getElementById("toastMessageAgregar");
+  const toastHeader = document.getElementById("toastHeaderAgregar");
+  const toastTitle = document.getElementById("toastTitleAgregar");
+
+  toastHeader.className = "toast-header d-flex justify-content-between w-100";
+
+  switch (type) {
+    case "success":
+      toastHeader.classList.add("bg-success", "text-white");
+      toastTitle.textContent = "Registro Exitoso";
+      break;
+    case "warning":
+      toastHeader.classList.add("bg-warning", "text-dark");
+      toastTitle.textContent = "Advertencia";
+      break;
+    case "error":
+    case "danger":
+      toast.classList.add("text-bg-danger");
+      break;
+  }
 
   toastMessage.textContent = message;
 
-  const toast = new bootstrap.Toast(toastElement);
-  toast.show();
+  const bsToast = bootstrap.Toast.getOrCreateInstance(toast);
+  bsToast.show();
 }
 
 // toast message Editar
-function showToastEditar(message) {
-  // Obtener el Toast y el mensaje
-  const toastElement = document.getElementById("toastEditar");
+function showToastEditar(message, type = "warning") {
+  const toast = document.getElementById("toastEditar");
   const toastMessage = document.getElementById("toastMessageEditar");
+  const toastHeader = document.getElementById("toastHeaderEditar");
+  const toastTitle = document.getElementById("toastTitleEditar");
 
-  // Establecer el mensaje
+  toastHeader.className = "toast-header d-flex justify-content-between w-100";
+
+  switch (type) {
+    case "success":
+      toastHeader.classList.add("bg-success", "text-white");
+      toastTitle.textContent = "Actualización Exitosa";
+      break;
+    case "warning":
+      toastHeader.classList.add("bg-warning", "text-dark");
+      toastTitle.textContent = "Advertencia";
+      break;
+    case "error":
+    case "danger":
+      toast.classList.add("text-bg-danger");
+      break;
+  }
+
   toastMessage.textContent = message;
 
-  // Mostrar el Toast
-  const toast = new bootstrap.Toast(toastElement);
-  toast.show();
+  const bsToast = bootstrap.Toast.getOrCreateInstance(toast);
+  bsToast.show();
 }
 
 // toast message Eliminar
@@ -182,13 +267,17 @@ function confirmarEliminacion(id) {
 
   const btnConfirmar = document.getElementById("btnConfirmarEliminar");
 
-  // Elimina cualquier evento anterior para evitar múltiples ejecuciones
   const nuevoBoton = btnConfirmar.cloneNode(true);
   btnConfirmar.parentNode.replaceChild(nuevoBoton, btnConfirmar);
 
-  // Botón "Sí, eliminar"
   nuevoBoton.addEventListener("click", () => {
-    eliminarUsuario(id); // Ejecuta la eliminación
-    modal.hide(); // Cierra el modal
+    eliminarUsuario(id);
+    modal.hide();
   });
 }
+// validar correo
+function validarCorreo(correo) {
+  const regexCorreo = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  return regexCorreo.test(correo);
+}
+

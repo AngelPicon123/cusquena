@@ -40,16 +40,35 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $rol = $data['rol'];
     $estado = $data['estado'];
 
-    $stmt = $conn->prepare("INSERT INTO usuarios (usuario, contrasena, correo, rol, estado) VALUES (:usuario, :contrasena, :correo, :rol, :estado)");
-    $stmt->execute([
-        'usuario' => $usuario,
-        'contrasena' => $contrasena,
-        'correo' => $correo,
-        'rol' => $rol,
-        'estado' => $estado
-    ]);
+    try {
+        $stmt = $conn->prepare("INSERT INTO usuarios (usuario, contrasena, correo, rol, estado) 
+                                VALUES (:usuario, :contrasena, :correo, :rol, :estado)");
+        $stmt->execute([
+            'usuario' => $usuario,
+            'contrasena' => $contrasena,
+            'correo' => $correo,
+            'rol' => $rol,
+            'estado' => $estado
+        ]);
 
-    echo json_encode(["message" => "Usuario agregado correctamente"]);
+        echo json_encode([
+            "type" => "success",
+            "message" => "Usuario agregado correctamente"
+        ]);
+    } catch (PDOException $e) {
+        // Código 23000 es para violación de restricción de integridad (como UNIQUE)
+        if ($e->getCode() == 23000) {
+            echo json_encode([
+                "type" => "warning",
+                "message" => "El correo ya está registrado."
+            ]);
+        } else {
+            echo json_encode([
+                "type" => "error",
+                "message" => "Error desconocido: " . $e->getMessage()
+            ]);
+        }
+    }
 }
 
 // ACTUALIZAR USUARIO
@@ -63,6 +82,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'PUT') {
     $rol = $data['rol'];
     $estado = $data['estado'];
 
+     try {
     $stmt = $conn->prepare("UPDATE usuarios SET usuario = :usuario, contrasena = :contrasena, correo = :correo, rol = :rol, estado = :estado WHERE id = :id");
     $stmt->execute([
         'id' => $id,
@@ -73,7 +93,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'PUT') {
         'estado' => $estado
     ]);
 
-    echo json_encode(["message" => "Usuario actualizado correctamente"]);
+    echo json_encode([
+        "type" => "success",
+        "message" => "Usuario actualizado correctamente"
+    ]);
+    } catch (PDOException $e) {
+        // Código 23000 es para violación de restricción de integridad (como UNIQUE)
+        if ($e->getCode() == 23000) {
+            echo json_encode([
+                "type" => "warning",
+                "message" => "El correo ya está registrado."
+            ]);
+        } else {
+            echo json_encode([
+                "type" => "error",
+                "message" => "Error desconocido: " . $e->getMessage()
+            ]);
+        }
+    }
 }
 
 // ELIMINAR USUARIO
