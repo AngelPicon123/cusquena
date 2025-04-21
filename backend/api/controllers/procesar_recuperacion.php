@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     if ($stmt->rowCount() === 0) {
         $_SESSION['error'] = "No existe una cuenta con ese correo electrónico.";
-        header("Location: ../../../cusquena/frontend/pages/recuperar_contrasena.html");
+        header("Location: ../../cusquena/frontend/pages/recuperar_contrasena.html");
         exit();
     }
 
@@ -68,7 +68,7 @@ $_SESSION['recovery_data'] = [
     $stmt->execute();
     
     // 5. Crear URL de reseteo con token
-    $url = "http://localhost/cusquena/cusquena/frontend/pages/contrasena_nueva.php?email=" . urlencode($email);
+    $url = "http://localhost/cusquena/frontend/pages/contrasena_nueva.php?email=" . urlencode($email);
     
     // 6. Configurar y enviar email con PHPMailer
     $mail = new PHPMailer(true);

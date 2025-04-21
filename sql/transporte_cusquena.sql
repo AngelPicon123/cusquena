@@ -145,18 +145,15 @@ CREATE TABLE Soat (
 -- Tabla: Alquiler
 CREATE TABLE Alquiler (
     idAlquiler INT AUTO_INCREMENT PRIMARY KEY,
+    identificador VARCHAR(30), 
     nombre VARCHAR(30),
-    apellido VARCHAR(30),
-    dni VARCHAR(8),
     telefono VARCHAR(10),
-    fecha DATE,
-    hora TIME,
-    precio DECIMAL(10,2), -- Ampliado a 10 dígitos
-    fechaDevolucion DATE,
-    observacion TEXT,
-    idSoat INT,
-    indicadorRUCPlaca VARCHAR(20),
-    FOREIGN KEY (idSoat) REFERENCES Soat(idSoat)
+    tipo ENUM('local','cochera'),
+    fechaInicio DATE,
+    periodicidad ENUM('mensual','semanal','diario'),
+    pago DECIMAL(10,2),
+    ubicacion VARCHAR(30),
+    estado ENUM('activo', 'inactivo') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Tabla: Cotizacion
@@ -173,3 +170,5 @@ CREATE TABLE Cotizacion (
     FOREIGN KEY (idSoat) REFERENCES Soat(idSoat),
     FOREIGN KEY (idConductor) REFERENCES Conductor(idConductor)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+INSERT INTO `usuarios`(`id`, `usuario`, `contrasena`, `correo`, `rol`, `estado`) VALUES ('1','admin','12345','admin@gmail.com','admin','activo')
