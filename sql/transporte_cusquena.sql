@@ -14,7 +14,7 @@ CREATE TABLE Usuarios (
     usuario VARCHAR(50) NOT NULL UNIQUE,
     contrasena VARCHAR(255) NOT NULL, 
     correo VARCHAR(100) NOT NULL UNIQUE,
-    rol ENUM('admin', 'user') NOT NULL,
+    rol ENUM('Administrador', 'Secretaria') NOT NULL,
     estado ENUM('activo', 'inactivo') NOT NULL
 );
 

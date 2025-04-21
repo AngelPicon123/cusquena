@@ -1,7 +1,7 @@
 <?php
 // backend/includes/db.php
 
-$host = 'localhost';       // Servidor de la base de datos
+$host = 'localhost:3308';       // Servidor de la base de datos
 $dbname = 'la_cusquena';   // Nombre de la base de datos
 $username = 'root';        // Usuario de MySQL
 $password = '';            // Contraseña de MySQL

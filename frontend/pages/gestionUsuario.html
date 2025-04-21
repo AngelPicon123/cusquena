@@ -1,12 +1,32 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Lubricentro Cusqueña</title>
   <link href="../css/bootstrap.css" rel="stylesheet" />
   <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
- </head>
+  <style>
+    #customToast {
+      min-width: 250px;
+      border-radius: 5px;
+    }
+
+    .toast-header {
+      background-color: #28a745;
+      /* Color success */
+      color: white;
+    }
+
+    .toast-body {
+      background-color: white;
+      color: #333;
+      /* Texto oscuro para contraste */
+    }
+  </style>
+</head>
+
 <body class="sb-nav-fixed">
   <!-- Navbar Superior (fijo) -->
   <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark fixed-top">
@@ -35,9 +55,9 @@
       </script>
     </div>
 
-    
+
     <div id="layoutSidenav_content">
-      <main class="container-xl my-2 col-10 mx-auto">
+      <main class="container-xl my-2 col-12 mx-auto">
         <div class="container-fluid px-4 ">
           <h1 class="mb-4 text-center">Gestión de Usuarios</h1>
 
@@ -76,14 +96,14 @@
                       <label for="rol" class="form-label fw-bold">Rol:</label>
                       <select class="form-select" id="rol" name="rol" required>
                         <option value="">--SELECCIONAR--</option>
-                        <option value="admin">Administrador</option>
-                        <option value="user">Secretaria</option>
+                        <option value="Administrador">Administrador</option>
+                        <option value="Secretaria">Secretaria</option>
                       </select>
                     </div>
                     <div class="mb-3 d-flex align-items-center">
                       <label class="form-label me-3 fw-bold">Estado:</label>
                       <div class="form-check form-check-inline">
-                        <input type="radio" class="form-check-input" name="estado" value="activo" id="activo" required>
+                        <input type="radio" class="form-check-input" name="estado" value="activo" id="activo" required checked>
                         <label class="form-check-label" for="activo">Activo</label>
                       </div>
                       <div class="form-check form-check-inline">
@@ -118,7 +138,7 @@
                     </div>
                     <div class="mb-3">
                       <label for="contrasena" class="form-label fw-bold">Contraseña:</label>
-                      <input type="password" class="form-control" id="editarContrasena" name="contrasena" required>
+                      <input type="password" class="form-control disabled" id="editarContrasena" name="contrasena" required disabled>
                     </div>
                     <div class="mb-3">
                       <label for="correo" class="form-label fw-bold">Correo Electrónico:</label>
@@ -135,11 +155,13 @@
                     <div class="mb-3 d-flex align-items-center">
                       <label class="form-label me-3 fw-bold">Estado:</label>
                       <div class="form-check form-check-inline">
-                        <input type="radio" class="form-check-input" name="editarEstado" value="activo" id="editarEstadoActivo" required>
+                        <input type="radio" class="form-check-input" name="editarEstado" value="activo"
+                          id="editarEstadoActivo" required>
                         <label class="form-check-label" for="activo">Activo</label>
                       </div>
                       <div class="form-check form-check-inline">
-                        <input type="radio" class="form-check-input" name="editarEstado" value="inactivo" id="editarEstadoInactivo">
+                        <input type="radio" class="form-check-input" name="editarEstado" value="inactivo"
+                          id="editarEstadoInactivo">
                         <label class="form-check-label" for="inactivo">Inactivo</label>
                       </div>
                     </div>
@@ -153,12 +175,12 @@
           </div>
           <!-- Fin Modal Editar -->
 
-          
+
           <!-- Tabla -->
           <div class="table-responsive my-4">
             <table class="table  table-bordered table-hover text-center">
               <thead>
-                <tr class="table-dark">
+                <tr class="table-dark align-middle">
                   <th>ID</th>
                   <th>Usuario</th>
                   <th>Contraseña</th>
@@ -169,21 +191,7 @@
                 </tr>
               </thead>
               <tbody class="align-middle">
-                <tr>
-                  <td>01</td>
-                  <td>Luis</td>
-                  <td>12345</td>
-                  <td>admin@gmail.com</td>
-                  <td>Administrador</td>
-                  <td>
-                    <span class="badge bg-success">Activo</span>
-                  </td>
-                  <td>
-                    <a href="#" class="btn btn-success p-1" data-bs-toggle="modal"
-                      data-bs-target="#modalEditar">Editar</a>
-                    <a href="#" class="btn btn-danger p-1">Eliminar</a>
-                  </td>
-                </tr>
+                <!-- insertar datos de manera dinamica -->
               </tbody>
             </table>
           </div>
@@ -213,128 +221,63 @@
 
     </div>
   </div>
+  <!-- Toast Bootstrap Personalizado -->
+  <div id="toastAgregar" class="toast align-items-center border-0 position-fixed bottom-0 end-0 mb-3 me-3 z-3"
+    role="alert" aria-live="assertive" aria-atomic="true" style="min-width: 250px;">
+    <div class="toast-header bg-success text-white d-flex justify-content-between w-100">
+      <strong class="me-auto">Registro Exitoso</strong>
+      <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+    <div class="toast-body bg-white text-dark" id="toastMessageAgregar">
+
+    </div>
+  </div>
+
+  <div id="toastEditar" class="toast align-items-center border-0 position-fixed bottom-0 end-0 mb-3 me-3 z-3"
+    role="alert" aria-live="assertive" aria-atomic="true" style="min-width: 250px;">
+    <div class="toast-header bg-success text-white">
+      <strong class="me-auto">Edicion Exitosa</strong>
+      <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+    <div class="toast-body bg-white text-dark" id="toastMessageEditar">
+
+    </div>
+  </div>
+
+  <div id="toastEliminar" class="toast align-items-center border-0 position-fixed bottom-0 end-0 mb-3 me-3 z-3"
+    role="alert" aria-live="assertive" aria-atomic="true" style="min-width: 250px;">
+    <div class="toast-header bg-danger text-white">
+      <strong class="me-auto">Eliminación Exitosa</strong>
+      <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+    <div class="toast-body bg-white text-dark" id="toastMessageEliminar">
+
+    </div>
+  </div>
+
+
+  <div class="modal fade" id="modalEliminarConfirmacion" tabindex="-1" aria-labelledby="modalEliminarLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header bg-danger text-white">
+          <h5 class="modal-title" id="modalEliminarLabel">¿Confirmar Eliminación?</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+          ¿Estás seguro de que deseas eliminar este usuario?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+          <button type="button" class="btn btn-danger" id="btnConfirmarEliminar">Sí, eliminar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
   <script src="../js/bootstrap.bundle.min.js"></script>
-  <script>
-    const API_URL = 'http://localhost/cusquena/backend/api/controllers/gestionUsuario.php';
-  
-    document.addEventListener('DOMContentLoaded', function () {
-      listarUsuarios();
-  
-      // Buscar usuario
-      document.querySelector('.btn-primary').addEventListener('click', function () {
-        const termino = document.querySelector('input[placeholder="Buscar usuario"]').value;
-        listarUsuarios(termino);
-      });
-  
-      // Agregar usuario
-      document.querySelector('#modalAgregar form').addEventListener('submit', function (e) {
-        e.preventDefault();
-  
-        const data = {
-          usuario: document.getElementById('usuario').value,
-          contrasena: document.getElementById('contrasena').value,
-          correo: document.getElementById('correo').value,
-          rol: document.getElementById('rol').value,
-          estado: document.querySelector('input[name="estado"]:checked').value
-        };
-  
-        fetch(API_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(data)
-        })
-          .then(res => res.json())
-          .then(res => {
-            alert(res.message);
-            listarUsuarios();
-            document.querySelector('#modalAgregar .btn-close').click();
-          });
-      });
-  
-      // Editar usuario
-      document.querySelector('#modalEditar form').addEventListener('submit', function (e) {
-        e.preventDefault();
-  
-        const id = document.getElementById('editarId').value;
-        const data = {
-          id,
-          usuario: document.getElementById('editarUsuario').value,
-          contrasena: document.getElementById('editarContrasena').value,
-          correo: document.getElementById('editarCorreo').value,
-          rol: document.getElementById('editarRol').value,
-          estado: document.querySelector('input[name="editarEstado"]:checked').value
-        };
-  
-        fetch(API_URL, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(data)
-        })
-          .then(res => res.json())
-          .then(res => {
-            alert(res.message);
-            listarUsuarios();
-            document.querySelector('#modalEditar .btn-close').click();
-          });
-      });
-    });
-  
-    // Función para listar usuarios
-    function listarUsuarios(buscar = '') {
-      const tbody = document.querySelector('tbody');
-      tbody.innerHTML = '';
-  
-      const url = buscar ? `${API_URL}?buscar=${encodeURIComponent(buscar)}` : API_URL;
-  
-      fetch(url)
-        .then(res => res.json())
-        .then(data => {
-          data.forEach(usuario => {
-            const fila = document.createElement('tr');
-            fila.innerHTML = `
-              <td>${usuario.id}</td>
-              <td>${usuario.usuario}</td>
-              <td>${usuario.contrasena}</td>
-              <td>${usuario.correo}</td>
-              <td>${usuario.rol}</td>
-              <td><span class="badge ${usuario.estado === 'activo' ? 'bg-success' : 'bg-danger'}">${usuario.estado}</span></td>
-              <td>
-                <button class="btn btn-success btn-sm" onclick='llenarModalEditar(${JSON.stringify(usuario)})' data-bs-toggle="modal" data-bs-target="#modalEditar">Editar</button>
-                <button class="btn btn-danger btn-sm" onclick="eliminarUsuario(${usuario.id})">Eliminar</button>
-              </td>
-            `;
-            tbody.appendChild(fila);
-          });
-        });
-    }
-  
-    // Llenar modal de edición
-    function llenarModalEditar(usuario) {
-      document.getElementById('editarId').value = usuario.id;
-      document.getElementById('editarUsuario').value = usuario.usuario;
-      document.getElementById('editarContrasena').value = usuario.contrasena;
-      document.getElementById('editarCorreo').value = usuario.correo;
-      document.getElementById('editarRol').value = usuario.rol;
-      document.getElementById('editarEstadoActivo').checked = usuario.estado === 'activo';
-      document.getElementById('editarEstadoInactivo').checked = usuario.estado === 'inactivo';
-    }
-  
-    // Eliminar usuario
-    function eliminarUsuario(id) {
-      if (confirm('¿Estás seguro de eliminar este usuario?')) {
-        fetch(API_URL, {
-          method: 'DELETE',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ id })
-        })
-          .then(res => res.json())
-          .then(res => {
-            alert(res.message);
-            listarUsuarios();
-          });
-      }
-    }
-  </script>  
+  <script src="../js/functions/gestionUsuario.js"></script>
 </body>
 
 </html>
