@@ -122,13 +122,13 @@ CREATE TABLE Conductor (
 -- Tabla: SeguroPlanilla
 CREATE TABLE SeguroPlanilla (
     idSeguroPlanilla INT AUTO_INCREMENT PRIMARY KEY,
+    socio VARCHAR(30),
+    montoTotal DECIMAL(10,2), -- Ampliado a 10 dígitos
+    totalPagado DECIMAL(10,2),
+    pagoPendiente DECIMAL(10,2),
     fechaEmision DATE,
     fechaVencimiento DATE,
-    sueldo DECIMAL(10,2), -- Ampliado a 10 dígitos
-    observacion TEXT,
-    estado ENUM('activo', 'inactivo') NOT NULL,
-    idConductor INT,
-    FOREIGN KEY (idConductor) REFERENCES Conductor(idConductor)
+    estado ENUM('Pendiente', 'Completo') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Tabla: Soat
