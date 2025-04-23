@@ -1,5 +1,5 @@
 const API_URL =
-  "http://localhost:8080/PRACTICAS/5TO-CICLO/cusquena/backend/api/controllers/gestionUsuario.php";
+  "http://localhost/cusquena/backend/api/controllers/gestionUsuario.php";
 
 document.addEventListener("DOMContentLoaded", function () {
   listarUsuarios();

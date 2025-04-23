@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
-    <link rel="stylesheet" href="../css/style-login.css">
+    <link rel="stylesheet" href="css/style-login.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
@@ -32,7 +32,7 @@
                         <i class="fa-solid fa-lock"></i>
                         <input type="password" id="password" name="password" required placeholder="Contraseña*">
                     </div>
-                    <a class="contraseña_olvidada" role = "button" tittle = "¿Olvidaste tu contraseña?" href="recuperar_contrasena.php"> ¿Olvidaste tu contraseña?</a>
+                    <a class="contraseña_olvidada" role = "button" tittle = "¿Olvidaste tu contraseña?" href="pages/recuperar_contrasena.php"> ¿Olvidaste tu contraseña?</a>
                     <button type="submit">Inicia sesión</button> 
                     
                 </form>
@@ -46,7 +46,7 @@
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
     
-            fetch('http://localhost/cusquena/cusquena/backend/api/controllers/procesar_login.php', {
+            fetch('http://localhost/cusquena/backend/api/controllers/procesar_login.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -58,10 +58,10 @@
                 if (data.success) {
                     if (data.cargo === "Administrador") {
                         // Redirigir a cuentaAdmin.php
-                        window.location.href = 'http://localhost/cusquena/cusquena/frontend/pages/base.html';
-                    } else if (data.cargo === "secretaria") {
+                        window.location.href = 'http://localhost/cusquena/frontend/pages/base.html';
+                    } else if (data.cargo === "Secretaria") {
                         // Redirigir a cuentaSecretaria.php
-                        window.location.href = 'http://localhost/cusquena/cusquena/frontend/pages/base.html';
+                        window.location.href = 'http://localhost/cusquena/frontend/pages/base.html';
                     } else {
                         alert("Cargo no reconocido: " + data.cargo);
                     }
