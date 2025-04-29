@@ -91,7 +91,7 @@ try {
     unset($_SESSION['recovery_data']);
     
     $_SESSION['mensaje'] = "¡Contraseña actualizada con éxito para $usuario!";
-    header("Location: $base_url/frontend/pages/loginIniciarSesion.html");
+    header("Location: $base_url/index.html");
     exit();
 
 } catch (Exception $e) {

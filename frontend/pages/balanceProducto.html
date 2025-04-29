@@ -12,107 +12,36 @@
   <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 </head>
 
-<body>
-  <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-    <!-- Navbar Brand-->
-    <a class="navbar-brand ps-3" href="index.html">La Cusqueña</a>
-    <!--Fin Navbar Brand-->
-    <!-- Sidebar Toggle-->
-    <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i
-        class="fas fa-bars"></i></button>
-    <!-- Fin Sidebar Toggle-->
-    <!-- Navbar-->
-    <ul class="navbar-nav ms-auto me-3 me-lg-4 text-end">
+<body  class="sb-nav-fixed">
+  <!-- Navbar Superior (fijo) -->
+  <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark fixed-top">
+    <a class="navbar-brand ps-3" href="base.html">La Cusqueña</a>
+    <button class="btn btn-link btn-sm me-4" id="sidebarToggle">
+      <i class="fas fa-bars"></i>
+    </button>
+    <ul class="navbar-nav ms-auto me-3">
       <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
-          aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
-        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-          <li><a class="dropdown-item" href="#!">Cerrar Sesion</a></li>
+        <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown">
+          <i class="fas fa-user fa-fw"></i>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end">
+          <li><a class="dropdown-item" href="../../index.html">Cerrar Sesión</a></li>
         </ul>
       </li>
     </ul>
-    <!-- Fin Navbar -->
   </nav>
   <div id="layoutSidenav">
     <div id="layoutSidenav_nav">
-      <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
-        <div class="sb-sidenav-menu">
-          <div class="nav">
-
-            <div class="sb-sidenav-menu-heading">Gestión</div>
-            <a class="nav-link" href="tables.html">
-              <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-              Gestión de Usuarios
-            </a>
-
-
-            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts"
-              aria-expanded="false" aria-controls="collapseLayouts">
-              <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
-              Layouts
-              <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-            </a>
-            <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
-              <nav class="sb-sidenav-menu-nested nav">
-                <a class="nav-link" href="layout-static.html">Static Navigation</a>
-                <a class="nav-link" href="layout-sidenav-light.html">Light Sidenav</a>
-              </nav>
-            </div>
-            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages"
-              aria-expanded="false" aria-controls="collapsePages">
-              <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
-              Pages
-              <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-            </a>
-            <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
-              <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
-                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseAuth"
-                  aria-expanded="false" aria-controls="pagesCollapseAuth">
-                  Authentication
-                  <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                </a>
-                <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne"
-                  data-bs-parent="#sidenavAccordionPages">
-                  <nav class="sb-sidenav-menu-nested nav">
-                    <a class="nav-link" href="login.html">Login</a>
-                    <a class="nav-link" href="register.html">Register</a>
-                    <a class="nav-link" href="password.html">Forgot Password</a>
-                  </nav>
-                </div>
-                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseError"
-                  aria-expanded="false" aria-controls="pagesCollapseError">
-                  Error
-                  <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                </a>
-                <div class="collapse" id="pagesCollapseError" aria-labelledby="headingOne"
-                  data-bs-parent="#sidenavAccordionPages">
-                  <nav class="sb-sidenav-menu-nested nav">
-                    <a class="nav-link" href="401.html">401 Page</a>
-                    <a class="nav-link" href="404.html">404 Page</a>
-                    <a class="nav-link" href="500.html">500 Page</a>
-                  </nav>
-                </div>
-              </nav>
-            </div>
-            <div class="sb-sidenav-menu-heading">Balances</div>
-            <a class="nav-link" href="charts.html">
-              <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
-              Charts
-            </a>
-            <a class="nav-link" href="tables.html">
-              <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-              Tables
-            </a>
-          </div>
-        </div>
-        <div class="sb-sidenav-footer">
-          <div class="small">Sesion Inciada como:</div>
-          Administrador
-        </div>
-      </nav>
+      <script>
+        fetch('sidebear_Admin.html')
+          .then(r => r.text())
+          .then(html => document.getElementById('layoutSidenav_nav').innerHTML = html)
+          .catch(e => console.error('Error cargando sidebar:', e));
+      </script>
     </div>
+
     <div id="layoutSidenav_content">
-      <main>
+      <main class="container-xl my-2 col-12 mx-auto">
         <div class="container-fluid px-4 ">
           <h1 class="mt-4 text-center mb-4 ">Balances de productos</h1>
           <div class="row">
