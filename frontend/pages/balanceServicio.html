@@ -12,7 +12,7 @@
   <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 </head>
 
-<body  class="sb-nav-fixed">
+<body class="sb-nav-fixed">
   <!-- Navbar Superior (fijo) -->
   <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark fixed-top">
     <a class="navbar-brand ps-3" href="base.html">La Cusqueña</a>
@@ -30,6 +30,7 @@
       </li>
     </ul>
   </nav>
+
   <div id="layoutSidenav">
     <div id="layoutSidenav_nav">
       <script>
@@ -46,72 +47,69 @@
           <h1 class="mt-4 text-center mb-4 ">Balance de Servicios</h1>
           <div class="row">
             <div class="col-12 d-flex justify-content-between align-items-center flex-wrap">
-               <div class="d-flex align-items-center flex-wrap">
+              <div class="d-flex align-items-center flex-wrap">
                 <button class="btn btn-primary mb-2 me-2">Buscar</button>
-                <label for="fecha" class="form-label fw-bold me-2">Fecha Inicio:</label>
-                <input type="date" class="form-control me-2 mb-2" style="width: 130px">
-                <label for="fecha" class="form-label fw-bold me-2">Fecha Fin:</label>
-                <input type="date" class="form-control me-2 mb-2" style="width: 130px">
+                <label for="inicio" class="form-label fw-bold me-2">Fecha Inicio:</label>
+                <input type="date" class="form-control me-2 mb-2" style="width: 130px" id="inicio">
+                <label for="fin" class="form-label fw-bold me-2">Fecha Fin:</label>
+                <input type="date" class="form-control me-2 mb-2" style="width: 130px" id="fin">
               </div>
               <div class="d-flex align-items-center flex-wrap">
                 <button onclick="window.print()" class="btn btn-primary me-2 mb-2">Imprimir</button>
-                <button class="btn btn-primary mb-2">Exportar PDF</button>
+                <button id="exportarPdf" class="btn btn-primary mb-2">Exportar PDF</button>
               </div>
             </div>
-  
-          <div class="table-responsive my-4">
-            <table class="table  table-bordered table-hover text-center">
-              <thead>
-                <tr class="table-dark">
-                  <th>ID</th>
-                  <th>Descripcion</th>
-                  <th>Precio</th>
-                  <th>Cantidad</th>
-                  <th>Subtotal</th>
-                  <th>Fecha</th>
-                </tr>
-              </thead>
-              <tbody class="align-middle">
-                <tr>
-                  <td>---</td>
-                  <td>---</td>
-                  <td>---</td>
-                  <td>---</td>
-                  <td>---</td>
-                  <td>23-05-25</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
 
-          <div class="total-container d-flex align-items-center mt-3">
-            <label for="total" class="form-label fw-bold me-2 ">TOTAL:</label>
-            <input type="text" class="form-control form-control-sm me-2 mb-2" style="width: 120px; font-size: 0.8rem;">
+            <div class="table-responsive my-4">
+              <table class="table table-bordered table-hover text-center">
+                <thead>
+                  <tr class="table-dark">
+                    <th>ID</th>
+                    <th>Descripcion</th>
+                    <th>Precio</th>
+                    <th>Subtotal</th>
+                    <th>Fecha</th>
+                  </tr>
+                </thead>
+                <tbody class="align-middle">
+                  <tr>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="total-container d-flex align-items-center mt-3">
+              <label for="total" class="form-label fw-bold me-2 ">TOTAL:</label>
+              <input type="text" id="total" class="form-control form-control-sm me-2 mb-2" style="width: 120px; font-size: 0.8rem;" disabled>
+            </div>
+
+            <nav aria-label="Page navigation example" class="d-flex justify-content-end ">
+              <ul class="pagination">
+                <li class="page-item">
+                  <a class="page-link" href="#" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                  </a>
+                </li>
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item">
+                  <a class="page-link" href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                  </a>
+                </li>
+              </ul>
+            </nav>
           </div>
-          
-  
-          <nav aria-label="Page navigation example" class="d-flex justify-content-end ">
-            <ul class="pagination">
-              <li class="page-item">
-                <a class="page-link" href="#" aria-label="Previous">
-                  <span aria-hidden="true">&laquo;</span>
-                </a>
-              </li>
-              <li class="page-item"><a class="page-link" href="#">1</a></li>
-              <li class="page-item"><a class="page-link" href="#">2</a></li>
-              <li class="page-item"><a class="page-link" href="#">3</a></li>
-              <li class="page-item">
-                <a class="page-link" href="#" aria-label="Next">
-                  <span aria-hidden="true">&raquo;</span>
-                </a>
-              </li>
-            </ul>
-          </nav>
-        </main>
-  
-      </div>
+        </div>
+      </main>
     </div>
+  </div>
+
   <script src="../js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="../js/functions/balanceServicios.js"></script>
 
 </body>
+
 </html>

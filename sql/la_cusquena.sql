@@ -116,7 +116,6 @@ CREATE TABLE `detalleventaproducto` (
 
 CREATE TABLE `detalleventaservicio` (
   `idDetalleVentaServicio` int(11) NOT NULL,
-  `fechaVenta` date DEFAULT NULL,
   `precioUnitario` decimal(10,2) DEFAULT NULL,
   `idServicio` int(11) DEFAULT NULL,
   `idVentaServicio` int(11) DEFAULT NULL
@@ -525,6 +524,24 @@ ALTER TABLE `producto`
 ALTER TABLE `soat`
   ADD CONSTRAINT `soat_ibfk_1` FOREIGN KEY (`idConductor`) REFERENCES `conductor` (`idConductor`);
 COMMIT;
+
+-- Eliminar tablas antiguas si existen
+DROP TABLE IF EXISTS detalleventaservicio;
+DROP TABLE IF EXISTS ventaservicio;
+
+-- Crear nueva tabla venta_servicio
+CREATE TABLE venta_servicio (
+  idVenta INT AUTO_INCREMENT PRIMARY KEY,
+  idServicio INT NOT NULL,
+  descripcion VARCHAR(100),
+  precioUnitario DECIMAL(10,2),
+  fechaVenta DATE,
+  total DECIMAL(10,2),
+  FOREIGN KEY (idServicio) REFERENCES servicio(idServicio)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+);
+
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

@@ -1,94 +1,52 @@
 <?php
+// gestionServicio.php
 header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
+header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE");
+header("Content-Type: application/json");
 
-if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
-    exit(0);
-}
+$pdo = new PDO("mysql:host=localhost;dbname=la_cusquena", "root", "");
 
-header('Content-Type: application/json');
-include '../../includes/db.php'; // Ajusta esta ruta según tu estructura
+$method = $_SERVER['REQUEST_METHOD'];
 
-if ($conn === null) {
-    echo json_encode(["error" => "No se pudo establecer la conexión a la base de datos."]);
-    exit();
-}
-
-// LISTAR SERVICIOS
-if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-    if (isset($_GET['buscar']) && !empty($_GET['buscar'])) {
-        $buscar = "%" . $_GET['buscar'] . "%";
-        $stmt = $conn->prepare("SELECT * FROM Servicio WHERE idServicio LIKE :buscar OR descripcion LIKE :buscar OR estado LIKE :buscar");
-        $stmt->execute(['buscar' => $buscar]);
+switch ($method) {
+  case 'GET':
+    // Verificamos si viene un parámetro ?modo=activos
+    if (isset($_GET['modo']) && $_GET['modo'] === 'activos') {
+      $stmt = $pdo->query("SELECT idServicio, descripcion, precioUnitario FROM servicio WHERE estado = 'activo'");
     } else {
-        $stmt = $conn->query("SELECT * FROM Servicio");
+      $stmt = $pdo->query("SELECT * FROM servicio");
     }
-
     $servicios = $stmt->fetchAll(PDO::FETCH_ASSOC);
     echo json_encode($servicios);
-}
+    break;
 
-// AGREGAR SERVICIO O REGISTRAR VENTA
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+  case 'POST':
     $data = json_decode(file_get_contents("php://input"), true);
-    $accion = $data['accion'] ?? 'agregar';
+    $sql = "INSERT INTO servicio (descripcion, precioUnitario, estado) VALUES (?, ?, ?)";
+    $stmt = $pdo->prepare($sql);
+    $success = $stmt->execute([$data['descripcion'], $data['precioUnitario'], $data['estado']]);
+    echo json_encode(['success' => $success]);
+    break;
 
-    if ($accion === 'venta') {
-        $fecha = $data['fechaVenta'];
-        $total = $data['total'];
-
-        // Registrar la venta
-        $stmt = $conn->prepare("INSERT INTO VentaServicio (fechaVenta, total) VALUES (:fechaVenta, :total)");
-        $stmt->execute([
-            'fechaVenta' => $fecha,
-            'total' => $total
-        ]);
-
-        echo json_encode(["message" => "Venta registrada correctamente"]);
-    } else {
-        $descripcion = $data['descripcion'];
-        $precioUnitario = $data['precioUnitario'];
-        $estado = $data['estado'];
-
-        $stmt = $conn->prepare("INSERT INTO Servicio (descripcion, precioUnitario, estado) VALUES (:descripcion, :precioUnitario, :estado)");
-        $stmt->execute([
-            'descripcion' => $descripcion,
-            'precioUnitario' => $precioUnitario,
-            'estado' => $estado
-        ]);
-
-        echo json_encode(["message" => "Servicio agregado correctamente"]);
-    }
-}
-
-// EDITAR SERVICIO
-if ($_SERVER['REQUEST_METHOD'] == 'PUT') {
+  case 'PUT':
     $data = json_decode(file_get_contents("php://input"), true);
+    $sql = "UPDATE servicio SET descripcion=?, precioUnitario=?, estado=? WHERE idServicio=?";
+    $stmt = $pdo->prepare($sql);
+    $success = $stmt->execute([$data['descripcion'], $data['precioUnitario'], $data['estado'], $data['idServicio']]);
+    echo json_encode(['success' => $success]);
+    break;
 
-    $idServicio = $data['idServicio'];
-    $descripcion = $data['descripcion'];
-    $precioUnitario = $data['precioUnitario'];
-    $estado = $data['estado'];
+  case 'DELETE':
+    parse_str(file_get_contents("php://input"), $data);
+    $sql = "DELETE FROM servicio WHERE idServicio=?";
+    $stmt = $pdo->prepare($sql);
+    $success = $stmt->execute([$data['idServicio']]);
+    echo json_encode(['success' => $success]);
+    break;
 
-    $stmt = $conn->prepare("UPDATE Servicio SET descripcion = :descripcion, precioUnitario = :precioUnitario, estado = :estado WHERE idServicio = :idServicio");
-    $stmt->execute([
-        'idServicio' => $idServicio,
-        'descripcion' => $descripcion,
-        'precioUnitario' => $precioUnitario,
-        'estado' => $estado
-    ]);
-
-    echo json_encode(["message" => "Servicio actualizado correctamente"]);
+  default:
+    echo json_encode(['error' => 'Método no soportado']);
+    break;
 }
-
-// ELIMINAR SERVICIO
-if ($_SERVER['REQUEST_METHOD'] == 'DELETE') {
-    $data = json_decode(file_get_contents("php://input"), true);
-    $idServicio = $data['idServicio'];
-
-    $stmt = $conn->prepare("DELETE FROM Servicio WHERE idServicio = :idServicio");
-    $stmt->execute(['idServicio' => $idServicio]);
-
-    echo json_encode(["message" => "Servicio eliminado correctamente"]);
-}
+?>
