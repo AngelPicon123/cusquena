@@ -6,7 +6,7 @@
   <title>Lubricentro Cusqueña</title>
   <link href="../css/bootstrap.css" rel="stylesheet" />
   <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
- </head>
+</head>
 <body class="sb-nav-fixed">
   <!-- Navbar Superior (fijo) -->
   <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark fixed-top">
@@ -131,42 +131,41 @@
 
           <!-- Fin Modal Editar -->
 
-<!-- Modal Vender -->
-<div class="modal fade" id="modalVender" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-          <div class="modal-header">
-              <h3 class="modal-title" id="miModalLabel">Registro de Venta</h3>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+          <!-- Modal Vender -->
+          <div class="modal fade" id="modalVender" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title" id="miModalLabel">Registro de Venta</h3>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="" method="">
+                            <div class="mb-3">
+                                <label for="venderDescripcion" class="form-label fw-bold">Descripción:</label>
+                                <select class="form-select" id="venderDescripcion" name="descripcion" required>
+                                    <option value="">Seleccione un servicio</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="venderPrecioUnitario" class="form-label fw-bold">Precio:</label>
+                                <input type="number" class="form-control" id="venderPrecioUnitario" name="precioUnitario" disabled>
+                            </div>
+                            <div class="mb-3">
+                                <label for="venderfechaVenta" class="form-label fw-bold">Fecha:</label>
+                                <input type="date" class="form-control" id="venderfechaVenta" name="fechaVenta" required>
+                            </div>
+                            <div id="nuevosServicios"></div>
+                            <div class="modal-footer d-flex justify-content-start">
+                                <input type="text" class="form-control" id="venderTotal" placeholder="Total" disabled>
+                                <button type="button" class="btn btn-primary" id="btnRegistrarVenta">Registrar Venta</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
           </div>
-          <div class="modal-body">
-              <form action="" method="">
-                  <div class="mb-3">
-                      <label for="venderDescripcion" class="form-label fw-bold">Descripción:</label>
-                      <select class="form-select" id="venderDescripcion" name="descripcion" required>
-                          <option value="">Seleccione un servicio</option>
-                      </select>
-                  </div>
-                  <div class="mb-3">
-                      <label for="venderPrecioUnitario" class="form-label fw-bold">Precio:</label>
-                      <input type="number" class="form-control" id="venderPrecioUnitario" name="precioUnitario" disabled>
-                  </div>
-                  <div class="mb-3">
-                      <label for="venderfechaVenta" class="form-label fw-bold">Fecha:</label>
-                      <input type="date" class="form-control" id="venderfechaVenta" name="fechaVenta" required>
-                  </div>
-                  <div id="nuevosServicios"></div>
-                  <div class="modal-footer d-flex justify-content-start">
-                      <input type="text" class="form-control" id="venderTotal" placeholder="Total" disabled>
-                      <button type="button" class="btn btn-primary" id="btnRegistrarVenta">Registrar Venta</button>
-                  </div>
-              </form>
-          </div>
-      </div>
-  </div>
-</div>
-<!-- Fin Modal Vender -->
-
+          <!-- Fin Modal Vender -->
 
           <!-- Tabla -->
           <div class="table-responsive my-4">
@@ -216,5 +215,4 @@
   <script src="../js/bootstrap.bundle.min.js"></script>
   <script src="../js/functions/gestionServicios.js"></script>
 </body>
-
 </html>
