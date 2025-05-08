@@ -7,6 +7,8 @@
   <link href="../css/bootstrap.css" rel="stylesheet" />
   <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
  </head>
+
+
 <body class="sb-nav-fixed">
   <!-- Navbar Superior (fijo) -->
   <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark fixed-top">
@@ -42,73 +44,25 @@
           <div class="row">
             <div class="col-12 d-flex justify-content-between align-items-center flex-wrap">
                 <div class="d-flex align-items-center flex-wrap">
-                <button class="btn btn-primary mb-2 me-2">Buscar</button>
-                <label for="fecha" class="form-label fw-bold me-2">Fecha Inicio:</label>
-                <input type="date" class="form-control me-2 mb-2" style="width: 130px">
-                <label for="fecha" class="form-label fw-bold me-2">Fecha Fin:</label>
-                <input type="date" class="form-control me-2 mb-2" style="width: 130px">
+                  <input type="date" id="fechaInicio" class="form-control me-2 mb-2" style="width: 130px">
+                  <input type="date" id="fechaFin" class="form-control me-2 mb-2" style="width: 130px">
+                  <button id="btnBuscar" type="button" class="btn btn-primary mb-2">Buscar</button>
+                  <button id="btnReset" type="button" class="btn btn-secondary mb-2">Resetear</button>
                 
               </div>
-              <div class="d-flex align-items-center flex-wrap">
-                <a href="#" class="btn btn-primary me-3" data-bs-toggle="modal" data-bs-target="#modalDominical">Dominical</a>
-                <button onclick="window.print()" class="btn btn-primary me-3 ">Imprimir</button>
+              <div class="d-flex align-items-center flex-wrap gap-2">
+                <button id="btnFiltrarDomingos" class="btn btn-primary">
+                  <i class="bi bi-calendar-week"></i> Dominical
+                </button>
+                <button id="btnResetFiltros" class="btn btn-secondary">
+                  <i class="bi bi-arrow-counterclockwise"></i> Resetear Filtros
+                </button>
+                <button onclick="window.print()" class="btn btn-primary">Imprimir</button>
                 <button class="btn btn-primary">Exportar PDF</button>
               </div>
-            </div>
-  
             
-            <!--cotizaciones dominical-->
-            <div class="modal fade " id="modalDominical">
-                <div class="modal-dialog modal-dialog-centered">
-                  <div class="modal-content">
-                    <div class="modal-header ">
-                      <h3 class="modal-title w-100 text-center" id="miModalLabel">Cotizaciones Dominical</h3>
-                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-                    </div>
 
-                        <div class="table-responsive my-2  me-4" ; >
-                          <table class="table  table-bordered table-hover text-center mb-1";>
-                            <thead>
-                              <tr class="table-dark">
-                                <th>ID</th>
-                                <th>Tipo conductor</th>
-                                <th>Fecha</th>
-                              </tr>
-                            </thead>
-                            <tbody class="align-middle">
-                              <tr>
-                                <td></td>
-                                <td></td>
-                                <td>23-05-25</td>
-                              </tr>
-                            </tbody>
-                          </table>
-                        </div>
-
-
-                        <div class="modal-footer d-flex flex-wrap justify-content-center align-items-center gap-2">
-                          <button type="submit" class="btn btn-primary mb-2">Buscar</button>
-                          <input type="date" class="form-control me-2 mb-2" style="width: 130px">
-                          <input type="date" class="form-control me-2 mb-2" style="width: 130px">
-                        
-                          <div class="d-flex align-items-center gap-2">
-                            <button onclick="window.print()" class="btn btn-primary mb-2">Imprimir</button>
-                            <button class="btn btn-primary mb-2">Exportar PDF</button>
-                          </div>
-                        </div>
-                        
-                      </form>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <!--finalizacion de dominical-->
-
-
-
-
-
-
+        </div>
           <div class="table-responsive my-4">
             <table class="table  table-bordered table-hover text-center">
               <thead>
@@ -117,13 +71,12 @@
                   <th>Nombre</th>
                   <th>Apellido</th>
                   <th>Tipo conductor</th>
-                  <th>cotizacion</th>
-                  <th>Periodicidad</th>
+                  <th>cotizacion</th>             
                   <th>Placa</th>
                   <th>Fecha</th>
                 </tr>
               </thead>
-              <tbody class="align-middle">
+              <tbody id="tablaCotizaciones" class="align-middle">
                 <tr>
                   <td></td>
                   <td></td>
@@ -132,28 +85,26 @@
                   <td></td>
                   <td></td>
                   <td></td>
-                  <td>23-05-25</td>
+                  <td></td>
                 </tr>
               </tbody>
             </table>
           </div>
           <div class="total-container d-flex align-items-center mt-3">
             <label for="total" class="form-label fw-bold me-2 ">TOTAL:</label>
-            <input type="text" class="form-control form-control-sm me-2 mb-2" style="width: 120px; font-size: 0.8rem;">
+            <input type="text" id="totalGeneral" class="form-control form-control-sm me-2 mb-2" style="width: 120px; font-size: 0.8rem;" readonly>
           </div>
   
-          <nav aria-label="Page navigation example" class="d-flex justify-content-end ">
-            <ul class="pagination">
+          <nav aria-label="Page navigation example" class="d-flex justify-content-end">
+            <ul class="pagination" id="pagination">
               <li class="page-item">
-                <a class="page-link" href="#" aria-label="Previous">
+                <a class="page-link" href="#" aria-label="Previous" id="prev-page">
                   <span aria-hidden="true">&laquo;</span>
                 </a>
               </li>
-              <li class="page-item"><a class="page-link" href="#">1</a></li>
-              <li class="page-item"><a class="page-link" href="#">2</a></li>
-              <li class="page-item"><a class="page-link" href="#">3</a></li>
+              <!-- Los números de página se generarán dinámicamente -->
               <li class="page-item">
-                <a class="page-link" href="#" aria-label="Next">
+                <a class="page-link" href="#" aria-label="Next" id="next-page">
                   <span aria-hidden="true">&raquo;</span>
                 </a>
               </li>
@@ -163,7 +114,8 @@
   
       </div>
     </div>
-  <script src="../js/bootstrap.bundle.min.js"></script>
-
+    
+    <script src="../js/bootstrap.bundle.min.js"></script>
+    <script src="../js/functions/balanceCotizacion.js"></script>
 </body>
 </html>

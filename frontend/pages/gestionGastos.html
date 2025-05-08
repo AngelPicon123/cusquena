@@ -13,22 +13,25 @@
 </head>
 
 <body>
-  <!-- Navbar Superior (fijo) -->
-  <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark fixed-top">
-    <a class="navbar-brand ps-3" href="base.html">La Cusqueña</a>
-    <button class="btn btn-link btn-sm me-4" id="sidebarToggle">
-      <i class="fas fa-bars"></i>
-    </button>
-    <ul class="navbar-nav ms-auto me-3">
+  <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+    <!-- Navbar Brand-->
+    <a class="navbar-brand ps-3" href="index.html">La Cusqueña</a>
+    <!--Fin Navbar Brand-->
+    <!-- Sidebar Toggle-->
+    <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i
+        class="fas fa-bars"></i></button>
+    <!-- Fin Sidebar Toggle-->
+    <!-- Navbar-->
+    <ul class="navbar-nav ms-auto me-3 me-lg-4 text-end">
       <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown">
-          <i class="fas fa-user fa-fw"></i>
-        </a>
-        <ul class="dropdown-menu dropdown-menu-end">
-          <li><a class="dropdown-item" href="../../index.html">Cerrar Sesión</a></li>
+        <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
+          aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+          <li><a class="dropdown-item" href="#!">Cerrar Sesion</a></li>
         </ul>
       </li>
     </ul>
+    <!-- Fin Navbar -->
   </nav>
   <div id="layoutSidenav">
     <div id="layoutSidenav_nav">
@@ -39,9 +42,8 @@
           .catch(e => console.error('Error cargando sidebar:', e));
       </script>
     </div>
-
     <div id="layoutSidenav_content">
-      <main class="container-xl my-2 col-10 mx-auto">
+      <main>
         <div class="container-fluid px-4 ">
           <h1 class="mt-4 text-center mb-4">Gestión de Gastos</h1>
 
@@ -56,9 +58,9 @@
                 <a href="#" class="btn btn-primary">Buscar</a>
               </div>
               <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAgregar">Agregar</a>
-
             </div>
           </div>
+
           <!-- Modal Agregar -->
           <div class="modal fade " id="modalAgregar">
             <div class="modal-dialog modal-dialog-centered">
@@ -72,10 +74,6 @@
                     <div class="mb-3">
                       <label for="descripcion" class="form-label fw-bold">Descripcion:</label>
                       <input type="text" class="form-control" id="descripcion" name="descripcion" required>
-                    </div>
-                    <div class="mb-3">
-                      <label for="categoria" class="form-label fw-bold">Categoria:</label>
-                      <input type="text" class="form-control" id="categoria" name="categoria" required>
                     </div>
                     <div class="mb-3">
                       <label for="tipo" class="form-label fw-bold">Tipo de Gastos:</label>
@@ -118,15 +116,11 @@
                 <div class="modal-body">
                   <form action="" method="">
                     <div class="mb-3">
-                      <label for="identificador" class="form-label fw-bold">Descripcion:</label>
+                      <label for="descripcion" class="form-label fw-bold">Descripcion:</label>
                       <input type="number" class="form-control" id="identificador" name="identificador" required>
                     </div>
                     <div class="mb-3">
-                      <label for="nombre" class="form-label fw-bold">Categoria:</label>
-                      <input type="text" class="form-control" id="nombre" name="nombre" required>
-                    </div>
-                    <div class="mb-3">
-                      <label for="tipo" class="form-label fw-bold">Tipo de Gastos:</label>
+                      <label for="nombre" class="form-label fw-bold">Tipo de Gasto:</label>
                       <select class="form-select" id="tipo" name="tipo" required>
                         <option value="">Seleccione una opción:</option>
                         <option value="Empresa">Empresa</option>
@@ -161,7 +155,6 @@
                 <tr class="table-dark">
                   <th>ID</th>
                   <th>Descripcion</th>
-                  <th>Categoria</th>
                   <th>Tipo de Gasto</th>
                   <th>Monto</th>
                   <th>Fecha</th>
@@ -171,7 +164,6 @@
               </thead>
               <tbody class="align-middle">
                 <tr>
-                  <td></td>
                   <td></td>
                   <td></td>
                   <td></td>
@@ -206,10 +198,10 @@
             </ul>
           </nav>
       </main>
-
     </div>
   </div>
   <script src="../js/bootstrap.bundle.min.js"></script>
+
 </body>
 
 </html>

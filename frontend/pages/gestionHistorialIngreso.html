@@ -1,207 +1,361 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-  <meta name="description" content="" />
-  <meta name="author" content="" />
-  <title>Lubricentro Cusqueña</title>
-  <link href="../css/bootstrap.css" rel="stylesheet" />
-  <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Lubricentro Cusqueña</title>
+    <link href="../css/bootstrap.css" rel="stylesheet" />
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <!-- Incluir Flatpickr CSS y JS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 </head>
-
-<body  class="sb-nav-fixed">
-  <!-- Navbar Superior (fijo) -->
-  <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark fixed-top">
-    <a class="navbar-brand ps-3" href="base.html">La Cusqueña</a>
-    <button class="btn btn-link btn-sm me-4" id="sidebarToggle">
-      <i class="fas fa-bars"></i>
-    </button>
-    <ul class="navbar-nav ms-auto me-3">
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown">
-          <i class="fas fa-user fa-fw"></i>
-        </a>
-        <ul class="dropdown-menu dropdown-menu-end">
-          <li><a class="dropdown-item" href="../../index.html">Cerrar Sesión</a></li>
+<body class="sb-nav-fixed">
+    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark fixed-top">
+        <a class="navbar-brand ps-3" href="base.html">La Cusqueña</a>
+        <button class="btn btn-link btn-sm me-4" id="sidebarToggle">
+            <i class="fas fa-bars"></i>
+        </button>
+        <ul class="navbar-nav ms-auto me-3">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown">
+                    <i class="fas fa-user fa-fw"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li><a class="dropdown-item" href="../../index.html">Cerrar Sesión</a></li>
+                </ul>
+            </li>
         </ul>
-      </li>
-    </ul>
-  </nav>
-  <div id="layoutSidenav">
-    <div id="layoutSidenav_nav">
-      <script>
-        fetch('sidebear_Admin.html')
-          .then(r => r.text())
-          .then(html => document.getElementById('layoutSidenav_nav').innerHTML = html)
-          .catch(e => console.error('Error cargando sidebar:', e));
-      </script>
-    </div>
-    <div id="layoutSidenav_content">
-      <main class="container-xl my-2 col-10 mx-auto">
-        <div class="container-fluid px-4 ">
-          <h1 class="mb-4 text-center">Historial de Ingresos</h1>
-
-          <div class="row">
-            <div class="col-12 d-flex justify-content-between align-items-center">
-              <div class="d-flex">
-                <input type="text" class="form-control me-2" placeholder="Buscar Conductor" enabled>
-                <a href="#" class="btn btn-primary" style="height: 37px;">Buscar</a>
-              </div>
-              <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#miModal">Agregar</a>
-            </div>
-          </div>
-          <!-- MODAL AGREGAR -->
-          <div class="modal fade " id="miModal" tabindex="-1" aria-labelledby="miModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-              <div class="modal-content">
-                <div class="modal-header ">
-                  <h3 class="modal-title" id="miModalLabel">Registro de Ingresos </h3>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+    </nav>
+    <div id="layoutSidenav">
+        <div id="layoutSidenav_nav">
+            <script>
+                fetch('sidebear_Admin.html')
+                    .then(r => r.text())
+                    .then(html => document.getElementById('layoutSidenav_nav').innerHTML = html)
+                    .catch(e => console.error('Error cargando sidebar:', e));
+            </script>
+        </div>
+        <div id="layoutSidenav_content">
+            <main class="container-xl my-2 col-10 mx-auto">
+                <div class="container-fluid px-4">
+                    <h1 class="mb-4 text-center">Historial de Ingresos</h1>
+                    <div class="row">
+                        <div class="col-12 d-flex justify-content-between align-items-center">
+                            <div class="d-flex">
+                                <input type="text" class="form-control me-2" id="buscarIngreso" placeholder="Buscar Ingreso">
+                                <button class="btn btn-primary" id="btnBuscar">Buscar</button>
+                            </div>
+                            <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#miModal">Agregar</a>
+                        </div>
+                    </div>
+                    <!-- MODAL AGREGAR -->
+                    <div class="modal fade" id="miModal" tabindex="-1" aria-labelledby="miModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h3 class="modal-title" id="miModalLabel">Registro de Ingresos</h3>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form id="formAgregar">
+                                        <div class="mb-3">
+                                            <label for="fechaIngreso" class="form-label fw-bold">Fecha de ingreso:</label>
+                                            <input type="text" class="form-control" id="fechaIngreso" name="fechaIngreso" placeholder="dd/mm/aaaa" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="cantidad" class="form-label fw-bold">Cantidad:</label>
+                                            <input type="number" class="form-control" id="cantidad" name="cantidad" min="1" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="precioCompra" class="form-label fw-bold">Precio de compra:</label>
+                                            <input type="number" step="0.01" class="form-control" id="precioCompra" name="precioCompra" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="idProducto" class="form-label fw-bold">Producto:</label>
+                                            <select class="form-control" id="idProducto" name="idProducto" required>
+                                                <option value="">--SELECCIONAR--</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="detalle" class="form-label fw-bold">Detalles:</label>
+                                            <textarea class="form-control" id="detalle" name="detalle" rows="4"></textarea>
+                                        </div>
+                                        <div class="modal-footer d-flex justify-content-center">
+                                            <button type="submit" class="btn btn-primary">Agregar</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- MODAL EDITAR -->
+                    <div class="modal fade" id="modalEditar">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h3 class="modal-title">Actualización de Ingresos</h3>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form id="formEditar">
+                                        <div class="mb-3">
+                                            <label for="editarFechaIngreso" class="form-label fw-bold">Fecha de ingreso:</label>
+                                            <input type="date" class="form-control" id="editarFechaIngreso" name="fechaIngreso" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="editarCantidad" class="form-label fw-bold">Cantidad:</label>
+                                            <input type="number" class="form-control" id="editarCantidad" name="cantidad" min="1" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="editarPrecioCompra" class="form-label fw-bold">Precio de compra:</label>
+                                            <input type="number" step="0.01" class="form-control" id="editarPrecioCompra" name="precioCompra" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="editarIdProducto" class="form-label fw-bold">Producto:</label>
+                                            <select class="form-control" id="editarIdProducto" name="idProducto" required>
+                                                <option value="">--SELECCIONAR--</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="editarDetalle" class="form-label fw-bold">Detalles:</label>
+                                            <textarea class="form-control" id="editarDetalle" name="detalle" rows="4"></textarea>
+                                        </div>
+                                        <div class="modal-footer d-flex justify-content-center">
+                                            <button type="submit" class="btn btn-success">Modificar</button>
+                                        </div>
+                                        <input type="hidden" id="editarIdIngresoProducto" name="idIngresoProducto">
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive my-5">
+                        <table class="table table-bordered table-hover text-center">
+                            <thead>
+                                <tr class="table-dark">
+                                    <th>ID</th>
+                                    <th>Fecha de Ingreso</th>
+                                    <th>Cantidad</th>
+                                    <th>Precio de compra</th>
+                                    <th>Producto</th>
+                                    <th>Detalles</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody class="align-middle" id="tablaIngresos"></tbody>
+                        </table>
+                    </div>
+                    <nav aria-label="Page navigation example" class="d-flex justify-content-end">
+                        <ul class="pagination">
+                            <li class="page-item">
+                                <a class="page-link" href="#" aria-label="Previous">
+                                    <span aria-hidden="true">«</span>
+                                </a>
+                            </li>
+                            <li class="page-item"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item">
+                                <a class="page-link" href="#" aria-label="Next">
+                                    <span aria-hidden="true">»</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                    <footer class="py-4 bg-light mt-auto">
+                        <div class="container-fluid px-4">
+                            <div class="d-flex align-items-center justify-content-between small"></div>
+                        </div>
+                    </footer>
                 </div>
-                <div class="modal-body">
-                  <form action="" method="">
-                    <div class="mb-3">
-                      <label for="fechaingreso" class="form-label fw-bold">Fecha de ingreso:</label>
-                      <input type="text" class="form-control" id="fechaingreso" name="fechaingreso" required>
-                    </div>
-                    <div class="mb-3">
-                      <label for="cantidad" class="form-label fw-bold">Cantidad:</label>
-                      <input type="number" class="form-control" id="cantidad" name="cantidad" required>
-                    </div>
-                    <div class="mb-3">
-                      <label for="preciocompra" class="form-label fw-bold">Precio de compra:</label>
-                      <input type="text" class="form-control" id="preciocompra" name="preciocompra" required>
-                    </div>
-                    <div class="mb-3">
-                      <label for="producto" class="form-label fw-bold">Producto:</label>
-                      <input type="number" class="form-control" id="producto" name="producto" required>
-                    </div>
-                    <div class="mb-3">
-                      <label for="detalle" class="form-label fw-bold">Detalles:</label>
-                      <textarea class="form-control" id="detalle" name="detalle" rows="4"></textarea>
-                    </div>
-
-                    <div class="modal-footer d-flex justify-content-center">
-                      <button type="submit" class="btn btn-primary">Agregar</button>
-                    </div>
-                  </form>
-                </div>
-
-              </div>
-            </div>
-          </div>
-
-          <!--MODAL EDITAR-->
-          <div class="modal fade" id="modalEditar">
-            <div class="modal-dialog modal-dialog-centered">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h3 class="modal-title" id="miModalLabel">Actualización de Ingresos</h3>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-                </div>
-                <div class="modal-body">
-                  <form action="" method="">
-                    <div class="mb-3">
-                      <label for="fechaingreso" class="form-label fw-bold">Fecha de ingreso:</label>
-                      <input type="text" class="form-control" id="fechaingreso" name="fechaingreso" required>
-                    </div>
-
-                    <div class="mb-3">
-                      <label for="cantidad" class="form-label fw-bold">Cantidad:</label>
-                      <input type="number" class="form-control" id="cantidad" name="cantidad" required>
-                    </div>
-
-                    <div class="mb-3">
-                      <label for="preciocompra" class="form-label fw-bold">Precio de compra:</label>
-                      <input type="text" class="form-control" id="preciocompra" name="preciocompra" required>
-                    </div>
-
-                    <div class="mb-3">
-                      <label for="producto" class="form-label fw-bold">Producto:</label>
-                      <input type="number" class="form-control" id="producto" name="producto" required>
-                    </div>
-
-                    <div class="mb-3">
-                      <label for="detalle" class="form-label fw-bold">Detalles:</label>
-                      <textarea class="form-control" id="detalle" name="detalle" rows="4"></textarea>
-                    </div>
-
-                    <div class="modal-footer d-flex justify-content-center">
-                      <button type="submit" class="btn btn-success">Modificar</button>
-                    </div>
-                  </form>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="table-responsive my-5">
-            <table class="table  table-bordered table-hover text-center">
-              <thead>
-                <tr class="table-dark">
-                  <th>ID</th>
-                  <th>Fecha de Ingreso</th>
-                  <th>Cantidad</th>
-                  <th>Precio de compra</th>
-                  <th>Producto</th>
-                  <th>Detalles</th>
-                  <th>Acciones</th>
-                </tr>
-              </thead>
-              <tbody class="align-middle">
-                <tr>
-                  <td>01</td>
-                  <td>07/04/25</td>
-                  <td>7</td>
-                  <td>S/.75</td>
-                  <td>Agua</td>
-                  <td>Marca Cielo</td>
-                  <td>
-                    <a href="#" class="btn btn-success p-1" data-bs-toggle="modal"
-                      data-bs-target="#modalEditar">Editar</a>
-                    <a href="#" class="btn btn-danger p-1">Eliminar</a>
-                  </td>
-                </tr>
-
-              </tbody>
-            </table>
-          </div>
-
-          <!-- Paginación -->
-          <nav aria-label="Page navigation example" class="d-flex justify-content-end ">
-            <ul class="pagination">
-              <li class="page-item">
-                <a class="page-link" href="#" aria-label="Previous">
-                  <span aria-hidden="true">&laquo;</span>
-                </a>
-              </li>
-              <li class="page-item"><a class="page-link" href="#">1</a></li>
-              <li class="page-item"><a class="page-link" href="#">2</a></li>
-              <li class="page-item"><a class="page-link" href="#">3</a></li>
-              <li class="page-item">
-                <a class="page-link" href="#" aria-label="Next">
-                  <span aria-hidden="true">&raquo;</span>
-                </a>
-              </li>
-            </ul>
-          </nav>
-          <footer class="py-4 bg-light mt-auto">
-            <div class="container-fluid px-4">
-              <div class="d-flex align-items-center justify-content-between small">
-
-              </div>
-            </div>
-          </footer>
-
+            </main>
         </div>
     </div>
-  </div>
+    <script src="../js/bootstrap.bundle.min.js"></script>
+    <script>
+        const API_INGRESO_PRODUCTO = 'http://localhost/cusquena/backend/api/controllers/gestionHistorialIngreso.php';
+        const API_PRODUCTO = 'http://localhost/cusquena/backend/api/controllers/gestionProducto.php';
 
+        // Inicializar Flatpickr para el campo de fecha en el modal de Agregar
+        document.addEventListener('DOMContentLoaded', () => {
+            flatpickr("#fechaIngreso", {
+                dateFormat: "d/m/Y", // Formato dd/mm/yyyy
+                allowInput: true, // Permitir entrada manual
+                placeholder: "dd/mm/aaaa"
+            });
 
-  <script src="../js/bootstrap.bundle.min.js"></script>
+            listarIngresos();
+            cargarProductosEnSelect('idProducto');
+            cargarProductosEnSelect('editarIdProducto');
+        });
+
+        // Buscar ingreso
+        document.getElementById('btnBuscar').addEventListener('click', () => {
+            const termino = document.getElementById('buscarIngreso').value.trim();
+            listarIngresos(termino);
+        });
+
+        // Agregar ingreso
+        document.getElementById('formAgregar').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const fechaInput = document.getElementById('fechaIngreso').value; // Fecha en formato dd/mm/yyyy
+            let fechaDB;
+
+            // Convertir fecha de dd/mm/yyyy a yyyy-mm-dd para el backend
+            if (fechaInput) {
+                const [day, month, year] = fechaInput.split('/');
+                fechaDB = `${year}-${month}-${day}`;
+            }
+
+            const data = {
+                fechaIngreso: fechaDB,
+                cantidad: parseInt(document.getElementById('cantidad').value),
+                precioCompra: parseFloat(document.getElementById('precioCompra').value),
+                idProducto: document.getElementById('idProducto').value,
+                detalle: document.getElementById('detalle').value
+            };
+
+            if (!data.fechaIngreso || !data.cantidad || !data.precioCompra || !data.idProducto) {
+                alert("Por favor, completa todos los campos requeridos.");
+                return;
+            }
+
+            try {
+                const res = await fetch(API_INGRESO_PRODUCTO, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                const result = await res.json();
+                alert(result.message);
+                listarIngresos();
+                document.getElementById('formAgregar').reset();
+                document.querySelector('#miModal .btn-close').click();
+            } catch (error) {
+                alert('Error al agregar el ingreso.');
+                console.error(error);
+            }
+        });
+
+        // Editar ingreso
+        document.getElementById('formEditar').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const data = {
+                idIngresoProducto: document.getElementById('editarIdIngresoProducto').value,
+                fechaIngreso: document.getElementById('editarFechaIngreso').value,
+                cantidad: parseInt(document.getElementById('editarCantidad').value),
+                precioCompra: parseFloat(document.getElementById('editarPrecioCompra').value),
+                idProducto: document.getElementById('editarIdProducto').value,
+                detalle: document.getElementById('editarDetalle').value
+            };
+
+            try {
+                const res = await fetch(API_INGRESO_PRODUCTO, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                const result = await res.json();
+                alert(result.message);
+                listarIngresos();
+                document.querySelector('#modalEditar .btn-close').click();
+            } catch (error) {
+                alert('Error al actualizar el ingreso.');
+                console.error(error);
+            }
+        });
+
+        async function listarIngresos(buscar = '') {
+            const tbody = document.getElementById('tablaIngresos');
+            tbody.innerHTML = '';
+            const url = buscar ? `${API_INGRESO_PRODUCTO}?buscar=${encodeURIComponent(buscar)}` : API_INGRESO_PRODUCTO;
+
+            try {
+                const res = await fetch(url);
+                const data = await res.json();
+                
+                if (data.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="7">No se encontraron resultados</td></tr>';
+                    return;
+                }
+
+                data.forEach(ingreso => {
+                    const fila = document.createElement('tr');
+                    fila.innerHTML = `
+                        <td>${ingreso.idIngresoProducto}</td>
+                        <td>${formatearFechaVista(ingreso.fechaIngreso)}</td>
+                        <td>${ingreso.cantidad}</td>
+                        <td>S/.${parseFloat(ingreso.precioCompra).toFixed(2)}</td>
+                        <td>${ingreso.productoDescripcion}</td>
+                        <td>${ingreso.detalle || '-'}</td>
+                        <td>
+                            <button class="btn btn-success btn-sm" onclick='llenarModalEditar(${JSON.stringify(ingreso)})' data-bs-toggle="modal" data-bs-target="#modalEditar">Editar</button>
+                            <button class="btn btn-danger btn-sm" onclick="eliminarIngreso(${ingreso.idIngresoProducto})">Eliminar</button>
+                        </td>
+                    `;
+                    tbody.appendChild(fila);
+                });
+            } catch (error) {
+                tbody.innerHTML = '<tr><td colspan="7">Error al cargar los datos</td></tr>';
+                console.error(error);
+            }
+        }
+
+        function llenarModalEditar(ingreso) {
+            document.getElementById('editarIdIngresoProducto').value = ingreso.idIngresoProducto;
+            document.getElementById('editarFechaIngreso').value = ingreso.fechaIngreso;
+            document.getElementById('editarCantidad').value = ingreso.cantidad;
+            document.getElementById('editarPrecioCompra').value = ingreso.precioCompra;
+            cargarProductosEnSelect('editarIdProducto', ingreso.idProducto);
+            document.getElementById('editarDetalle').value = ingreso.detalle || '';
+        }
+
+        function formatearFechaVista(fechaBD) {
+            const [a, m, d] = fechaBD.split("-");
+            return `${d}-${m}-${a}`;
+        }
+
+        async function cargarProductosEnSelect(idSelect, idSeleccionado = null) {
+            try {
+                const res = await fetch(API_PRODUCTO);
+                const data = await res.json();
+                const select = document.getElementById(idSelect);
+                select.innerHTML = '<option value="">--SELECCIONAR--</option>';
+                data.forEach(prod => {
+                    const option = document.createElement('option');
+                    option.value = prod.idProducto;
+                    option.textContent = prod.descripcion;
+                    if (idSeleccionado && prod.idProducto == idSeleccionado) {
+                        option.selected = true;
+                    }
+                    select.appendChild(option);
+                });
+            } catch (error) {
+                console.error('Error al cargar productos:', error);
+            }
+        }
+
+        async function eliminarIngreso(idIngresoProducto) {
+            if (!confirm('¿Estás seguro de eliminar este ingreso?')) return;
+
+            try {
+                const res = await fetch(API_INGRESO_PRODUCTO, {
+                    method: 'DELETE',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ idIngresoProducto })
+                });
+                const result = await res.json();
+                alert(result.message);
+                listarIngresos();
+            } catch (error) {
+                alert('Error al eliminar el ingreso.');
+                console.error(error);
+            }
+        }
+    </script>
 </body>
-
 </html>

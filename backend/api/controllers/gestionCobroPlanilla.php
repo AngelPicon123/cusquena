@@ -104,13 +104,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'PUT') {
 }
 
 // ELIMINAR SEGURO DE PLANILLA
+
 if ($_SERVER['REQUEST_METHOD'] == 'DELETE') {
     $data = json_decode(file_get_contents("php://input"), true);
-    $idSeguroPlanilla = $data['idSeguroPlanilla'];
 
-    $stmt = $conn->prepare("DELETE FROM SeguroPlanilla WHERE idSeguroPlanilla = :idSeguroPlanilla");
-    $stmt->execute(['idSeguroPlanilla' => $idSeguroPlanilla]);
+    if (!isset($data['id'])) {
+        echo json_encode(["error" => "ID no proporcionado"]);
+        exit();
+    }
 
-    echo json_encode(["message" => "Seguro de planilla eliminado correctamente"]);
+    $stmt = $conn->prepare("DELETE FROM SeguroPlanilla WHERE idSeguroPlanilla = :id");
+    $stmt->bindParam(':id', $data['id'], PDO::PARAM_INT);
+
+    if ($stmt->execute()) {
+        echo json_encode(["message" => "Seguro de planilla eliminado correctamente"]);
+    } else {
+        echo json_encode(["error" => "Error al eliminar el seguro de planilla"]);
+    }
+    exit();
 }
+
 ?>
