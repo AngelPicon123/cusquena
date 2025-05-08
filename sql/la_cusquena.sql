@@ -99,20 +99,6 @@ CREATE TABLE cotizacion (
 -- --------------------------------------------------------
 
 --
--- Table structure for table detalleventaproducto
---
-
-CREATE TABLE detalleventaproducto (
-  idDetalleVentaProducto int(11) NOT NULL,
-  precioUnitario decimal(10,2) DEFAULT NULL,
-  cantidad int(11) DEFAULT NULL,
-  idVentaProducto int(11) DEFAULT NULL,
-  idProducto int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table gastos
 --
 
@@ -296,13 +282,13 @@ INSERT INTO usuarios (id, usuario, contrasena, correo, rol, estado) VALUES
 -- Table structure for table ventaproducto
 --
 
-CREATE TABLE ventaproducto (
-  idVentaProducto int(11) NOT NULL,
+CREATE TABLE venta_producto (
+  idVentaP int(11) NOT NULL,
+  idProducto int(11) NOT NULL,
   descripcion varchar(255) NOT NULL,
   precioUnitario decimal(10,2) NOT NULL,
   cantidad int(11) NOT NULL,
-  subtotal decimal(10,2) NOT NULL,
-  fecha date NOT NULL,
+  fechaVenta date NOT NULL,
   total decimal(10,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -357,13 +343,6 @@ ALTER TABLE cotizacion
   ADD KEY idConductor (idConductor),
   ADD KEY fk_cotizacion_tipo (idTipoConductor);
 
---
--- Indexes for table detalleventaproducto
---
-ALTER TABLE detalleventaproducto
-  ADD PRIMARY KEY (idDetalleVentaProducto),
-  ADD KEY idVentaProducto (idVentaProducto),
-  ADD KEY idProducto (idProducto);
 
 --
 -- Indexes for table gastos
@@ -433,9 +412,9 @@ ALTER TABLE usuarios
 --
 -- Indexes for table ventaproducto
 --
-ALTER TABLE ventaproducto
-  ADD PRIMARY KEY (idVentaProducto);
-
+ALTER TABLE venta_producto
+  ADD PRIMARY KEY (idVentaP),
+  ADD KEY idProducto (idProducto);
 --
 -- Indexes for table venta_servicio
 --
@@ -470,12 +449,6 @@ ALTER TABLE conductor
 --
 ALTER TABLE cotizacion
   MODIFY idCotizacion int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table detalleventaproducto
---
-ALTER TABLE detalleventaproducto
-  MODIFY idDetalleVentaProducto int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table gastos
@@ -534,8 +507,8 @@ ALTER TABLE usuarios
 --
 -- AUTO_INCREMENT for table ventaproducto
 --
-ALTER TABLE ventaproducto
-  MODIFY idVentaProducto int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+ALTER TABLE venta_producto
+  MODIFY idVentaP int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table venta_servicio
@@ -568,17 +541,11 @@ ALTER TABLE cotizacion
   ADD CONSTRAINT fk_cotizacion_tipo FOREIGN KEY (idTipoConductor) REFERENCES tipo_de_conductor(idTipoConductor);
 
 --
--- Constraints for table detalleventaproducto
---
-ALTER TABLE detalleventaproducto
-  ADD CONSTRAINT detalleventaproducto_ibfk_1 FOREIGN KEY (idVentaProducto) REFERENCES ventaproducto (idVentaProducto),
-  ADD CONSTRAINT detalleventaproducto_ibfk_2 FOREIGN KEY (idProducto) REFERENCES producto (idProducto);
-
---
 -- Constraints for table ingresoproducto
 --
 ALTER TABLE ingresoproducto
   ADD CONSTRAINT ingresoproducto_ibfk_1 FOREIGN KEY (idProducto) REFERENCES producto (idProducto);
+
 
 --
 -- Constraints for table producto
@@ -591,6 +558,12 @@ ALTER TABLE producto
 --
 ALTER TABLE soat
   ADD CONSTRAINT soat_ibfk_1 FOREIGN KEY (idConductor) REFERENCES conductor (idConductor);
+
+--
+-- Constraints for table venta_servicio
+--
+ALTER TABLE venta_producto
+  ADD CONSTRAINT venta_producto_ibfk_1 FOREIGN KEY (idProducto) REFERENCES producto (idProducto);
 
 --
 -- Constraints for table venta_servicio
