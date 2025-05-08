@@ -93,7 +93,7 @@
                     </div>
                     <div class="mb-3">
                       <label for="detalle" class="form-label fw-bold">Detalle:</label>
-                      <textarea class="form-control" id="ubicacion" name="ubicacion" rows="3" required></textarea>
+                      <textarea class="form-control" id="detalle" name="detalle" rows="3" required></textarea>
                     </div>
                     <div class="modal-footer d-flex justify-content-center">
                       <button type="submit" class="btn btn-primary">Agregar</button>
@@ -116,12 +116,13 @@
                 <div class="modal-body">
                   <form action="" method="">
                     <div class="mb-3">
+                      <input type="hidden" id="editarId">
                       <label for="descripcion" class="form-label fw-bold">Descripcion:</label>
-                      <input type="number" class="form-control" id="identificador" name="identificador" required>
+                      <input type="text" class="form-control" id="editardescripcion" name="descripcion" required>
                     </div>
                     <div class="mb-3">
-                      <label for="nombre" class="form-label fw-bold">Tipo de Gasto:</label>
-                      <select class="form-select" id="tipo" name="tipo" required>
+                      <label for="tipo" class="form-label fw-bold">Tipo de Gasto:</label>
+                      <select class="form-select" id="editartipo" name="tipo" required>
                         <option value="">Seleccione una opción:</option>
                         <option value="Empresa">Empresa</option>
                         <option value="Lubricentro">Lubricentro</option>
@@ -129,15 +130,15 @@
                     </div>
                     <div class="mb-3">
                       <label for="monto" class="form-label fw-bold">Monto:</label>
-                      <input type="number" class="form-control" id="monto" name="monto" required>
+                      <input type="number" class="form-control" id="editarmonto" name="monto" required>
                     </div>
                     <div class="mb-3">
                       <label for="fecha" class="form-label fw-bold">Fecha:</label>
-                      <input type="date" class="form-control" id="fecha" name="fecha" required>
+                      <input type="date" class="form-control" id="editarfecha" name="fecha" required>
                     </div>
                     <div class="mb-3">
-                      <label for="ubicacion" class="form-label fw-bold">Detalle:</label>
-                      <textarea class="form-control" id="ubicacion" name="ubicacion" rows="3" required></textarea>
+                      <label for="detalle" class="form-label fw-bold">Detalle:</label>
+                      <textarea class="form-control" id="editardetalle" name="detalle" rows="3" required></textarea>
                     </div>
                     <div class="modal-footer d-flex justify-content-center">
                       <button type="submit" class="btn btn-success">Modificar</button>
@@ -201,6 +202,7 @@
     </div>
   </div>
   <script src="../js/bootstrap.bundle.min.js"></script>
+  <script src="../js/functions/gestionGastos.js"></script>
 
 </body>
 
