@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
             $buscar = trim($_GET['buscar']);
             // Verificar si el término de búsqueda es un número entero (probable ID)
             if (is_numeric($buscar) && (int)$buscar == $buscar) {
-                $stmt = $conn->prepare("SELECT i.idIngresoProducto, i.fechaIngreso, i.cantidad, i.precioCompra, 
+                $stmt = $conn->prepare("SELECT i.idIngresoProducto, i.fechaIngreso, i.stock, i.precioCompra, 
                                               i.idProducto, i.detalle, p.descripcion AS productoDescripcion 
                                         FROM IngresoProducto i
                                         LEFT JOIN Producto p ON i.idProducto = p.idProducto
@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
                     $year = $matches[3];
                     $fechaDB = "$year-$month-$day"; // Convertir a yyyy-mm-dd
                     $buscar = "%$fechaDB%";
-                    $stmt = $conn->prepare("SELECT i.idIngresoProducto, i.fechaIngreso, i.cantidad, i.precioCompra, 
+                    $stmt = $conn->prepare("SELECT i.idIngresoProducto, i.fechaIngreso, i.stock, i.precioCompra, 
                                                   i.idProducto, i.detalle, p.descripcion AS productoDescripcion 
                                             FROM IngresoProducto i
                                             LEFT JOIN Producto p ON i.idProducto = p.idProducto
@@ -46,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
                 } else {
                     // Búsqueda por descripción del producto si no es ID ni fecha
                     $buscar = "%" . $buscar . "%";
-                    $stmt = $conn->prepare("SELECT i.idIngresoProducto, i.fechaIngreso, i.cantidad, i.precioCompra, 
+                    $stmt = $conn->prepare("SELECT i.idIngresoProducto, i.fechaIngreso, i.stock, i.precioCompra, 
                                                   i.idProducto, i.detalle, p.descripcion AS productoDescripcion 
                                             FROM IngresoProducto i
                                             LEFT JOIN Producto p ON i.idProducto = p.idProducto
@@ -55,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
                 }
             }
         } else {
-            $stmt = $conn->query("SELECT i.idIngresoProducto, i.fechaIngreso, i.cantidad, i.precioCompra, 
+            $stmt = $conn->query("SELECT i.idIngresoProducto, i.fechaIngreso, i.stock, i.precioCompra, 
                                         i.idProducto, i.detalle, p.descripcion AS productoDescripcion 
                                   FROM IngresoProducto i
                                   LEFT JOIN Producto p ON i.idProducto = p.idProducto");
@@ -69,23 +69,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     }
     exit();
 }
+
 // AGREGAR INGRESO DE PRODUCTO
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     try {
         $data = json_decode(file_get_contents("php://input"), true);
         
-        if (empty($data['fechaIngreso']) || empty($data['cantidad']) || empty($data['precioCompra']) || empty($data['idProducto'])) {
+        if (empty($data['fechaIngreso']) || empty($data['stock']) || empty($data['precioCompra']) || empty($data['idProducto'])) {
             http_response_code(400);
             echo json_encode(["error" => "Todos los campos requeridos deben estar completos"]);
             exit();
         }
 
-        $stmt = $conn->prepare("INSERT INTO IngresoProducto (fechaIngreso, cantidad, precioCompra, idProducto, detalle) 
-                              VALUES (:fechaIngreso, :cantidad, :precioCompra, :idProducto, :detalle)");
+        $stmt = $conn->prepare("INSERT INTO IngresoProducto (fechaIngreso, stock, precioCompra, idProducto, detalle) 
+                              VALUES (:fechaIngreso, :stock, :precioCompra, :idProducto, :detalle)");
         
         $stmt->execute([
             'fechaIngreso' => $data['fechaIngreso'],
-            'cantidad' => (int)$data['cantidad'],
+            'stock' => (int)$data['stock'],
             'precioCompra' => (float)$data['precioCompra'],
             'idProducto' => (int)$data['idProducto'],
             'detalle' => $data['detalle'] ?? ''
@@ -104,7 +105,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'PUT') {
     try {
         $data = json_decode(file_get_contents("php://input"), true);
         
-        if (empty($data['idIngresoProducto']) || empty($data['fechaIngreso']) || empty($data['cantidad']) || 
+        if (empty($data['idIngresoProducto']) || empty($data['fechaIngreso']) || empty($data['stock']) || 
             empty($data['precioCompra']) || empty($data['idProducto'])) {
             http_response_code(400);
             echo json_encode(["error" => "Todos los campos requeridos deben estar completos"]);
@@ -113,7 +114,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'PUT') {
 
         $stmt = $conn->prepare("UPDATE IngresoProducto SET 
                                fechaIngreso = :fechaIngreso,
-                               cantidad = :cantidad, 
+                               stock = :stock, 
                                precioCompra = :precioCompra, 
                                idProducto = :idProducto,
                                detalle = :detalle
@@ -122,7 +123,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'PUT') {
         $stmt->execute([
             'idIngresoProducto' => (int)$data['idIngresoProducto'],
             'fechaIngreso' => $data['fechaIngreso'],
-            'cantidad' => (int)$data['cantidad'],
+            'stock' => (int)$data['stock'],
             'precioCompra' => (float)$data['precioCompra'],
             'idProducto' => (int)$data['idProducto'],
             'detalle' => $data['detalle'] ?? ''

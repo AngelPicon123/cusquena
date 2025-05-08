@@ -148,22 +148,6 @@ INSERT INTO historico_cambios (id, usuario, accion, fecha) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table ingresoproducto
---
-
-CREATE TABLE `ingresoproducto` (
-  idIngresoProducto int(11) NOT NULL,
-  fechaIngreso date DEFAULT NULL,
-  cantidad int(11) DEFAULT NULL,
-  precioCompra decimal(10,2) DEFAULT NULL,
-  idProducto int(11) DEFAULT NULL,
-  detalle text DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-
--- --------------------------------------------------------
-
---
 -- Table structure for table producto
 --
 
@@ -177,6 +161,22 @@ CREATE TABLE producto (
   presentacion text DEFAULT NULL,
   estado enum('Activo','Inactivo') NOT NULL DEFAULT 'Activo'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table ingresoproducto
+--
+
+CREATE TABLE `ingresoproducto` (
+  idIngresoProducto int(11) NOT NULL,
+  fechaIngreso date DEFAULT NULL,
+  stock int(11) NOT NULL DEFAULT 0,
+  precioCompra decimal(10,2) NOT NULL,
+  idProducto int(11) DEFAULT NULL,
+  detalle text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 
 -- --------------------------------------------------------
 

@@ -57,13 +57,13 @@ switch ($accion) {
     break;
 
   case "eliminar":
-    $stmt = $conexion->prepare("DELETE FROM gasto WHERE id=?");
+    $stmt = $conexion->prepare("DELETE FROM gastos WHERE id=?");
     $stmt->execute([$data['id']]);
     echo json_encode(["success" => true]);
     break;
 
   case "obtener":
-    $stmt = $conexion->prepare("SELECT * FROM gasto WHERE id=?");
+    $stmt = $conexion->prepare("SELECT * FROM gastos WHERE id=?");
     $stmt->execute([$data['id']]);
     echo json_encode($stmt->fetch(PDO::FETCH_ASSOC));
     break;

@@ -1,9 +1,9 @@
-    // Variables globales para paginación
-    let currentPage = 1;
-    const itemsPerPage = 5; // Ajusta según necesidad
-    let allConductoresData = [];
-    
-    function aplicarPaginacion() {
+// Variables globales para paginación
+let currentPage = 1;
+const itemsPerPage = 5; // Ajusta según necesidad
+let allConductoresData = [];
+
+function aplicarPaginacion() {
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
     const paginatedData = allConductoresData.slice(startIndex, endIndex);
@@ -55,99 +55,96 @@
     actualizarControlesPaginacion();
 }
     
-    // Función para actualizar controles de paginación
-    function actualizarControlesPaginacion() {
-        const totalPages = Math.ceil(allConductoresData.length / itemsPerPage);
-        const pagination = document.querySelector('.pagination');
-        
-        if (totalPages <= 1) {
-            pagination.style.display = 'none';
-            return;
-        }
-        
-        pagination.style.display = 'flex';
-        pagination.innerHTML = `
-            <li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
-                <a class="page-link" href="#" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                </a>
-            </li>
-        `;
-        
-        for (let i = 1; i <= totalPages; i++) {
-            pagination.innerHTML += `
-                <li class="page-item ${i === currentPage ? 'active' : ''}">
-                    <a class="page-link" href="#">${i}</a>
-                </li>
-            `;
-        }
-        
+function actualizarControlesPaginacion() {
+    const totalPages = Math.ceil(allConductoresData.length / itemsPerPage);
+    const pagination = document.querySelector('.pagination');
+    
+    if (totalPages <= 1) {
+        pagination.style.display = 'none';
+        return;
+    }
+    
+    pagination.style.display = 'flex';
+    pagination.innerHTML = `
+        <li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
+            <a class="page-link" href="#" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+    `;
+    
+    for (let i = 1; i <= totalPages; i++) {
         pagination.innerHTML += `
-            <li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
-                <a class="page-link" href="#" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                </a>
+            <li class="page-item ${i === currentPage ? 'active' : ''}">
+                <a class="page-link" href="#">${i}</a>
             </li>
         `;
-        
-        // Agregar eventos a los controles de paginación
-        document.querySelectorAll('.page-link').forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                const text = this.textContent.trim();
-                
-                if (text === '«' && currentPage > 1) {
-                    currentPage--;
-                } else if (text === '»' && currentPage < totalPages) {
-                    currentPage++;
-                } else if (!isNaN(text)) {
-                    currentPage = parseInt(text);
-                }
-                
-                aplicarPaginacion();
-            });
-        });
     }
     
-    // Modificar tu función recargarTablaConductores
-    function recargarTablaConductores() {
-        fetch("http://localhost/cusquena/backend/api/controllers/vistaConductor/obtenerConductores.php")
-            .then(res => res.json())
-            .then(data => {
-                allConductoresData = data;
-                aplicarPaginacion();
-            })
-            .catch(() => console.error("Error al cargar conductores"));
-    }
+    pagination.innerHTML += `
+        <li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
+            <a class="page-link" href="#" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+    `;
     
-    // Función de búsqueda (modificada para trabajar con paginación)
-    function buscarConductores(termino) {
-        currentPage = 1; // Resetear a primera página al buscar
-        
-        if (!termino) {
+    // Agregar eventos a los controles de paginación
+    document.querySelectorAll('.page-link').forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const text = this.textContent.trim();
+            
+            if (text === '«' && currentPage > 1) {
+                currentPage--;
+            } else if (text === '»' && currentPage < totalPages) {
+                currentPage++;
+            } else if (!isNaN(text)) {
+                currentPage = parseInt(text);
+            }
+            
             aplicarPaginacion();
-            return;
-        }
-        
-        termino = termino.toLowerCase();
-        const resultados = allConductoresData.filter(conductor => 
-            conductor.nombre.toLowerCase().includes(termino) || 
-            conductor.apellido.toLowerCase().includes(termino)
-        );
-        
-        // Mostrar resultados paginados
-        const startIndex = (currentPage - 1) * itemsPerPage;
-        const paginatedData = resultados.slice(startIndex, startIndex + itemsPerPage);
-        
-        const tabla = document.querySelector("tbody");
-        tabla.innerHTML = '';
-        
-        if (resultados.length === 0) {
-            tabla.innerHTML = '<tr><td colspan="11" class="text-center">No se encontraron resultados</td></tr>';
-            document.querySelector('.pagination').style.display = 'none';
-            return;
-        }
+        });
+    });
+}
+
+function recargarTablaConductores() {
+    fetch("http://localhost/cusquena/backend/api/controllers/vistaConductor/obtenerConductores.php")
+        .then(res => res.json())
+        .then(data => {
+            allConductoresData = data;
+            aplicarPaginacion();
+        })
+        .catch(() => console.error("Error al cargar conductores"));
+}
+
+function buscarConductores(termino) {
+    currentPage = 1; // Resetear a primera página al buscar
     
+    if (!termino) {
+        aplicarPaginacion();
+        return;
+    }
+    
+    termino = termino.toLowerCase();
+    const resultados = allConductoresData.filter(conductor => 
+        conductor.nombre.toLowerCase().includes(termino) || 
+        conductor.apellido.toLowerCase().includes(termino)
+    );
+    
+    // Mostrar resultados paginados
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const paginatedData = resultados.slice(startIndex, startIndex + itemsPerPage);
+    
+    const tabla = document.querySelector("tbody");
+    tabla.innerHTML = '';
+    
+    if (resultados.length === 0) {
+        tabla.innerHTML = '<tr><td colspan="11" class="text-center">No se encontraron resultados</td></tr>';
+        document.querySelector('.pagination').style.display = 'none';
+        return;
+    }
+
     // Agregar event listeners a los botones de cotización
     document.querySelectorAll('.cotizacion-btn').forEach(btn => {
         btn.addEventListener('click', function() {
@@ -158,92 +155,91 @@
     
     actualizarControlesPaginacion();
 }
-    
 
-    document.addEventListener("DOMContentLoaded", function () {
-        const formEditar = document.getElementById("formEditarConductor");
-        const formAgregar = document.getElementById("formAgregarConductor");
-        const buscadorInput = document.getElementById('buscadorConductor');
-        const btnBuscar = document.querySelector('button.btn-primary');
-    
-        // Eventos del buscador
-        buscadorInput.addEventListener('input', () => {
-            buscarConductores(buscadorInput.value.trim());
-        });
-        
-        btnBuscar.addEventListener('click', function(e) {
-            e.preventDefault();
-            buscarConductores(buscadorInput.value.trim());
-        });
-    
-      // Delegación de eventos para Editar y Eliminar
-document.addEventListener("click", function (e) {
-    const target = e.target;
+document.addEventListener("DOMContentLoaded", function () {
+    const formEditar = document.getElementById("formEditarConductor");
+    const formAgregar = document.getElementById("formAgregarConductor");
+    const buscadorInput = document.getElementById('buscadorConductor');
+    const btnBuscar = document.querySelector('button.btn-primary');
 
-    // ELIMINAR
-    if (target.classList.contains("btn-danger")) {
-        const idConductor = target.closest("tr").querySelector("td").innerText;
-
-        if (confirm("¿Estás seguro de que quieres eliminar este conductor?")) {
-            const formData = new FormData();
-            formData.append("accion", "eliminar");
-            formData.append("id_conductor", idConductor);
-
-            fetch("http://localhost/cusquena/backend/api/controllers/vistaConductor/registrar_conductor.php", {
-                method: "POST",
-                body: formData
-            })
-            .then(res => res.json())
-            .then(data => {
-                if (data.exito) {
-                    mostrarToast("✅ Conductor eliminado correctamente");
-                    recargarTablaConductores();
-                } else {
-                    mostrarToast("❌ Error al eliminar conductor", true);
-                }
-            })
-            .catch(() => mostrarToast("❌ Error de red", true));
-        }
-    }
-
-       // EDITAR
-if (target.classList.contains("btn-success") && target.dataset.bsTarget === "#modalEditar") {
-    const fila = target.closest("tr");
-    const celdas = fila.querySelectorAll("td");
-
-    // Datos básicos (igual que antes)
-    document.getElementById("id_conductor").value = celdas[0].innerText;
-    document.getElementById("nombreEditar").value = celdas[1].innerText;
-    document.getElementById("apellidoEditar").value = celdas[2].innerText;
-    document.getElementById("telefonoEditar").value = celdas[3].innerText;
-    document.getElementById("dniEditar").value = celdas[4].innerText;
-    document.getElementById("placaEditar").value = celdas[5].innerText;
-    
-    // Estado
-    // En el evento de editar, asegura minúsculas para el estado
-    document.getElementById("estadoEditar").value = celdas[8].innerText.trim().toLowerCase();
-    
-    // Detalle
-    document.getElementById("detalleEditar").value = celdas[9].innerText;
-    
-    // TIPO DE CONDUCTOR (CORRECCIÓN CLAVE)
-    const tipoConductorId = celdas[7].innerText.trim(); // ¡Ahora usamos celdas[7]!
-    console.log("ID Tipo Conductor a cargar:", tipoConductorId); // Verificación
-
-    // Cargar y seleccionar el tipo
-         cargarTiposConductor('idTipoConductorEditar').then(() => {
-        const select = document.getElementById("idTipoConductorEditar");
-        select.value = tipoConductorId; // Asignación directa
-        
-        console.log("Valor seleccionado:", select.value); // Verificación
+    // Eventos del buscador
+    buscadorInput.addEventListener('input', () => {
+        buscarConductores(buscadorInput.value.trim());
     });
-}
-});
-  // ENVÍO FORMULARIO DE EDICIÓN
+    
+    btnBuscar.addEventListener('click', function(e) {
+        e.preventDefault();
+        buscarConductores(buscadorInput.value.trim());
+    });
+
+    // Delegación de eventos para Editar y Eliminar
+    document.addEventListener("click", function (e) {
+        const target = e.target;
+
+        // ELIMINAR
+        if (target.classList.contains("btn-danger")) {
+            const idConductor = target.closest("tr").querySelector("td").innerText;
+
+            if (confirm("¿Estás seguro de que quieres eliminar este conductor?")) {
+                const formData = new FormData();
+                formData.append("accion", "eliminar");
+                formData.append("id_conductor", idConductor);
+
+                fetch("http://localhost/cusquena/backend/api/controllers/vistaConductor/registrar_conductor.php", {
+                    method: "POST",
+                    body: formData
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.exito) {
+                        mostrarToast("✅ Conductor eliminado correctamente");
+                        recargarTablaConductores();
+                    } else {
+                        mostrarToast("❌ Error al eliminar conductor", true);
+                    }
+                })
+                .catch(() => mostrarToast("❌ Error de red", true));
+            }
+        }
+
+        // EDITAR
+        if (target.classList.contains("btn-success") && target.dataset.bsTarget === "#modalEditar") {
+            const fila = target.closest("tr");
+            const celdas = fila.querySelectorAll("td");
+
+            // Datos básicos
+            document.getElementById("id_conductor").value = celdas[0].innerText;
+            document.getElementById("nombreEditar").value = celdas[1].innerText;
+            document.getElementById("apellidoEditar").value = celdas[2].innerText;
+            document.getElementById("telefonoEditar").value = celdas[3].innerText;
+            document.getElementById("dniEditar").value = celdas[4].innerText;
+            document.getElementById("placaEditar").value = celdas[5].innerText;
+            
+            // Estado
+            document.getElementById("estadoEditar").value = celdas[8].innerText.trim().toLowerCase();
+            
+            // Detalle
+            document.getElementById("detalleEditar").value = celdas[9].innerText;
+            
+            // TIPO DE CONDUCTOR
+            const tipoConductorId = celdas[7].innerText.trim();
+            console.log("ID Tipo Conductor a cargar:", tipoConductorId);
+
+            // Cargar y seleccionar el tipo
+            cargarTiposConductor('idTipoConductorEditar').then(() => {
+                const select = document.getElementById("idTipoConductorEditar");
+                select.value = tipoConductorId;
+                
+                console.log("Valor seleccionado:", select.value);
+            });
+        }
+    });
+
+    // ENVÍO FORMULARIO DE EDICIÓN
     formEditar.addEventListener("submit", function (e) {
         e.preventDefault();
         const formData = new FormData(formEditar);
-  
+
         fetch("http://localhost/cusquena/backend/api/controllers/vistaConductor/registrar_conductor.php", {
             method: "POST",
             body: formData
@@ -260,70 +256,68 @@ if (target.classList.contains("btn-success") && target.dataset.bsTarget === "#mo
         })
         .catch(() => mostrarToast("❌ Error de red", true));
     });
-  
-  // obtener tipos de conductor
-  
-// Función para cargar tipos de conductor (reutilizable)
-function cargarTiposConductor(selectId) {
-    return new Promise((resolve, reject) => {
-        fetch("../../backend/api/controllers/vistaConductor/obtener_tipos_conductor.php")
-            .then(response => response.json())
-            .then(data => {
-                const select = document.getElementById(selectId);
-                if (!select) {
-                    reject("Elemento select no encontrado");
-                    return;
-                }
-                
-                select.innerHTML = '<option value="" disabled selected>Seleccionar tipo...</option>';
-                data.forEach(tipo => {
-                    const option = document.createElement("option");
-                    option.value = tipo.id;
-                    option.textContent = tipo.nombre;
-                    select.appendChild(option);
+
+    // Función para cargar tipos de conductor
+    function cargarTiposConductor(selectId) {
+        return new Promise((resolve, reject) => {
+            fetch("../../backend/api/controllers/vistaConductor/obtener_tipos_conductor.php")
+                .then(response => response.json())
+                .then(data => {
+                    const select = document.getElementById(selectId);
+                    if (!select) {
+                        reject("Elemento select no encontrado");
+                        return;
+                    }
+                    
+                    select.innerHTML = '<option value="" disabled selected>Seleccionar tipo...</option>';
+                    data.forEach(tipo => {
+                        const option = document.createElement("option");
+                        option.value = tipo.id;
+                        option.textContent = tipo.nombre;
+                        select.appendChild(option);
+                    });
+                    resolve();
+                })
+                .catch(error => {
+                    console.error("Error al cargar tipos de conductor:", error);
+                    mostrarToast("❌ Error al cargar tipos de conductor", true);
+                    reject(error);
                 });
-                resolve();
-            })
-            .catch(error => {
-                console.error("Error al cargar tipos de conductor:", error);
-                mostrarToast("❌ Error al cargar tipos de conductor", true);
-                reject(error);
-            });
+        });
+    }
+
+    // cargar tipo de conductor para el modal registro
+    document.getElementById("miModal").addEventListener("show.bs.modal", function() {
+        cargarTiposConductor('idTipoConductor');
     });
-}
 
-// cargar tipo de conductor para el modal registro
-document.getElementById("miModal").addEventListener("show.bs.modal", function() {
-    cargarTiposConductor('idTipoConductor'); // Select del modal registrar
-});
+    // Para el modal de edición
+    document.getElementById("modalEditar").addEventListener("show.bs.modal", function() {
+        cargarTiposConductor('idTipoConductorEditar');
+    });
 
-// Para el modal de edición
-document.getElementById("modalEditar").addEventListener("show.bs.modal", function() {
-    cargarTiposConductor('idTipoConductorEditar'); // Select del modal editar
-});
+    // REGISTRAR CONDUCTOR
+    formAgregar.addEventListener("submit", function (e) {
+        e.preventDefault();
+        const formData = new FormData(formAgregar);
 
-// REGISTRAR CONDUCTOR
-formAgregar.addEventListener("submit", function (e) {
-    e.preventDefault();
-    const formData = new FormData(formAgregar);
-
-    fetch("../../backend/api/controllers/vistaConductor/registrar_conductor.php", {
-        method: "POST",
-        body: formData
-    })
-    .then(res => res.json())
-    .then(data => {
-        if (data.exito) {
-            mostrarToast("✅ Conductor registrado correctamente");
-            formAgregar.reset();
-            bootstrap.Modal.getInstance(document.getElementById("miModal")).hide();
-            recargarTablaConductores();
-        } else {
-            mostrarToast("❌ Error al registrar: " + (data.error || "Error desconocido"), true);
-        }
-    })
-    .catch(() => mostrarToast("❌ Error de conexión", true));
-});
+        fetch("../../backend/api/controllers/vistaConductor/registrar_conductor.php", {
+            method: "POST",
+            body: formData
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.exito) {
+                mostrarToast("✅ Conductor registrado correctamente");
+                formAgregar.reset();
+                bootstrap.Modal.getInstance(document.getElementById("miModal")).hide();
+                recargarTablaConductores();
+            } else {
+                mostrarToast("❌ Error al registrar: " + (data.error || "Error desconocido"), true);
+            }
+        })
+        .catch(() => mostrarToast("❌ Error de conexión", true));
+    });
 
     // CARGAR TABLA INICIAL
     recargarTablaConductores();
@@ -376,7 +370,7 @@ modalVer.addEventListener('show.bs.modal', async function(event) {
             }
         }
         
-        // 3. Cargar datos del conductor (usando tu endpoint existente)
+        // 3. Cargar datos del conductor
         const conductorResponse = await fetch(`http://localhost/cusquena/backend/api/controllers/vistaConductor/obtenerSoat.php?idConductor=${idConductor}`);
         if (!conductorResponse.ok) throw new Error(`HTTP error! status: ${conductorResponse.status}`);
         const conductorData = await conductorResponse.json();
@@ -398,7 +392,7 @@ modalVer.addEventListener('show.bs.modal', async function(event) {
             document.getElementById('vencimientoVer').value = soatData.fechaProxMantenimiento || '';
             document.getElementById('numsoatVer').value = soatData.nombre || '';
             
-            // Cambiar texto del botón SOLO si el elemento existe
+            // Cambiar texto del botón
             const btnGuardar = document.getElementById('btnGuardarSoat');
             const tituloModal = document.getElementById('tituloModalSoat');
             
@@ -410,7 +404,7 @@ modalVer.addEventListener('show.bs.modal', async function(event) {
             document.getElementById('vencimientoVer').value = '';
             document.getElementById('numsoatVer').value = '';
             
-            // Cambiar texto del botón SOLO si el elemento existe
+            // Cambiar texto del botón
             const btnGuardar = document.getElementById('btnGuardarSoat');
             const tituloModal = document.getElementById('tituloModalSoat');
             
@@ -428,12 +422,12 @@ document.getElementById('formVerSoat').addEventListener('submit', async function
 
     try {
         const formData = {
-          idConductor: document.getElementById('idConductorHidden').value,
-          fechaMantenimiento: document.getElementById('emisionVer').value,
-          fechaProxMantenimiento: document.getElementById('vencimientoVer').value,
-          nombre: document.getElementById('numsoatVer').value,
-          apellido: document.getElementById('apellidoVer').value,
-          estado: 'activo'
+            idConductor: document.getElementById('idConductorHidden').value,
+            fechaMantenimiento: document.getElementById('emisionVer').value,
+            fechaProxMantenimiento: document.getElementById('vencimientoVer').value,
+            nombre: document.getElementById('numsoatVer').value,
+            apellido: document.getElementById('apellidoVer').value,
+            estado: 'activo'
         };
 
         // Validación básica
@@ -489,13 +483,12 @@ async function cargarDatosConductor(idConductor) {
         document.getElementById('id_conductor_cotizacion').value = idConductor;
         
         if (tipoConductor) {
-          document.getElementById('tipoCotizacion').value = tipoConductor.nombre;
-          document.getElementById('idTipoConductorHidden').value = tipoConductor.id; // 👈 Aquí se guarda el ID real
-          document.getElementById('Cotizacion').value = `S/. ${tipoConductor.monto_paga} (${tipoConductor.tipo_paga})`;
-          document.getElementById('descripcion').value = tipoConductor.descripcion;
-      }
+            document.getElementById('tipoCotizacion').value = tipoConductor.nombre;
+            document.getElementById('idTipoConductorHidden').value = tipoConductor.id;
+            document.getElementById('Cotizacion').value = `S/. ${tipoConductor.monto_paga} (${tipoConductor.tipo_paga})`;
+            document.getElementById('descripcion').value = tipoConductor.descripcion;
+        }
 
-        
     } catch (error) {
         console.error('Error:', error);
         mostrarToast('Error al cargar datos del conductor', true);
@@ -551,10 +544,9 @@ document.getElementById('formCotizacion').addEventListener('submit', async funct
         }
         
         alert(data.mensaje || '✅ Cotización registrada correctamente');
-          const modalElement = document.getElementById('modalCotizacion');
-          const modalInstance = bootstrap.Modal.getInstance(modalElement);
-          modalInstance.hide();
-
+        const modalElement = document.getElementById('modalCotizacion');
+        const modalInstance = bootstrap.Modal.getInstance(modalElement);
+        modalInstance.hide();
         
     } catch (error) {
         console.error('Error completo:', error);
