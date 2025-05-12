@@ -10,9 +10,11 @@
   <title>Lubricentro Cusqueña</title>
   <link href="../css/bootstrap.css" rel="stylesheet" />
   <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+  <!-- Agregar jsPDF desde un CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 
-<body  class="sb-nav-fixed">
+<body class="sb-nav-fixed">
   <!-- Navbar Superior (fijo) -->
   <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark fixed-top">
     <a class="navbar-brand ps-3" href="base.html">La Cusqueña</a>
@@ -42,63 +44,50 @@
 
     <div id="layoutSidenav_content">
       <main class="container-xl my-2 col-12 mx-auto">
-        <div class="container-fluid px-4 ">
-          <h1 class="mt-4 text-center mb-4 ">Balances de productos</h1>
+        <div class="container-fluid px-4">
+          <h1 class="mt-4 text-center mb-4">Balances de productos</h1>
           <div class="row">
             <div class="col-12 d-flex justify-content-between align-items-center flex-wrap">
               <div class="d-flex align-items-center flex-wrap">
-                <button class="btn btn-primary mb-2 me-2">Buscar</button>
-                <label for="fecha" class="form-label fw-bold me-2">Fecha Inicio:</label>
-                <input type="date" class="form-control me-2 mb-2" style="width: 130px">
-                <label for="fecha" class="form-label fw-bold me-2">Fecha Fin:</label>
-                <input type="date" class="form-control me-2 mb-2" style="width: 130px">
+                <button id="btnBuscar" class="btn btn-primary mb-2 me-2">Buscar</button>
+                <label for="inicio" class="form-label fw-bold me-2">Fecha Inicio:</label>
+                <input type="date" id="inicio" class="form-control me-2 mb-2" style="width: 130px">
+                <label for="fin" class="form-label fw-bold me-2">Fecha Fin:</label>
+                <input type="date" id="fin" class="form-control me-2 mb-2" style="width: 130px">
               </div>
               <div class="d-flex align-items-center flex-wrap">
-                <button onclick="window.print()" class="btn btn-primary me-2 mb-2">Imprimir</button>
-                <button class="btn btn-primary mb-2">Exportar PDF</button>
+                <button id="btnImprimir" class="btn btn-primary me-2 mb-2">Imprimir</button>
+                <button id="exportarPdf" class="btn btn-primary mb-2">Exportar PDF</button>
               </div>
             </div>
-  
-          <div class="table-responsive my-3">
-            <table class="table  table-bordered table-hover text-center">
-              <thead>
-                <tr class="table-dark">
-                  <th>Producto</th>
-                  <th>Categoria</th>
-                  <th>Ingresos productos</th>
-                  <th>Stock</th>
-                  <th>Precios unitarios</th>
-                  <th>Vendidos</th>
-                  <th>Subtotal</th>
-                  <th>Fecha</th>
-                </tr>
-              </thead>
-              <tbody class="align-middle">
-                <tr>
-                  <td>---</td>
-                  <td>---</td>
-                  <td>---</td>
-                  <td>---</td>
-                  <td>---</td>
-                  <td>---</td>
-                  <td>---</td>
-                  <td>23-05-25</td>
-                </tr>
-              </tbody>
-            </table>
+
+            <div class="table-responsive my-3">
+              <table class="table table-bordered table-hover text-center">
+                <thead>
+                  <tr class="table-dark">
+                    <th>Descripción</th>
+                    <th>Precio Unitario</th>
+                    <th>Cantidad</th>
+                    <th>Subtotal</th>
+                    <th>Fecha</th>
+                  </tr>
+                </thead>
+                <tbody id="tablaDatos" class="align-middle">
+                  <!-- Los datos se llenarán dinámicamente aquí -->
+                </tbody>
+              </table>
+            </div>
+
+            <div class="total-container d-flex align-items-center mt-3">
+              <label for="total" class="form-label fw-bold me-2">TOTAL:</label>
+              <input type="text" id="total" class="form-control form-control-sm me-2 mb-2" style="width: 120px; font-size: 0.8rem;" readonly>
+            </div>
           </div>
-  
-          <div class="total-container d-flex align-items-center mt-3">
-            <label for="total" class="form-label fw-bold me-2 ">TOTAL:</label>
-            <input type="text" class="form-control form-control-sm me-2 mb-2" style="width: 120px; font-size: 0.8rem;">
-          </div>
-          
-          </div>
-          <nav aria-label="Page navigation example" class="d-flex justify-content-end ">
+          <nav aria-label="Page navigation example" class="d-flex justify-content-end">
             <ul class="pagination">
               <li class="page-item">
                 <a class="page-link" href="#" aria-label="Previous">
-                  <span aria-hidden="true">&laquo;</span>
+                  <span aria-hidden="true">«</span>
                 </a>
               </li>
               <li class="page-item"><a class="page-link" href="#">1</a></li>
@@ -106,16 +95,27 @@
               <li class="page-item"><a class="page-link" href="#">3</a></li>
               <li class="page-item">
                 <a class="page-link" href="#" aria-label="Next">
-                  <span aria-hidden="true">&raquo;</span>
+                  <span aria-hidden="true">»</span>
                 </a>
               </li>
             </ul>
           </nav>
         </main>
-  
       </div>
     </div>
-  <script src="../js/bootstrap.bundle.min.js"></script>
 
-</body>
+    <script src="../js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+<style>
+    @media print {
+      #btnImprimir,
+      #exportarPdf,
+        .pagination {
+        display: none;
+      }
+    }
+  </style>
+    <script src="../js/functions/balanceProducto.js"></script>
+  </body>
 </html>

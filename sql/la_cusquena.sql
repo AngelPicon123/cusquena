@@ -282,13 +282,13 @@ INSERT INTO usuarios (id, usuario, contrasena, correo, rol, estado) VALUES
 -- Table structure for table ventaproducto
 --
 
-CREATE TABLE venta_producto (
-  idVentaP int(11) NOT NULL,
-  idProducto int(11) NOT NULL,
+CREATE TABLE ventaproducto (
+  idVentaProducto int(11) NOT NULL,
   descripcion varchar(255) NOT NULL,
   precioUnitario decimal(10,2) NOT NULL,
   cantidad int(11) NOT NULL,
-  fechaVenta date NOT NULL,
+  subtotal decimal(10,2) NOT NULL,
+  fecha date NOT NULL,
   total decimal(10,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -412,9 +412,8 @@ ALTER TABLE usuarios
 --
 -- Indexes for table ventaproducto
 --
-ALTER TABLE venta_producto
-  ADD PRIMARY KEY (idVentaP),
-  ADD KEY idProducto (idProducto);
+ALTER TABLE ventaproducto
+  ADD PRIMARY KEY (idVentaProducto);
 --
 -- Indexes for table venta_servicio
 --
@@ -507,8 +506,8 @@ ALTER TABLE usuarios
 --
 -- AUTO_INCREMENT for table ventaproducto
 --
-ALTER TABLE venta_producto
-  MODIFY idVentaP int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+ALTER TABLE ventaproducto
+  MODIFY idVentaProducto int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table venta_servicio
@@ -558,12 +557,6 @@ ALTER TABLE producto
 --
 ALTER TABLE soat
   ADD CONSTRAINT soat_ibfk_1 FOREIGN KEY (idConductor) REFERENCES conductor (idConductor);
-
---
--- Constraints for table venta_servicio
---
-ALTER TABLE venta_producto
-  ADD CONSTRAINT venta_producto_ibfk_1 FOREIGN KEY (idProducto) REFERENCES producto (idProducto);
 
 --
 -- Constraints for table venta_servicio
