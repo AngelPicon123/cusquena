@@ -81,9 +81,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             exit();
         }
 
+        // Iniciar transacción
+        $conn->beginTransaction();
+
+        // Obtener el stock actual del producto con bloqueo
+        $stmt = $conn->prepare("SELECT stock FROM Producto WHERE idProducto = :idProducto FOR UPDATE");
+        $stmt->execute(['idProducto' => (int)$data['idProducto']]);
+        $producto = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$producto) {
+            $conn->rollBack();
+            http_response_code(404);
+            echo json_encode(["error" => "Producto no encontrado"]);
+            exit();
+        }
+
+        // Insertar el ingreso
         $stmt = $conn->prepare("INSERT INTO IngresoProducto (fechaIngreso, stock, precioCompra, idProducto, detalle) 
                               VALUES (:fechaIngreso, :stock, :precioCompra, :idProducto, :detalle)");
-        
         $stmt->execute([
             'fechaIngreso' => $data['fechaIngreso'],
             'stock' => (int)$data['stock'],
@@ -92,8 +107,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             'detalle' => $data['detalle'] ?? ''
         ]);
 
+        // Actualizar el stock en la tabla Producto
+        $nuevoStock = $producto['stock'] + (int)$data['stock'];
+        $stmt = $conn->prepare("UPDATE Producto SET stock = :stock WHERE idProducto = :idProducto");
+        $stmt->execute([
+            'stock' => $nuevoStock,
+            'idProducto' => (int)$data['idProducto']
+        ]);
+
+        // Confirmar transacción
+        $conn->commit();
+
         echo json_encode(["message" => "Ingreso de producto agregado correctamente"]);
     } catch (PDOException $e) {
+        $conn->rollBack();
         http_response_code(500);
         echo json_encode(["error" => "Error al agregar el ingreso: " . $e->getMessage()]);
     }
@@ -112,6 +139,39 @@ if ($_SERVER['REQUEST_METHOD'] == 'PUT') {
             exit();
         }
 
+        // Iniciar transacción
+        $conn->beginTransaction();
+
+        // Obtener el ingreso actual
+        $stmt = $conn->prepare("SELECT stock, idProducto FROM IngresoProducto WHERE idIngresoProducto = :idIngresoProducto");
+        $stmt->execute(['idIngresoProducto' => (int)$data['idIngresoProducto']]);
+        $ingresoActual = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$ingresoActual) {
+            $conn->rollBack();
+            http_response_code(404);
+            echo json_encode(["error" => "Ingreso no encontrado"]);
+            exit();
+        }
+
+        // Obtener el stock actual del producto con bloqueo
+        $stmt = $conn->prepare("SELECT stock FROM Producto WHERE idProducto = :idProducto FOR UPDATE");
+        $stmt->execute(['idProducto' => (int)$data['idProducto']]);
+        $producto = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$producto) {
+            $conn->rollBack();
+            http_response_code(404);
+            echo json_encode(["error" => "Producto no encontrado"]);
+            exit();
+        }
+
+        // Calcular la diferencia de stock
+        $stockAnterior = $ingresoActual['stock'];
+        $stockNuevo = (int)$data['stock'];
+        $diferenciaStock = $stockNuevo - $stockAnterior;
+
+        // Actualizar el ingreso
         $stmt = $conn->prepare("UPDATE IngresoProducto SET 
                                fechaIngreso = :fechaIngreso,
                                stock = :stock, 
@@ -119,18 +179,36 @@ if ($_SERVER['REQUEST_METHOD'] == 'PUT') {
                                idProducto = :idProducto,
                                detalle = :detalle
                                WHERE idIngresoProducto = :idIngresoProducto");
-
         $stmt->execute([
             'idIngresoProducto' => (int)$data['idIngresoProducto'],
             'fechaIngreso' => $data['fechaIngreso'],
-            'stock' => (int)$data['stock'],
+            'stock' => $stockNuevo,
             'precioCompra' => (float)$data['precioCompra'],
             'idProducto' => (int)$data['idProducto'],
             'detalle' => $data['detalle'] ?? ''
         ]);
 
+        // Actualizar el stock en la tabla Producto
+        $nuevoStockProducto = $producto['stock'] + $diferenciaStock;
+        if ($nuevoStockProducto < 0) {
+            $conn->rollBack();
+            http_response_code(400);
+            echo json_encode(["error" => "El stock no puede ser negativo"]);
+            exit();
+        }
+
+        $stmt = $conn->prepare("UPDATE Producto SET stock = :stock WHERE idProducto = :idProducto");
+        $stmt->execute([
+            'stock' => $nuevoStockProducto,
+            'idProducto' => (int)$data['idProducto']
+        ]);
+
+        // Confirmar transacción
+        $conn->commit();
+
         echo json_encode(["message" => "Ingreso de producto actualizado correctamente"]);
     } catch (PDOException $e) {
+        $conn->rollBack();
         http_response_code(500);
         echo json_encode(["error" => "Error al actualizar el ingreso: " . $e->getMessage()]);
     }
@@ -148,11 +226,59 @@ if ($_SERVER['REQUEST_METHOD'] == 'DELETE') {
             exit();
         }
 
+        // Iniciar transacción
+        $conn->beginTransaction();
+
+        // Obtener el ingreso a eliminar
+        $stmt = $conn->prepare("SELECT stock, idProducto FROM IngresoProducto WHERE idIngresoProducto = :idIngresoProducto");
+        $stmt->execute(['idIngresoProducto' => (int)$data['idIngresoProducto']]);
+        $ingreso = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$ingreso) {
+            $conn->rollBack();
+            http_response_code(404);
+            echo json_encode(["error" => "Ingreso no encontrado"]);
+            exit();
+        }
+
+        // Obtener el stock actual del producto con bloqueo
+        $stmt = $conn->prepare("SELECT stock FROM Producto WHERE idProducto = :idProducto FOR UPDATE");
+        $stmt->execute(['idProducto' => $ingreso['idProducto']]);
+        $producto = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$producto) {
+            $conn->rollBack();
+            http_response_code(404);
+            echo json_encode(["error" => "Producto no encontrado"]);
+            exit();
+        }
+
+        // Verificar que el stock no quede negativo
+        $nuevoStock = $producto['stock'] - $ingreso['stock'];
+        if ($nuevoStock < 0) {
+            $conn->rollBack();
+            http_response_code(400);
+            echo json_encode(["error" => "No se puede eliminar el ingreso: el stock quedaría negativo"]);
+            exit();
+        }
+
+        // Eliminar el ingreso
         $stmt = $conn->prepare("DELETE FROM IngresoProducto WHERE idIngresoProducto = :idIngresoProducto");
         $stmt->execute(['idIngresoProducto' => (int)$data['idIngresoProducto']]);
-        
+
+        // Actualizar el stock en la tabla Producto
+        $stmt = $conn->prepare("UPDATE Producto SET stock = :stock WHERE idProducto = :idProducto");
+        $stmt->execute([
+            'stock' => $nuevoStock,
+            'idProducto' => $ingreso['idProducto']
+        ]);
+
+        // Confirmar transacción
+        $conn->commit();
+
         echo json_encode(["message" => "Ingreso de producto eliminado correctamente"]);
     } catch (PDOException $e) {
+        $conn->rollBack();
         http_response_code(500);
         echo json_encode(["error" => "Error al eliminar el ingreso: " . $e->getMessage()]);
     }

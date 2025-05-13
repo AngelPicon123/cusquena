@@ -1,18 +1,40 @@
 const API_INGRESO_PRODUCTO = 'http://localhost/cusquena/backend/api/controllers/gestionHistorialIngreso.php';
 const API_PRODUCTO = 'http://localhost/cusquena/backend/api/controllers/gestionProducto.php';
 
-// Inicializar Flatpickr para el campo de fecha en el modal de Agregar
+// Inicializar Flatpickr para los campos de fecha
 document.addEventListener('DOMContentLoaded', () => {
     flatpickr("#fechaIngreso", {
-        dateFormat: "d/m/Y", // Formato dd/mm/yyyy
-        allowInput: true, // Permitir entrada manual
+        dateFormat: "d/m/Y",
+        allowInput: true,
+        placeholder: "dd/mm/aaaa",
+        defaultDate: new Date()
+    });
+
+    flatpickr("#editarFechaIngreso", {
+        dateFormat: "d/m/Y",
+        allowInput: true,
         placeholder: "dd/mm/aaaa"
     });
 
     listarIngresos();
     cargarProductosEnSelect('idProducto');
     cargarProductosEnSelect('editarIdProducto');
+
+    // Validar stock y precioCompra en tiempo real
+    const stockInput = document.getElementById('stock');
+    const precioCompraInput = document.getElementById('precioCompra');
+    stockInput.addEventListener('input', validarCamposAgregar);
+    precioCompraInput.addEventListener('input', validarCamposAgregar);
 });
+
+// Validar campos del formulario de agregar
+function validarCamposAgregar() {
+    const stock = parseInt(document.getElementById('stock').value) || 0;
+    const precioCompra = parseFloat(document.getElementById('precioCompra').value) || 0;
+    const idProducto = document.getElementById('idProducto').value;
+    const btnSubmit = document.getElementById('formAgregar').querySelector('button[type="submit"]');
+    btnSubmit.disabled = stock <= 0 || precioCompra <= 0 || !idProducto;
+}
 
 // Buscar ingreso
 document.getElementById('btnBuscar').addEventListener('click', () => {
@@ -23,13 +45,15 @@ document.getElementById('btnBuscar').addEventListener('click', () => {
 // Agregar ingreso
 document.getElementById('formAgregar').addEventListener('submit', async (e) => {
     e.preventDefault();
-    const fechaInput = document.getElementById('fechaIngreso').value; // Fecha en formato dd/mm/yyyy
+    const fechaInput = document.getElementById('fechaIngreso').value; // dd/mm/yyyy
     let fechaDB;
 
-    // Convertir fecha de dd/mm/yyyy a yyyy-mm-dd para el backend
     if (fechaInput) {
         const [day, month, year] = fechaInput.split('/');
-        fechaDB = `${year}-${month}-${day}`;
+        fechaDB = `${year}-${month}-${day}`; // yyyy-mm-dd
+    } else {
+        alert('Por favor, selecciona una fecha válida.');
+        return;
     }
 
     const data = {
@@ -40,8 +64,8 @@ document.getElementById('formAgregar').addEventListener('submit', async (e) => {
         detalle: document.getElementById('detalle').value
     };
 
-    if (!data.fechaIngreso || !data.stock || !data.precioCompra || !data.idProducto) {
-        alert("Por favor, completa todos los campos requeridos.");
+    if (!data.fechaIngreso || data.stock <= 0 || data.precioCompra <= 0 || !data.idProducto) {
+        alert("Por favor, completa todos los campos requeridos con valores válidos.");
         return;
     }
 
@@ -52,12 +76,15 @@ document.getElementById('formAgregar').addEventListener('submit', async (e) => {
             body: JSON.stringify(data)
         });
         const result = await res.json();
+        if (result.error) {
+            throw new Error(result.error);
+        }
         alert(result.message);
         listarIngresos();
         document.getElementById('formAgregar').reset();
         document.querySelector('#miModal .btn-close').click();
     } catch (error) {
-        alert('Error al agregar el ingreso.');
+        alert('Error al agregar el ingreso: ' + error.message);
         console.error(error);
     }
 });
@@ -65,14 +92,30 @@ document.getElementById('formAgregar').addEventListener('submit', async (e) => {
 // Editar ingreso
 document.getElementById('formEditar').addEventListener('submit', async (e) => {
     e.preventDefault();
+    const fechaInput = document.getElementById('editarFechaIngreso').value; // dd/mm/yyyy
+    let fechaDB;
+
+    if (fechaInput) {
+        const [day, month, year] = fechaInput.split('/');
+        fechaDB = `${year}-${month}-${day}`; // yyyy-mm-dd
+    } else {
+        alert('Por favor, selecciona una fecha válida.');
+        return;
+    }
+
     const data = {
         idIngresoProducto: document.getElementById('editarIdIngresoProducto').value,
-        fechaIngreso: document.getElementById('editarFechaIngreso').value,
+        fechaIngreso: fechaDB,
         stock: parseInt(document.getElementById('editarstock').value),
         precioCompra: parseFloat(document.getElementById('editarPrecioCompra').value),
         idProducto: document.getElementById('editarIdProducto').value,
         detalle: document.getElementById('editarDetalle').value
     };
+
+    if (!data.idIngresoProducto || !data.fechaIngreso || data.stock <= 0 || data.precioCompra <= 0 || !data.idProducto) {
+        alert("Por favor, completa todos los campos requeridos con valores válidos.");
+        return;
+    }
 
     try {
         const res = await fetch(API_INGRESO_PRODUCTO, {
@@ -81,11 +124,14 @@ document.getElementById('formEditar').addEventListener('submit', async (e) => {
             body: JSON.stringify(data)
         });
         const result = await res.json();
+        if (result.error) {
+            throw new Error(result.error);
+        }
         alert(result.message);
         listarIngresos();
         document.querySelector('#modalEditar .btn-close').click();
     } catch (error) {
-        alert('Error al actualizar el ingreso.');
+        alert('Error al actualizar el ingreso: ' + error.message);
         console.error(error);
     }
 });
@@ -128,16 +174,34 @@ async function listarIngresos(buscar = '') {
 
 function llenarModalEditar(ingreso) {
     document.getElementById('editarIdIngresoProducto').value = ingreso.idIngresoProducto;
-    document.getElementById('editarFechaIngreso').value = ingreso.fechaIngreso;
+    document.getElementById('editarFechaIngreso').value = formatearFechaVista(ingreso.fechaIngreso);
     document.getElementById('editarstock').value = ingreso.stock;
-    document.getElementById('editarPrecioCompra').value = ingreso.precioCompra;
+    document.getElementById('editarPrecioCompra').value = parseFloat(ingreso.precioCompra).toFixed(2);
     cargarProductosEnSelect('editarIdProducto', ingreso.idProducto);
     document.getElementById('editarDetalle').value = ingreso.detalle || '';
+
+    // Validar campos del formulario de editar
+    const stockInput = document.getElementById('editarstock');
+    const precioCompraInput = document.getElementById('editarPrecioCompra');
+    const idProductoSelect = document.getElementById('editarIdProducto');
+    const btnSubmit = document.getElementById('formEditar').querySelector('button[type="submit"]');
+
+    function validarCamposEditar() {
+        const stock = parseInt(stockInput.value) || 0;
+        const precioCompra = parseFloat(precioCompraInput.value) || 0;
+        const idProducto = idProductoSelect.value;
+        btnSubmit.disabled = stock <= 0 || precioCompra <= 0 || !idProducto;
+    }
+
+    stockInput.addEventListener('input', validarCamposEditar);
+    precioCompraInput.addEventListener('input', validarCamposEditar);
+    idProductoSelect.addEventListener('change', validarCamposEditar);
+    validarCamposEditar();
 }
 
 function formatearFechaVista(fechaBD) {
     const [a, m, d] = fechaBD.split("-");
-    return `${d}-${m}-${a}`;
+    return `${d}/${m}/${a}`; // dd/mm/yyyy
 }
 
 async function cargarProductosEnSelect(idSelect, idSeleccionado = null) {
@@ -161,7 +225,7 @@ async function cargarProductosEnSelect(idSelect, idSeleccionado = null) {
 }
 
 async function eliminarIngreso(idIngresoProducto) {
-    if (!confirm('¿Estás seguro de eliminar este ingreso?')) return;
+    if (!confirm('¿Estás seguro de eliminar este ingreso? Esto afectará el stock del producto.')) return;
 
     try {
         const res = await fetch(API_INGRESO_PRODUCTO, {
@@ -170,10 +234,13 @@ async function eliminarIngreso(idIngresoProducto) {
             body: JSON.stringify({ idIngresoProducto })
         });
         const result = await res.json();
+        if (result.error) {
+            throw new Error(result.error);
+        }
         alert(result.message);
         listarIngresos();
     } catch (error) {
-        alert('Error al eliminar el ingreso.');
+        alert('Error al eliminar el ingreso: ' + error.message);
         console.error(error);
     }
 }

@@ -16,8 +16,21 @@ if ($conn === null) {
     exit();
 }
 
-// LISTAR o BUSCAR PRODUCTOS
+// LISTAR O BUSCAR PRODUCTOS
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+    // Obtener un producto por ID
+    if (isset($_GET['idProducto'])) {
+        $idProducto = $_GET['idProducto'];
+        $stmt = $conn->prepare("SELECT p.*, c.descripcion AS nombreCategoria 
+                                FROM Producto p 
+                                LEFT JOIN categoria c ON p.idCategoria = c.idCategoria 
+                                WHERE p.idProducto = :idProducto");
+        $stmt->execute(['idProducto' => $idProducto]);
+        $producto = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        echo json_encode($producto);
+        exit();
+    }
+
     if (isset($_GET['buscar']) && !empty($_GET['buscar'])) {
         $buscar = "%" . $_GET['buscar'] . "%";
         $stmt = $conn->prepare("SELECT p.idProducto, p.descripcion, p.precioCompra, p.precioVenta, 
@@ -29,7 +42,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
                            OR p.descripcion LIKE :buscar 
                            OR p.estado LIKE :buscar 
                            OR c.descripcion LIKE :buscar");
-
         $stmt->execute(['buscar' => $buscar]);
         $productos = $stmt->fetchAll(PDO::FETCH_ASSOC);
         echo json_encode($productos);
@@ -67,7 +79,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && !isset($_GET['venta'])) {
             (descripcion, precioCompra, precioVenta, stock, idCategoria, presentacion, estado) 
             VALUES 
             (:descripcion, :precioCompra, :precioVenta, :stock, :idCategoria, :presentacion, :estado)");
-
         $stmt->execute([
             'descripcion' => $data['descripcion'],
             'precioCompra' => $data['precioCompra'],
@@ -104,37 +115,39 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_GET['venta'])) {
         $precioUnitario = $data['precioUnitario'];
         $subtotal = $data['subtotal'];
 
-        // Validar stock disponible
-        $stmt = $conn->prepare("SELECT stock FROM Producto WHERE idProducto = :idProducto");
+        // Iniciar transacción
+        $conn->beginTransaction();
+
+        // Bloquear la fila del producto
+        $stmt = $conn->prepare("SELECT stock FROM Producto WHERE idProducto = :idProducto FOR UPDATE");
         $stmt->execute(['idProducto' => $idProducto]);
         $producto = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if (!$producto) {
+            $conn->rollBack();
             http_response_code(404);
             echo json_encode(["error" => "Producto no encontrado"]);
             exit();
         }
 
         if ($cantidad > $producto['stock']) {
+            $conn->rollBack();
             http_response_code(400);
             echo json_encode(["error" => "La cantidad a vender excede el stock disponible"]);
             exit();
         }
-
-        // Iniciar transacción
-        $conn->beginTransaction();
 
         // Insertar la venta
         $stmt = $conn->prepare("INSERT INTO ventaproducto 
                                 (descripcion, precioUnitario, cantidad, subtotal, fecha, total) 
                                 VALUES (:descripcion, :precioUnitario, :cantidad, :subtotal, :fecha, :total)");
         $stmt->execute([
-            'descripcion' => $data['descripcion'] ?? 'Venta de producto', // Usar descripción del producto si está disponible
+            'descripcion' => $data['descripcion'] ?? 'Venta de producto',
             'precioUnitario' => $precioUnitario,
             'cantidad' => $cantidad,
             'subtotal' => $subtotal,
             'fecha' => $fecha,
-            'total' => $subtotal // Por ahora, total es igual a subtotal
+            'total' => $subtotal
         ]);
 
         // Actualizar el stock
@@ -183,7 +196,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'PUT') {
             presentacion = :presentacion,
             estado = :estado 
             WHERE idProducto = :idProducto");
-
         $stmt->execute([
             'idProducto' => $data['idProducto'],
             'descripcion' => $data['descripcion'],
