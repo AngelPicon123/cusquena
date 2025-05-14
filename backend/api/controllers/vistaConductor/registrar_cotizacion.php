@@ -31,7 +31,8 @@ try {
     }
 
     // 4. Extraer monto de la cotización (ej: "S/. 150.50" → 150.50)
-    $monto = (float) preg_replace('/[^0-9.]/', '', $datos['cotizacion']);
+           $partes = explode(' ', $datos['cotizacion']); // Separa "S/.", "25.00", "(diario)"
+            $monto = (float)$partes[1]; // Toma directamente el segundo elemento
 
     // 5. Preparar consulta SQL
     $sql = "INSERT INTO cotizacion (

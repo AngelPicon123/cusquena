@@ -1,3 +1,8 @@
+<?php
+require_once '../../backend/includes/auth.php';
+verificarPermiso(['Secretaria']);
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 
