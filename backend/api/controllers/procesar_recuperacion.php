@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     if ($stmt->rowCount() === 0) {
         $_SESSION['error'] = "No existe una cuenta con ese correo electrónico.";
-        header("Location: ../../cusquena/frontend/pages/recuperar_contrasena.html");
+        header("Location: ../../cusquena/frontend/pages/recuperar_contrasena.php");
         exit();
     }
 

@@ -1,3 +1,8 @@
+<?php
+require_once '../../backend/includes/auth.php';
+verificarPermiso(['Administrador', 'Secretaria']);
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -6,11 +11,11 @@
   <title>Lubricentro Cusqueña</title>
   <link href="../css/bootstrap.css" rel="stylesheet" />
   <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
- </head>
+</head>
 <body class="sb-nav-fixed">
   <!-- Navbar Superior (fijo) -->
   <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark fixed-top">
-    <a class="navbar-brand ps-3" href="base.html">La Cusqueña</a>
+    <a class="navbar-brand ps-3" href="base.php">La Cusqueña</a>
     <button class="btn btn-link btn-sm me-4" id="sidebarToggle">
       <i class="fas fa-bars"></i>
     </button>
@@ -28,7 +33,7 @@
   <div id="layoutSidenav">
     <div id="layoutSidenav_nav">
       <script>
-        fetch('sidebear_Admin.html')
+        fetch('sidebear_Admin.php')
           .then(r => r.text())
           .then(html => document.getElementById('layoutSidenav_nav').innerHTML = html)
           .catch(e => console.error('Error cargando sidebar:', e));
@@ -38,23 +43,25 @@
     <div id="layoutSidenav_content">
       <main class="container-xl my-2 col-10 mx-auto">
         <div class="container-fluid px-4 ">
-          <h1 class="mb-4 text-center">Gestión de Categorias</h1>
-
+          <h1 class="mb-4 text-center">Gestión de Servicios</h1>
           <div class="row">
             <div class="col-12 d-flex justify-content-between align-items-center">
               <div class="d-flex">
-                <input type="text" class="form-control me-2" placeholder="Buscar categoria">
+                <input type="text" class="form-control me-2" placeholder="Buscar servicio">
                 <a href="#" class="btn btn-primary">Buscar</a>
               </div>
-              <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAgregar">Agregar</a>
+              <div class="d-flex gap-2">
+                <a href="#" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalVender">Vender</a>
+                <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAgregar">Agregar</a>
+              </div>
             </div>
           </div>
-          <!-- Modal Agregar -->
+        
           <div class="modal fade " id="modalAgregar">
             <div class="modal-dialog modal-dialog-centered">
               <div class="modal-content">
                 <div class="modal-header ">
-                  <h3 class="modal-title" id="miModalLabel">Registro de Categoria</h3>
+                  <h3 class="modal-title" id="miModalLabel">Registro de Servicio</h3>
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                 </div>
                 <div class="modal-body">
@@ -62,6 +69,10 @@
                     <div class="mb-3">
                       <label for="descripcion" class="form-label fw-bold">Descripción:</label>
                       <input type="text" class="form-control" id="descripcion" name="descripcion" required>
+                    </div>
+                    <div class="mb-3">
+                      <label for="precioUnitario" class="form-label fw-bold">Precio:</label>
+                      <input type="number" class="form-control" id="precioUnitario" name="precioUnitario" required>
                     </div>
                     <div class="mb-3 d-flex align-items-center">
                       <label class="form-label me-3 fw-bold">Estado:</label>
@@ -83,13 +94,13 @@
             </div>
           </div>
           <!-- Fin Modal Agregar -->
-          
+
           <!-- Modal Editar -->
           <div class="modal fade " id="modalEditar">
             <div class="modal-dialog modal-dialog-centered">
               <div class="modal-content">
                 <div class="modal-header ">
-                  <h3 class="modal-title" id="miModalLabel">Actualización de Categoria</h3>
+                  <h3 class="modal-title" id="miModalLabel">Actualización de Servicio</h3>
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                 </div>
                 <div class="modal-body">
@@ -98,6 +109,10 @@
                     <div class="mb-3">
                       <label for="descripcion" class="form-label fw-bold">Descripción:</label>
                       <input type="text" class="form-control" id="editarDescripcion" name="descripcion" required>
+                    </div>
+                    <div class="mb-3">
+                      <label for="precioUnitario" class="form-label fw-bold">Precio:</label>
+                      <input type="number" class="form-control" id="editarPrecioUnitario" name="precioUnitario" required>
                     </div>
                     <div class="mb-3 d-flex align-items-center">
                       <label class="form-label me-3 fw-bold">Estado:</label>
@@ -110,44 +125,73 @@
                         <label class="form-check-label" for="inactivo">Inactivo</label>
                       </div>
                     </div>
-                    <div class="modal-footer d-flex justify-content-center">
-                      <button type="submit" class="btn btn-success">Modificar</button>
-                    </div>
-                  </form>
                 </div>
+                <div class="modal-footer d-flex justify-content-center">
+                  <button type="submit" class="btn btn-success">Modificar</button>
+                </div>
+                </form>
               </div>
             </div>
           </div>
+
           <!-- Fin Modal Editar -->
-          
+
+          <!-- Modal Vender -->
+          <div class="modal fade" id="modalVender" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title" id="miModalLabel">Registro de Venta</h3>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="" method="">
+                            <div class="mb-3">
+                                <label for="venderDescripcion" class="form-label fw-bold">Descripción:</label>
+                                <select class="form-select" id="venderDescripcion" name="descripcion" required>
+                                    <option value="">Seleccione un servicio</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="venderPrecioUnitario" class="form-label fw-bold">Precio:</label>
+                                <input type="number" class="form-control" id="venderPrecioUnitario" name="precioUnitario" disabled>
+                            </div>
+                            <div class="mb-3">
+                                <label for="venderfechaVenta" class="form-label fw-bold">Fecha:</label>
+                                <input type="date" class="form-control" id="venderfechaVenta" name="fechaVenta" required>
+                            </div>
+                            <div id="nuevosServicios"></div>
+                            <div class="modal-footer d-flex justify-content-start">
+                                <input type="text" class="form-control" id="venderTotal" placeholder="Total" disabled>
+                                <button type="button" class="btn btn-primary" id="btnRegistrarVenta">Registrar Venta</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+          </div>
+          <!-- Fin Modal Vender -->
+
           <!-- Tabla -->
           <div class="table-responsive my-4">
             <table class="table  table-bordered table-hover text-center">
               <thead>
                 <tr class="table-dark">
                   <th>ID</th>
-                  <th>Descripcion</th>
+                  <th>Descripción</th>
+                  <th>Precio</th>
                   <th>Estado</th>
                   <th>Acciones</th>
                 </tr>
               </thead>
               <tbody class="align-middle">
                 <tr>
-                  <td>01</td>
-                  <td>Aceite</td>
-                  <td>
-                    <span class="badge bg-success">Activo</span>
-                  </td>
-                  <td>
-                    <a href="#" class="btn btn-success p-1" data-bs-toggle="modal" data-bs-target="#modalEditar">Editar</a>
-                    <a href="#" class="btn btn-danger p-1">Eliminar</a>
-                  </td>
                 </tr>
               </tbody>
             </table>
           </div>
           <!-- Fin Tabla -->
-          
+
           <!-- Paginación -->
           <nav aria-label="Page navigation example" class="d-flex justify-content-end ">
             <ul class="pagination">
@@ -174,8 +218,6 @@
     </div>
   </div>
   <script src="../js/bootstrap.bundle.min.js"></script>
-  <script src="../js/functions/gestionCategoria.js"></script>
-  
+  <script src="../js/functions/gestionServicios.js"></script>
 </body>
-
 </html>

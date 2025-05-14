@@ -1,3 +1,7 @@
+<?php
+require_once '../../backend/includes/auth.php';
+verificarPermiso(['Administrador', 'Secretaria']);
+?>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -15,7 +19,7 @@
 <body>
   <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
     <!-- Navbar Brand-->
-    <a class="navbar-brand ps-3" href="index.html">La Cusqueña</a>
+    <a class="navbar-brand ps-3" href="index.php">La Cusqueña</a>
     <!--Fin Navbar Brand-->
     <!-- Sidebar Toggle-->
     <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i
@@ -36,7 +40,7 @@
   <div id="layoutSidenav">
     <div id="layoutSidenav_nav">
       <script>
-        fetch('sidebear_Admin.html')
+        fetch('sidebear_Admin.php')
           .then(r => r.text())
           .then(html => document.getElementById('layoutSidenav_nav').innerHTML = html)
           .catch(e => console.error('Error cargando sidebar:', e));

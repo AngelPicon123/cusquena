@@ -58,10 +58,10 @@
                 if (data.success) {
                     if (data.cargo === "Administrador") {
                         // Redirigir a cuentaAdmin.php
-                        window.location.href = 'http://localhost/cusquena/frontend/pages/base.html';
+                        window.location.href = 'http://localhost/cusquena/frontend/pages/base.php';
                     } else if (data.cargo === "Secretaria") {
                         // Redirigir a cuentaSecretaria.php
-                        window.location.href = 'http://localhost/cusquena/frontend/pages/base.html';
+                        window.location.href = 'http://localhost/cusquena/frontend/pages/base.php';
                     } else {
                         alert("Cargo no reconocido: " + data.cargo);
                     }

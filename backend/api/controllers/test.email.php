@@ -36,7 +36,7 @@ try {
     $mail->isHTML(true);
     $mail->Subject = 'Recuperación de Contraseña';
     $mail->Body    = 'Hola, este correo fue generado para realizar cambios en tu contraseña. 
-                     <a href="http://localhost/cusquena/cusquena/frontend/pages/contraseña_nueva.html">
+                     <a href="http://localhost/cusquena/cusquena/frontend/pages/contraseña_nueva.php">
                      Haz clic aquí para restablecer tu contraseña</a>';
     
     $mail->send();

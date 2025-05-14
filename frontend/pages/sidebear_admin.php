@@ -8,7 +8,7 @@
           <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
           Gestionar Usuarios
         </a>
-        <a class="nav-link collapsed" href="gestionProducto.html" data-bs-toggle="collapse" data-bs-target="#collapseLayoutsProductos"
+        <a class="nav-link collapsed" href="gestionProducto.php" data-bs-toggle="collapse" data-bs-target="#collapseLayoutsProductos"
           aria-expanded="false" aria-controls="collapseLayouts">
           <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
           Gestionar Productos
@@ -17,16 +17,16 @@
         <div class="collapse" id="collapseLayoutsProductos" aria-labelledby="headingOne"
           data-bs-parent="#sidenavAccordion">
           <nav class="sb-sidenav-menu-nested nav">
-            <a class="nav-link" href="gestionCategoria.html">Gestión de Categorias</a>
-            <a class="nav-link" href="gestionProducto.html">Gestión de Productos</a>
-            <a class="nav-link" href="gestionHistorialIngreso.html">Ingresos de Productos</a>
+            <a class="nav-link" href="gestionCategoria.php">Gestión de Categorias</a>
+            <a class="nav-link" href="gestionProducto.php">Gestión de Productos</a>
+            <a class="nav-link" href="gestionHistorialIngreso.php">Ingresos de Productos</a>
           </nav>
         </div>
-        <a class="nav-link" href="gestionServicio.html">
+        <a class="nav-link" href="gestionServicio.php">
           <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
           Gestionar Servicios
         </a>
-        <a class="nav-link collapsed" href="gestionConductor.html" data-bs-toggle="collapse"
+        <a class="nav-link collapsed" href="gestionConductor.php" data-bs-toggle="collapse"
           data-bs-target="#collapseLayoutsConductores" aria-expanded="false" aria-controls="collapseLayouts">
           <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
           Gestionar Conductores
@@ -35,33 +35,29 @@
         <div class="collapse" id="collapseLayoutsConductores" aria-labelledby="headingOne"
           data-bs-parent="#sidenavAccordion">
           <nav class="sb-sidenav-menu-nested nav">
-            <a class="nav-link" href="gestionConductor.html">Gestión de Conductores</a>
-            <a class="nav-link" href="gestionSoat.html">Lista de SOAT</a>
-            <a class="nav-link" href="gestionCobroPlanilla.html">Cobro de Planilla</a>
+            <a class="nav-link" href="gestionConductor.php">Gestión de Conductores</a>
+            <a class="nav-link" href="gestionSoat.php">Lista de SOAT</a>
+            <a class="nav-link" href="gestionCobroPlanilla.php">Cobro de Planilla</a>
           </nav>
         </div>
-        <a class="nav-link" href="gestionAlquiler.html">
+        <a class="nav-link" href="gestionAlquiler.php">
           <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
           Gestionar Alquileres
         </a>
-        <a class="nav-link" href="gestionGastos.html">
+        <a class="nav-link" href="gestionGastos.php">
           <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
           Gestionar Gastos
         </a>
         <div class="sb-sidenav-menu-heading">Balances</div>
-        <a class="nav-link" href="balanceServicio.html">
+        <a class="nav-link" href="balanceServicio.php">
           <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
           Balance de Servicios
         </a>
-        <a class="nav-link" href="balanceProducto.html">
+        <a class="nav-link" href="balanceProducto.php">
           <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
           Balance de Productos
         </a>
-        <a class="nav-link" href="BalanceGastos.html">
-          <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-          Balance de gastos
-        </a>
-        <a class="nav-link" href="balacenCotizacion.html">
+        <a class="nav-link" href="balacenCotizacion.php">
           <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
           Balance de Cotizaciones
         </a>

@@ -1,3 +1,7 @@
+<?php
+require_once '../../backend/includes/auth.php';
+verificarPermiso(['Administrador']); // Solo administradores pueden acceder
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -12,7 +16,7 @@
 <body class="sb-nav-fixed">
   <!-- Navbar Superior (fijo) -->
   <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark fixed-top">
-    <a class="navbar-brand ps-3" href="base.html">La Cusqueña</a>
+    <a class="navbar-brand ps-3" href="base.php">La Cusqueña</a>
     <button class="btn btn-link btn-sm me-4" id="sidebarToggle">
       <i class="fas fa-bars"></i>
     </button>
@@ -30,7 +34,7 @@
   <div id="layoutSidenav">
     <div id="layoutSidenav_nav">
       <script>
-        fetch('sidebear_Admin.html')
+        fetch('sidebear_Admin.php')
           .then(r => r.text())
           .then(html => document.getElementById('layoutSidenav_nav').innerHTML = html)
           .catch(e => console.error('Error cargando sidebar:', e));
