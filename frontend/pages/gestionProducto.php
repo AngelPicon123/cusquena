@@ -50,7 +50,9 @@ verificarPermiso(['Administrador', 'Secretaria']);
                 <input type="text" class="form-control me-2" id="buscarProducto" placeholder="Buscar producto">
                 <button class="btn btn-primary" id="btnBuscar">Buscar</button>
               </div>
-              <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAgregar">Agregar</a>
+                <?php if ($_SESSION['rol'] === 'Administrador'): ?>
+                <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAgregar">Agregar</a>
+                <?php endif; ?>
             </div>
           </div>
           <!-- Modal Agregar -->

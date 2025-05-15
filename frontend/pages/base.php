@@ -57,7 +57,7 @@
                 <a class="nav-link" href="gestionHistorialIngreso.php">Ingresos de Productos</a>
               </nav>
             </div>
-            <a class="nav-link" href="gestionServicio.html">
+            <a class="nav-link" href="gestionServicio.php">
               <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
               Gestionar Servicios
             </a>
@@ -79,7 +79,7 @@
               <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
               Gestionar Alquileres
             </a>
-            <a class="nav-link" href="gestionGastos.html">
+            <a class="nav-link" href="gestionGastos.php">
               <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
               Gestionar Gastos
             </a>

@@ -50,7 +50,9 @@ verificarPermiso(['Administrador', 'Secretaria']);
                 <input type="text" class="form-control me-2" placeholder="Buscar usuario">
                 <a href="#" class="btn btn-primary">Buscar</a>
               </div>
+              <?php if ($_SESSION['rol'] === 'Administrador'): ?>
               <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAgregar">Agregar</a>
+              <?php endif; ?>
             </div>
           </div>
           <!-- Modal Agregar -->
@@ -216,25 +218,6 @@ verificarPermiso(['Administrador', 'Secretaria']);
                 </tr>
               </thead>
               <tbody class="align-middle">
-                <tr>
-                  <td>01</td>
-                  <td>#RUC</td>
-                  <td>Lucho</td>
-                  <td>987654321</td>
-                  <td>local</td>
-                  <td>01-03-25</td>
-                  <td>mensual</td>
-                  <td>S/750</td>
-                  <td>Av. el sol</td>
-                  <td>
-                    <span class="badge bg-success">Activo</span>
-                  </td>
-                  <td>
-                    <a href="#" class="btn btn-success p-1" data-bs-toggle="modal"
-                      data-bs-target="#modalEditar">Editar</a>
-                    <a href="#" class="btn btn-danger p-1">Eliminar</a>
-                  </td>
-                </tr>
               </tbody>
             </table>
           </div>
@@ -262,6 +245,7 @@ verificarPermiso(['Administrador', 'Secretaria']);
   </div>
   <script src="../js/bootstrap.bundle.min.js"></script>
   <script src="../js/functions/gestionAlquiler.js"></script>
+
 </body>
 
 </html>

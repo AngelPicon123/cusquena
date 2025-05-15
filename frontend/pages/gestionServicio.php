@@ -52,7 +52,9 @@ verificarPermiso(['Administrador', 'Secretaria']);
               </div>
               <div class="d-flex gap-2">
                 <a href="#" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalVender">Vender</a>
+                <?php if ($_SESSION['rol'] === 'Administrador'): ?>
                 <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAgregar">Agregar</a>
+                <?php endif; ?>
               </div>
             </div>
           </div>
@@ -219,5 +221,6 @@ verificarPermiso(['Administrador', 'Secretaria']);
   </div>
   <script src="../js/bootstrap.bundle.min.js"></script>
   <script src="../js/functions/gestionServicios.js"></script>
+  
 </body>
 </html>

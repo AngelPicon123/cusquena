@@ -1,6 +1,6 @@
 <?php
 require_once '../../backend/includes/auth.php';
-verificarPermiso(['Administrador', 'Secretaria']);
+verificarPermiso(['Administrador']);
 ?>
 <!DOCTYPE html>
 <html lang="es">
