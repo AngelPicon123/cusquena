@@ -32,12 +32,22 @@ verificarPermiso(['Administrador', 'Secretaria']);
   </nav>
   <div id="layoutSidenav">
     <div id="layoutSidenav_nav">
+      <?php if ($_SESSION['rol'] === 'Administrador'): ?>
       <script>
         fetch('sidebear_Admin.php')
           .then(r => r.text())
           .then(html => document.getElementById('layoutSidenav_nav').innerHTML = html)
           .catch(e => console.error('Error cargando sidebar:', e));
       </script>
+      <?php endif; ?>
+      <?php if ($_SESSION['rol'] === 'Secretaria'): ?>
+      <script>
+        fetch('sidebear_secre.php')
+          .then(r => r.text())
+          .then(html => document.getElementById('layoutSidenav_nav').innerHTML = html)
+          .catch(e => console.error('Error cargando sidebar:', e));
+      </script>
+      <?php endif; ?>
     </div>
 
     <div id="layoutSidenav_content">
@@ -183,7 +193,9 @@ verificarPermiso(['Administrador', 'Secretaria']);
                   <th>Descripción</th>
                   <th>Precio</th>
                   <th>Estado</th>
+                  <?php if ($_SESSION['rol'] === 'Administrador'): ?>
                   <th>Acciones</th>
+                  <?php endif; ?>
                 </tr>
               </thead>
               <tbody class="align-middle">
@@ -219,8 +231,64 @@ verificarPermiso(['Administrador', 'Secretaria']);
 
     </div>
   </div>
+
+    <!-- Toast Bootstrap Personalizado -->
+  <div id="toastAgregar" class="toast align-items-center border-0 position-fixed bottom-0 end-0 mb-3 me-3 z-3"
+    role="alert" aria-live="assertive" aria-atomic="true" style="min-width: 250px;">
+    <div id="toastHeaderAgregar" class="toast-header bg-success text-white d-flex justify-content-between w-100">
+      <strong id="toastTitleAgregar" class="me-auto"></strong>
+      <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+    <div class="toast-body bg-white text-dark" id="toastMessageAgregar"></div>
+  </div>
+
+  <div id="toastEditar" class="toast align-items-center border-0 position-fixed bottom-0 end-0 mb-3 me-3 z-3"
+    role="alert" aria-live="assertive" aria-atomic="true" style="min-width: 250px; ">
+    <div id="toastHeaderEditar" class="toast-header bg-success text-white">
+      <strong id="toastTitleEditar" class="me-auto"></strong>
+      <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+    <div class="toast-body bg-white text-dark" id="toastMessageEditar"></div>
+  </div>
+
+  <div id="toastEliminar" class="toast align-items-center border-0 position-fixed bottom-0 end-0 mb-3 me-3 z-3"
+    role="alert" aria-live="assertive" aria-atomic="true" style="min-width: 250px;">
+    <div class="toast-header bg-danger text-white">
+      <strong class="me-auto">Eliminación Exitosa</strong>
+      <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+    <div class="toast-body bg-white text-dark" id="toastMessageEliminar">
+
+    </div>
+  </div>
+
+
+  <div class="modal fade" id="modalEliminarConfirmacion" tabindex="-1" aria-labelledby="modalEliminarLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header bg-danger text-white">
+          <h5 class="modal-title" id="modalEliminarLabel">¿Confirmar Eliminación?</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+          ¿Estás seguro de que deseas eliminar este Servicio?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+          <button type="button" class="btn btn-danger" id="btnConfirmarEliminar">Sí, eliminar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="toastContainer" class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 9999;"></div>
+
   <script src="../js/bootstrap.bundle.min.js"></script>
   <script src="../js/functions/gestionServicios.js"></script>
-  
+  <script>
+    const ROL_USUARIO = "<?php echo $_SESSION['rol']; ?>";
+  </script>
+
 </body>
 </html>

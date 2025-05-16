@@ -15,7 +15,7 @@
 <body>
   <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
     <!-- Navbar Brand-->
-    <a class="navbar-brand ps-3" href="base.php">La Cusqueña</a>
+    <a class="navbar-brand ps-3" href="base2.php">La Cusqueña</a>
     <!--Fin Navbar Brand-->
     <!-- Sidebar Toggle-->
     <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i
@@ -39,10 +39,6 @@
         <div class="sb-sidenav-menu">
           <div class="nav">
             <div class="sb-sidenav-menu-heading">Gestión</div>
-            <a class="nav-link" href="gestionUsuario.php">
-              <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-              Gestionar Usuarios
-            </a>
             <a class="nav-link collapsed" href="gestionProducto.php" data-bs-toggle="collapse" data-bs-target="#collapseLayoutsProductos"
               aria-expanded="false" aria-controls="collapseLayouts">
               <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
@@ -52,7 +48,6 @@
             <div class="collapse" id="collapseLayoutsProductos" aria-labelledby="headingOne"
               data-bs-parent="#sidenavAccordion">
               <nav class="sb-sidenav-menu-nested nav">
-                <a class="nav-link" href="gestionCategoria.php">Gestión de Categorias</a>
                 <a class="nav-link" href="gestionProducto.php">Gestión de Productos</a>
                 <a class="nav-link" href="gestionHistorialIngreso.php">Ingresos de Productos</a>
               </nav>
@@ -61,7 +56,7 @@
               <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
               Gestionar Servicios
             </a>
-            <a class="nav-link collapsed" href="gestionConductor.php" data-bs-toggle="collapse"
+            <a class="nav-link collapsed" href="gestionConductor.html" data-bs-toggle="collapse"
               data-bs-target="#collapseLayoutsConductores" aria-expanded="false" aria-controls="collapseLayouts">
               <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
               Gestionar Conductores
@@ -70,18 +65,12 @@
             <div class="collapse" id="collapseLayoutsConductores" aria-labelledby="headingOne"
               data-bs-parent="#sidenavAccordion">
               <nav class="sb-sidenav-menu-nested nav">
-                <a class="nav-link" href="gestionConductor.php">Gestión de Conductores</a>
                 <a class="nav-link" href="gestionSoat.php">Lista de SOAT</a>
-                <a class="nav-link" href="gestionCobroPlanilla.php">Cobro de Planilla</a>
               </nav>
             </div>
             <a class="nav-link" href="gestionAlquiler.php">
               <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
               Gestionar Alquileres
-            </a>
-            <a class="nav-link" href="gestionGastos.php">
-              <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-              Gestionar Gastos
             </a>
             <div class="sb-sidenav-menu-heading">Balances</div>
             <a class="nav-link" href="balanceServicio.php">
@@ -92,23 +81,18 @@
               <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
               Balance de Productos
             </a>
-            <a class="nav-link" href="balacenCotizacion.php">
-              <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-              Balance de Cotizaciones
-            </a>
           </div>
         </div>
         <div class="sb-sidenav-footer">
           <div class="small">Sesion Inciada como:</div>
-          Administrador
+          Secretaria
         </div>
       </nav>
     </div>
     <div id="layoutSidenav_content">
       <main class="container-xl my-2 col-10 mx-auto">
         <div class="container-fluid px-4 ">
-        <h1>Acceso Denegado</h1>
-        <p>No tienes permisos para acceder a esta página.</p>
+          <h1 class="mb-4 text-center">Titulo de la Sección</h1>
         </div>
       </main>
 

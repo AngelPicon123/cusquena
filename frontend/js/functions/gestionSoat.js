@@ -35,48 +35,60 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Función para renderizar la tabla
     function renderTable() {
-        const startIndex = (currentPage - 1) * itemsPerPage;
-        const endIndex = startIndex + itemsPerPage;
-        const paginatedData = allSoatsData.slice(startIndex, endIndex);
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    const paginatedData = allSoatsData.slice(startIndex, endIndex);
 
-        tableBody.innerHTML = '';
+    tableBody.innerHTML = '';
 
-        if (paginatedData.length === 0) {
-            tableBody.innerHTML = '<tr><td colspan="11" class="text-center">No se encontraron SOATs registrados</td></tr>';
-            renderPagination(); // Aun cuando no hay resultados, para ocultar la paginación
-            return;
+    if (paginatedData.length === 0) {
+        tableBody.innerHTML = '<tr><td colspan="11" class="text-center">No se encontraron SOATs registrados</td></tr>';
+        renderPagination();
+        return;
+    }
+
+    paginatedData.forEach(soat => {
+        const row = document.createElement('tr');
+
+        // Definir botones según el rol
+        let botones = `
+            <button class="btn btn-success p-1 btn-editar" data-id="${soat.idSoat}">Editar</button>
+        `;
+
+        if (ROL_USUARIO === 'Administrador') {
+            botones += `
+                <button class="btn btn-danger p-1 btn-eliminar" data-id="${soat.idSoat}">Eliminar</button>
+            `;
         }
 
-        paginatedData.forEach(soat => {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td>${soat.idSoat}</td>
-                <td>${soat.dni_conductor || 'N/A'}</td>
-                <td>${soat.nombre_conductor || 'N/A'}</td>
-                <td>${soat.apellido_conductor || 'N/A'}</td>
-                <td>${soat.telefono_conductor || 'N/A'}</td>
-                <td>${soat.placa_conductor || 'N/A'}</td>
-                <td>${formatDate(soat.fechaMantenimiento)}</td>
-                <td>${formatDate(soat.fechaProxMantenimiento)}</td>
-                <td>${soat.nombre || 'N/A'}</td>
-                <td><span class="badge ${soat.estado === 'activo' ? 'bg-success' : 'bg-danger'}">${soat.estado}</span></td>
-                <td>
-                    <button class="btn btn-success p-1 btn-editar" data-id="${soat.idSoat}">Editar</button>
-                    <button class="btn btn-danger p-1 btn-eliminar" data-id="${soat.idSoat}">Eliminar</button>
-                </td>
-            `;
-            tableBody.appendChild(row);
-        });
+        row.innerHTML = `
+            <td>${soat.idSoat}</td>
+            <td>${soat.dni_conductor || 'N/A'}</td>
+            <td>${soat.nombre_conductor || 'N/A'}</td>
+            <td>${soat.apellido_conductor || 'N/A'}</td>
+            <td>${soat.telefono_conductor || 'N/A'}</td>
+            <td>${soat.placa_conductor || 'N/A'}</td>
+            <td>${formatDate(soat.fechaMantenimiento)}</td>
+            <td>${formatDate(soat.fechaProxMantenimiento)}</td>
+            <td>${soat.nombre || 'N/A'}</td>
+            <td><span class="badge ${soat.estado === 'activo' ? 'bg-success' : 'bg-danger'}">${soat.estado}</span></td>
+            <td>${botones}</td>
+        `;
 
-        // Agregar event listeners a los botones
-        document.querySelectorAll('.btn-editar').forEach(btn => {
-            btn.addEventListener('click', () => openEditModal(btn.dataset.id));
-        });
+        tableBody.appendChild(row);
+    });
 
+    // Event listeners para los botones que sí existen en el DOM
+    document.querySelectorAll('.btn-editar').forEach(btn => {
+        btn.addEventListener('click', () => openEditModal(btn.dataset.id));
+    });
+
+    if (ROL_USUARIO === 'Administrador') {
         document.querySelectorAll('.btn-eliminar').forEach(btn => {
             btn.addEventListener('click', () => confirmDelete(btn.dataset.id));
         });
     }
+}
 
     // Función para renderizar paginación
     function renderPagination() {

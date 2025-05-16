@@ -25,19 +25,29 @@ verificarPermiso(['Administrador', 'Secretaria']);
           <i class="fas fa-user fa-fw"></i>
         </a>
         <ul class="dropdown-menu dropdown-menu-end">
-          <li><a class="dropdown-item" href="#!">Cerrar Sesión</a></li>
+          <li><a class="dropdown-item" href="../../index.html">Cerrar Sesión</a></li>
         </ul>
       </li>
     </ul>
   </nav>
   <div id="layoutSidenav">
     <div id="layoutSidenav_nav">
+      <?php if ($_SESSION['rol'] === 'Administrador'): ?>
       <script>
         fetch('sidebear_Admin.php')
           .then(r => r.text())
           .then(html => document.getElementById('layoutSidenav_nav').innerHTML = html)
           .catch(e => console.error('Error cargando sidebar:', e));
       </script>
+      <?php endif; ?>
+      <?php if ($_SESSION['rol'] === 'Secretaria'): ?>
+      <script>
+        fetch('sidebear_secre.php')
+          .then(r => r.text())
+          .then(html => document.getElementById('layoutSidenav_nav').innerHTML = html)
+          .catch(e => console.error('Error cargando sidebar:', e));
+      </script>
+      <?php endif; ?>
     </div>
     
     <div id="layoutSidenav_content">
@@ -226,6 +236,7 @@ verificarPermiso(['Administrador', 'Secretaria']);
   <script src="../js/bootstrap.bundle.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script src="../js/functions/gestionSoat.js"></script>
+  <script>const ROL_USUARIO = "<?php echo $_SESSION['rol']; ?>";</script>
 </body>
 
 </html>

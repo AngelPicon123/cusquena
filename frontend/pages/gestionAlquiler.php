@@ -31,12 +31,22 @@ verificarPermiso(['Administrador', 'Secretaria']);
   </nav>
   <div id="layoutSidenav">
     <div id="layoutSidenav_nav">
+      <?php if ($_SESSION['rol'] === 'Administrador'): ?>
       <script>
         fetch('sidebear_Admin.php')
           .then(r => r.text())
           .then(html => document.getElementById('layoutSidenav_nav').innerHTML = html)
           .catch(e => console.error('Error cargando sidebar:', e));
       </script>
+      <?php endif; ?>
+      <?php if ($_SESSION['rol'] === 'Secretaria'): ?>
+      <script>
+        fetch('sidebear_secre.php')
+          .then(r => r.text())
+          .then(html => document.getElementById('layoutSidenav_nav').innerHTML = html)
+          .catch(e => console.error('Error cargando sidebar:', e));
+      </script>
+      <?php endif; ?>
     </div>
 
     <div id="layoutSidenav_content">

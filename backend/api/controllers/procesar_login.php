@@ -1,28 +1,23 @@
 <?php
 session_start();
 
-// Conexión a la base de datos (FALTA ESTA PARTE CRUCIAL)
-$host = 'localhost';
-$dbname = 'la_cusquena';
-$db_username = 'root';
-$db_password = '';
+// Incluir conexión centralizada
+require_once __DIR__ . '/../../includes/db.php'; 
+// Ahora dispones de la variable $conn ya instanciada como PDO
 
 try {
-    // ESTA LÍNEA FALTABA - CREAR LA CONEXIÓN PDO
-    $conn = new PDO("mysql:host=$host;dbname=$dbname", $db_username, $db_password);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-    // Obtener los datos en formato JSON
+    // Leer los datos enviados en formato JSON
     $data = json_decode(file_get_contents("php://input"), true);
 
-    $usuario = $data['username'] ?? '';
+    $usuario   = $data['username'] ?? '';
     $contrasena = $data['password'] ?? '';
 
     if (empty($usuario) || empty($contrasena)) {
         throw new Exception('Usuario y contraseña son requeridos');
     }
 
-    $sql = "SELECT * FROM Usuarios WHERE usuario = :usuario";
+    // Consulta para obtener al usuario
+    $sql  = "SELECT * FROM Usuarios WHERE usuario = :usuario";
     $stmt = $conn->prepare($sql);
     $stmt->bindParam(':usuario', $usuario);
     $stmt->execute();
@@ -30,14 +25,16 @@ try {
     if ($stmt->rowCount() > 0) {
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
+        // Verifica que la contraseña coincida con el hash almacenado
         if (password_verify($contrasena, $user['contrasena'])) {
+            // Guardar datos en la sesión
             $_SESSION['usuario'] = $user['usuario'];
-            $_SESSION['rol'] = $user['rol'];
+            $_SESSION['rol']     = $user['rol'];
 
             echo json_encode([
                 "success" => true,
                 "message" => "Login exitoso",
-                "cargo" => $user['rol']
+                "cargo"   => $user['rol']
             ]);
         } else {
             throw new Exception('Contraseña incorrecta');
@@ -57,4 +54,4 @@ try {
         "success" => false,
         "message" => $e->getMessage()
     ]);
-}   
+}

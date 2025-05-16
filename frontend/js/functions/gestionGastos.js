@@ -14,18 +14,18 @@ document.addEventListener("DOMContentLoaded", function () {
       .then(res => res.json())
       .then(data => {
           tablaBody.innerHTML = "";
-          data.forEach(gasto => {
+          data.forEach(gastos => {
               const fila = document.createElement("tr");
               fila.innerHTML = `
-              <td>${gasto.id}</td>
-              <td>${gasto.descripcion}</td>
-              <td>${gasto.tipo}</td>
-              <td>S/ ${gasto.monto}</td>
-              <td>${gasto.fecha}</td>
-              <td>${gasto.detalle}</td>
+              <td>${gastos.id}</td>
+              <td>${gastos.descripcion}</td>
+              <td>${gastos.tipo}</td>
+              <td>S/ ${gastos.monto}</td>
+              <td>${gastos.fecha}</td>
+              <td>${gastos.detalle}</td>
               <td>
-                  <a href="#" class="btn btn-success btnEditar p-1" data-id="${gasto.id}">Editar</a>
-                  <a href="#" class="btn btn-danger btnEliminar p-1" data-id="${gasto.id}">Eliminar</a>
+                  <a href="#" class="btn btn-success btnEditar p-1" data-id="${gastos.id}">Editar</a>
+                  <a href="#" class="btn btn-danger btnEliminar p-1" data-id="${gastos.id}">Eliminar</a>
               </td>`;
               tablaBody.appendChild(fila);
           });
