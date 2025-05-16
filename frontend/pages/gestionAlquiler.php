@@ -14,7 +14,13 @@ verificarPermiso(['Administrador', 'Secretaria']);
 <body class="sb-nav-fixed">
   <!-- Navbar Superior (fijo) -->
   <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark fixed-top">
+    <?php if ($_SESSION['rol'] === 'Administrador'): ?>
     <a class="navbar-brand ps-3" href="base.php">La Cusqueña</a>
+    <?php endif; ?>
+
+    <?php if ($_SESSION['rol'] === 'Secretaria'): ?>
+    <a class="navbar-brand ps-3" href="base2.php">La Cusqueña</a>
+    <?php endif; ?>
     <button class="btn btn-link btn-sm me-4" id="sidebarToggle">
       <i class="fas fa-bars"></i>
     </button>
@@ -60,9 +66,7 @@ verificarPermiso(['Administrador', 'Secretaria']);
                 <input type="text" class="form-control me-2" placeholder="Buscar usuario">
                 <a href="#" class="btn btn-primary">Buscar</a>
               </div>
-              <?php if ($_SESSION['rol'] === 'Administrador'): ?>
               <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAgregar">Agregar</a>
-              <?php endif; ?>
             </div>
           </div>
           <!-- Modal Agregar -->
@@ -255,7 +259,6 @@ verificarPermiso(['Administrador', 'Secretaria']);
   </div>
   <script src="../js/bootstrap.bundle.min.js"></script>
   <script src="../js/functions/gestionAlquiler.js"></script>
-
 </body>
 
 </html>

@@ -507,7 +507,7 @@ ALTER TABLE usuarios
 -- AUTO_INCREMENT for table ventaproducto
 --
 ALTER TABLE ventaproducto
-  MODIFY idVentaProducto int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY idVentaProducto int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table venta_servicio

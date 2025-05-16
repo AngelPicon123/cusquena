@@ -14,6 +14,8 @@ verificarPermiso(['Administrador', 'Secretaria']);
   <title>Lubricentro Cusqueña</title>
   <link href="../css/bootstrap.css" rel="stylesheet" />
   <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+  <!-- Agregar jsPDF desde un CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 
 <body class="sb-nav-fixed">
@@ -40,7 +42,6 @@ verificarPermiso(['Administrador', 'Secretaria']);
       </li>
     </ul>
   </nav>
-
   <div id="layoutSidenav">
     <div id="layoutSidenav_nav">
       <?php if ($_SESSION['rol'] === 'Administrador'): ?>
@@ -63,73 +64,53 @@ verificarPermiso(['Administrador', 'Secretaria']);
 
     <div id="layoutSidenav_content">
       <main class="container-xl my-2 col-12 mx-auto">
-        <div class="container-fluid px-4 ">
-          <h1 class="mt-4 text-center mb-4 ">Balance de Servicios</h1>
+        <div class="container-fluid px-4">
+          <h1 class="mt-4 text-center mb-4">Balances de Gastos</h1>
           <div class="row">
             <div class="col-12 d-flex justify-content-between align-items-center flex-wrap">
               <div class="d-flex align-items-center flex-wrap">
-                <button class="btn btn-primary mb-2 me-2">Buscar</button>
+                <button id="btnBuscar" class="btn btn-primary mb-2 me-2">Buscar</button>
                 <label for="inicio" class="form-label fw-bold me-2">Fecha Inicio:</label>
-                <input type="date" class="form-control me-2 mb-2" style="width: 130px" id="inicio">
+                <input type="date" id="inicio" class="form-control me-2 mb-2" style="width: 130px">
                 <label for="fin" class="form-label fw-bold me-2">Fecha Fin:</label>
-                <input type="date" class="form-control me-2 mb-2" style="width: 130px" id="fin">
+                <input type="date" id="fin" class="form-control me-2 mb-2" style="width: 130px">
               </div>
               <div class="d-flex align-items-center flex-wrap">
-                <button onclick="window.print()" class="btn btn-primary me-2 mb-2">Imprimir</button>
+                <button id="btnImprimir" class="btn btn-primary me-2 mb-2">Imprimir</button>
                 <button id="exportarPdf" class="btn btn-primary mb-2">Exportar PDF</button>
               </div>
             </div>
 
-            <div class="table-responsive my-4">
+            <div class="table-responsive my-3">
               <table class="table table-bordered table-hover text-center">
                 <thead>
                   <tr class="table-dark">
-                    <th>ID</th>
-                    <th>Descripcion</th>
-                    <th>Precio</th>
-                    <th>Subtotal</th>
+                    <th>Tipo de Gasto</th>
+                    <th>Monto</th>
                     <th>Fecha</th>
                   </tr>
                 </thead>
-                <tbody class="align-middle">
-                  <tr>
-                  </tr>
+                <tbody id="tablaDatos" class="align-middle">
+                  <!-- Los datos se llenarán dinámicamente aquí -->
                 </tbody>
               </table>
             </div>
 
             <div class="total-container d-flex align-items-center mt-3">
-              <label for="total" class="form-label fw-bold me-2 ">TOTAL:</label>
-              <input type="text" id="total" class="form-control form-control-sm me-2 mb-2" style="width: 120px; font-size: 0.8rem;" disabled>
+              <label for="total" class="form-label fw-bold me-2">TOTAL:</label>
+              <input type="text" id="total" class="form-control form-control-sm me-2 mb-2" style="width: 120px; font-size: 0.8rem;" readonly>
             </div>
-
-            <nav aria-label="Page navigation example" class="d-flex justify-content-end ">
-              <ul class="pagination">
-                <li class="page-item">
-                  <a class="page-link" href="#" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                  </a>
-                </li>
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item">
-                  <a class="page-link" href="#" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                  </a>
-                </li>
-              </ul>
-            </nav>
           </div>
-        </div>
-      </main>
+          <nav aria-label="Page navigation example" class="d-flex justify-content-end">
+            <ul class="pagination"><!-- Se llenará dinámicamente --></ul>
+        </nav>
+        </main>
+      </div>
     </div>
-  </div>
 
-  <script src="../js/bootstrap.bundle.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <script src="../js/functions/balanceServicios.js"></script>
-
-</body>
-
+    <script src="../js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+    <script src="../js/functions/balanceGastos.js"></script>
+  </body>
 </html>

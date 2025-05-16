@@ -96,6 +96,10 @@
               <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
               Balance de Cotizaciones
             </a>
+            <a class="nav-link" href="balacenGastos.php">
+              <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+              Balance de Gastos
+            </a>
           </div>
         </div>
         <div class="sb-sidenav-footer">

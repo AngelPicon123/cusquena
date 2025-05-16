@@ -21,7 +21,13 @@ verificarPermiso(['Administrador', 'Secretaria']);
 <body class="sb-nav-fixed">
   <!-- Navbar Superior (fijo) -->
   <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark fixed-top">
+     <?php if ($_SESSION['rol'] === 'Administrador'): ?>
     <a class="navbar-brand ps-3" href="base.php">La Cusqueña</a>
+    <?php endif; ?>
+
+    <?php if ($_SESSION['rol'] === 'Secretaria'): ?>
+    <a class="navbar-brand ps-3" href="base2.php">La Cusqueña</a>
+    <?php endif; ?>
     <button class="btn btn-link btn-sm me-4" id="sidebarToggle">
       <i class="fas fa-bars"></i>
     </button>
@@ -98,22 +104,8 @@ verificarPermiso(['Administrador', 'Secretaria']);
             </div>
           </div>
           <nav aria-label="Page navigation example" class="d-flex justify-content-end">
-            <ul class="pagination">
-              <li class="page-item">
-                <a class="page-link" href="#" aria-label="Previous">
-                  <span aria-hidden="true">«</span>
-                </a>
-              </li>
-              <li class="page-item"><a class="page-link" href="#">1</a></li>
-              <li class="page-item"><a class="page-link" href="#">2</a></li>
-              <li class="page-item"><a class="page-link" href="#">3</a></li>
-              <li class="page-item">
-                <a class="page-link" href="#" aria-label="Next">
-                  <span aria-hidden="true">»</span>
-                </a>
-              </li>
-            </ul>
-          </nav>
+            <ul class="pagination"><!-- Se llenará dinámicamente --></ul>
+        </nav>
         </main>
       </div>
     </div>
@@ -121,15 +113,6 @@ verificarPermiso(['Administrador', 'Secretaria']);
     <script src="../js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
-<style>
-    @media print {
-      #btnImprimir,
-      #exportarPdf,
-        .pagination {
-        display: none;
-      }
-    }
-  </style>
     <script src="../js/functions/balanceProducto.js"></script>
   </body>
 </html>

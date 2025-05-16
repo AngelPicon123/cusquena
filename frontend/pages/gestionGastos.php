@@ -175,11 +175,7 @@ verificarPermiso(['Administrador']);
                   <td></td>
                   <td></td>
                   <td></td>
-                  <td>
-                    <a href="#" class="btn btn-success p-1" data-bs-toggle="modal"
-                      data-bs-target="#modalEditar">Editar</a>
-                    <a href="#" class="btn btn-danger p-1">Eliminar</a>
-                  </td>
+                  <td></td>
                 </tr>
               </tbody>
             </table>
